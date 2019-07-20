@@ -1,36 +1,7 @@
-/*table table1*/ 
-DROP TABLE IF EXISTS table1;
-CREATE TABLE table1 (
-   id_table1 INT(255) AUTO_INCREMENT NOT NULL,
-   CONSTRAINT pk_table1 PRIMARY KEY(id_table1)
-)ENGINE = InnoDB; 
-
-/*table table2*/ 
-DROP TABLE IF EXISTS table2;
-CREATE TABLE table2 (
-   id_table2 INT(255) AUTO_INCREMENT NOT NULL,
-   id_table1 INT(255) NOT NULL,
-   CONSTRAINT pk_table2 PRIMARY KEY(id_table2)
-   CONSTRAINT fk_table1 FOREIGN KEY(id_table1)
-      REFERENCES table1(id_table1) ON UPDATE CASCADE ON DELETE CASCADE 
-)ENGINE = InnoDB; 
-
-CONSTRAINT fk_dsf FOREIGN KEY(id_dsf)
-   REFERENCES dsf(id_dsf) ON UPDATE CASCADE ON DELETE CASCADE 
-
-/*table sdf*/ 
-DROP TABLE IF EXISTS sdf;
-CREATE TABLE sdf (
-   id_sdf INT(255) AUTO_INCREMENT NOT NULL,
-   CONSTRAINT pk_sdf PRIMARY KEY(id_sdf)
-)ENGINE = InnoDB; 
-
-/*table sdf*/ 
-DROP TABLE IF EXISTS sdf;
-CREATE TABLE sdf (
-   id_sdf INT(255) AUTO_INCREMENT NOT NULL,
-   id_sdf INT(255) NOT NULL,
-   CONSTRAINT pk_sdf PRIMARY KEY(id_sdf)
-   CONSTRAINT fk_sdf FOREIGN KEY(id_sdf)
-      REFERENCES sdf(id_sdf) ON UPDATE CASCADE ON DELETE CASCADE 
-)ENGINE = InnoDB; 
+/*table chuchinga*/ 
+DROP TABLE IF EXISTS chuchinga;
+CREATE TABLE chuchinga (
+   id_usersdi INT(255) AUTO_INCREMENT NOT NULL,
+   creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+   CONSTRAINT pk_chuchinga PRIMARY KEY(id_usersdi)
+)ENGINE = InnoDB;
