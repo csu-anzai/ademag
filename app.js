@@ -49,7 +49,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 
   // get test
   app.get('/test', (req, res) => {
-    let sqlQuery = isVide(req) ? '' :request.TEST(req.body)
+    let sqlQuery = request.TEST(req.body)
     mysqlQuery(res, sqlQuery, (results)=>{
       res.json({results:results});
     });
