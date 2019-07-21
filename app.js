@@ -18,10 +18,10 @@ app.use('/Photo', express.static('public/images'));
 app.use(cors())
 
 let con = mysql.createConnection({
-    host: "remotemysql.com",
-    user: "KHZIJCA4G6",
-    password: "YVW43sdafg",
-    database: "KHZIJCA4G6"
+    host: "localhost",
+    user: "root",
+    password: "vETxWa3VKWvUVdxddKje",
+    database: "ademag"
 });
 
 con.connect((err)=>{ 
