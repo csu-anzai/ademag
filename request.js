@@ -11,5 +11,3 @@ module.exports = Object.freeze({
         return `SELECT * FROM log  WHERE id_log = ${data.id}`
     }
  })
-
-
