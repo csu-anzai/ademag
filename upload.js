@@ -6,7 +6,7 @@
 **********************************************************/
 var multer = require('multer')
 
-const upload = (app)=> {
+const api = (app)=> {
 
 /*-------------------------------------------------
 |                 MULTER CONFIG                   |
@@ -29,7 +29,10 @@ const upload = (app)=> {
     /*---------------------
     |      SERVICES       |
     ---------------------*/
-    
+    app.get(`/okupload`, function (req, res) {
+        res.send('Server is ok!')
+    })
+
     app.post('/upload', function (req, res) {
         upload(req, res, function (err) {
             if (err instanceof multer.MulterError) {
@@ -46,6 +49,7 @@ const upload = (app)=> {
             // Everything went fine.
         })
     });    
+    console.log('upload module ok')
 }
 
-module.exports.upload = upload;
+module.exports.api = api;
