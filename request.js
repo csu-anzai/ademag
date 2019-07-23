@@ -5,9 +5,9 @@ module.exports = Object.freeze({
 /***ADMIN QUERYS***/
     
     TEST:(data)=>{
-        return `SELECT * FROM log`
+        return `SELECT * FROM logs`
     },
     TEST2:(data)=>{
-        return `SELECT * FROM log  WHERE id_log = ${data.id}`
+        return `SELECT * FROM logs  WHERE id_log = ${data.id}`
     }
  })
