@@ -2,7 +2,7 @@
     Upload
 *********************************************************
     Andres Vicente Caballero Cantillo
-    recommendation	des films
+    ADEMAG
 **********************************************************/
 var multer = require('multer')
 
@@ -29,10 +29,6 @@ const upload = (app)=> {
     /*---------------------
     |      SERVICES       |
     ---------------------*/
-
-    app.get(`/`, function (req, res) {
-        res. send(`<meta http-equiv="refresh" content="0; url=https://projbd.herokuapp.com/" />`)
-    })
     
     app.post('/upload', function (req, res) {
         upload(req, res, function (err) {

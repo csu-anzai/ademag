@@ -8,10 +8,7 @@ module.exports = Object.freeze({
         return `SELECT * FROM log`
     },
     TEST2:(data)=>{
-        return `SELECT * FROM log`
-    },
-    PHOTO:(data)=>{
-        return 'SELECT * FROM photo'
+        return `SELECT * FROM log  WHERE id_log = ${data.id}`
     }
  })
 

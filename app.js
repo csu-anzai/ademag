@@ -1,7 +1,8 @@
 /********************************************************
-    ADEMAG
+    App
 *********************************************************
-Description:
+    Andres Vicente Caballero Cantillo
+    ADEMAG
 **********************************************************/
 
 const express = require('express');
@@ -14,13 +15,13 @@ const request = require('./request')
 var gutil = require('gulp-util');
 
 app.use(express.static(__dirname + '/public'));
-app.use('/Photo', express.static('public/images')); 
+app.use('/images', express.static('public/images')); 
 app.use(cors())
 
 let con = mysql.createConnection({
     host: "localhost",
-    user: "root",
-    password: "eTFerriK9aWVenCtPyVg",
+    user: "andres",
+    password: "Hipermaga66*",
     database: "ademag"
 });
 
@@ -55,20 +56,12 @@ app.use(bodyParser.urlencoded({extended: true}))
     });
   });
 
-    // get test
-  app.post('/test', (req, res) => {
-    let sqlQuery = isVide(req) ? '' :request.TEST(req.body)
+    // post test
+  app.post('/testpost', (req, res) => {
+    let sqlQuery = isVide(req) ? '' :request.TEST_POST(req.body)
     mysqlQuery(res, sqlQuery, (results)=>{
       res.json({results:results});
     });
   });
-
-      // get photo
-      app.post('/photo', (req, res) => {
-        let sqlQuery = isVide(req) ? '' :request.PHOTO(req.body)
-        mysqlQuery(res, sqlQuery, (results)=>{
-          res.json({results:results});
-        });
-      });
 
   module.exports = app;
