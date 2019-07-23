@@ -33,6 +33,8 @@ err ? console.log(gutil.colors.red(`problème de connection avec la base des don
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
 
+upload.upload(app) //envoie app vers routage de api
+
   // si apres une requete, mysql renvoie error, juste envoier un message d'error, sino continuer avec le callback next 
   let mysqlQuery = (res, query, next)=>{
     con.query(query, (err, results) =>{
