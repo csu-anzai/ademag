@@ -7,7 +7,7 @@ module.exports = Object.freeze({
     TEST:(data)=>{
         return `SELECT * FROM logs`
     },
-    TEST2:(data)=>{
+    TEST_POST:(data)=>{
         return `SELECT * FROM logs  WHERE id_log = ${data.id}`
     }
  })
