@@ -45,7 +45,7 @@ app.use(bodyParser.urlencoded({extended: true}))
   }
 
   app.get('/',(req,res)=>{
-    res.send('Projet 2019 Test')
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
   })
 
   // get test
