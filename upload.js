@@ -49,7 +49,6 @@ const api = (app)=> {
             // Everything went fine.
         })
     });    
-    console.log('upload module ok')
 }
 
 module.exports.api = api;
