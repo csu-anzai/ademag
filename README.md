@@ -17,4 +17,4 @@ $ npm start
 ```bash
 $ npm run dev
 ```
-il sera deploye par default dans le port 3001, http://localhost:3001 :+1:
+il sera deploye par default dans le port 5002, http://localhost:5002 :+1:
