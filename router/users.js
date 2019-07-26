@@ -5,14 +5,15 @@ var gutil = require('gulp-util');
 
 //let connection =  server.dbConnection();
 let con = mysql.createConnection({
-    host: "localhost",
+    host: "37.120.187.69",
     user: "andres",
     password: "Hipermaga66*",
-    database: "ademag"
+    database: "ademag",
+    port:3306
 });
 
 con.connect((err)=>{ 
-    err ? console.log(gutil.colors.red(`problème de connection avec la base des données`))
+    err ? console.log(gutil.colors.red(`problème de connection avec la base des données`, err))
     :     console.log(gutil.colors.magenta(`Connecté à la base des données`));
 });
 
@@ -66,6 +67,10 @@ router.put('/:id', function (req, res) {
 router.delete('/:id', function (req, res) {
     con.query("DELETE FROM users WHERE users.id_user =" + req.params.id, function (err, result) {
         if (err) res.send(err)
+        con.query("SELECT * FROM users WHERE users.id_user =" + req.params.id, function (err, result) {
+            if (err) res.send(err)    
+            res.send(result)
+        })
 
         res.send(result)
     })
