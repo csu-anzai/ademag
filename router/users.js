@@ -69,8 +69,8 @@ router.delete('/:id', function (req, res) {
         if (err) res.send(err)
         con.query("SELECT * FROM users WHERE users.id_user =" + req.params.id, function (err, result) {
             if (err) res.send(err)    
-            else if(resul == []) res.json({ok:false, result})
-            else res.json({ok:false, result})
+            else if(resul == []) res.send({ok:false, result})
+            else res.send({ok:false, result})
         })
     })
 })
