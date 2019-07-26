@@ -65,11 +65,12 @@ router.put('/:id', function (req, res) {
 
 /*- DELETE */
 router.delete('/:id', function (req, res) {
-    con.query("DELETE FROM users WHERE users.id_user =" + req.params.id, function (err, result) {
+    con.query("DELETE FROM users WHERE users.id_user =" + req.params.id, function (err, resultdelete) {
         if (err) res.send(err)
-        con.query("SELECT * FROM users WHERE users.id_user =" + req.params.id, function (err, result) {
+        con.query("SELECT * FROM users WHERE users.id_user =" + req.params.id, function (err, resultfind) {
             if (err) res.send(err)    
-            res.send(result)
+            else if (resultdelete == []) res.send('ok')
+            else res.send('non')
         })
     })
 })
