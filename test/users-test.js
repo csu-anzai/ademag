@@ -1,6 +1,6 @@
 let chai = require('chai');
 let chaiHttp = require('chai-http');
-let server = require('../bin/www');
+let server = require('../app');
 let util = require('util');
 
 chai.should();
