@@ -6,7 +6,7 @@
 **********************************************************/
 var multer = require('multer')
 
-const api = (app)=> {
+const routing = (app)=> {
 
 /*-------------------------------------------------
 |                 MULTER CONFIG                   |
@@ -29,9 +29,6 @@ const api = (app)=> {
     /*---------------------
     |      SERVICES       |
     ---------------------*/
-    app.get(`/okupload`, function (req, res) {
-        res.send('Server is ok!')
-    })
 
     app.post('/upload', function (req, res) {
         upload(req, res, function (err) {
@@ -51,4 +48,4 @@ const api = (app)=> {
     });    
 }
 
-module.exports.api = api;
+module.exports.routing = routing;

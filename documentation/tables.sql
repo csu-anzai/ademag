@@ -3,6 +3,17 @@ DROP DATABASE ademag;
 CREATE DATABASE ademag;
 use ademag;
 
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id_user` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(255),
+  `password` VARCHAR(255),
+  `email` VARCHAR(255),
+  PRIMARY KEY `pk_id_user`(`id_user`)
+) ENGINE = InnoDB;
+
+
 /*table articulos*/ 
 DROP TABLE IF EXISTS articulos;
 CREATE TABLE articulos (
