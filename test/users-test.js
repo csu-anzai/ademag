@@ -8,9 +8,9 @@ chai.use(chaiHttp);
 
 /* user object */
 let user = {
-    nombre: null,
-    password: "AlexErne",
-    email: "alexerne@gmail.com"
+    nombre: 'testUser',
+    password: "testPassword",
+    email: "test@email.com"
 }
 
 before(done => {

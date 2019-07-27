@@ -24,4 +24,13 @@ app.use(bodyParser.urlencoded({extended: true}))
 upload.routing(app) 
 routerController.routing(app)
 
+
+app.use((error, req, res, next)=> {
+    if (error instanceof SyntaxError) {
+      res.send('requette mal ecris, ou de merde :'+error);
+    } else {
+      next();
+    }
+});
+
 module.exports = app;

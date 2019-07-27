@@ -65,10 +65,23 @@ all = (req, res, data)=>{
     mysqlQuery(res, request.SELECT_ALL(data))
 }
 
+isVide = (obj)=>{
+   return Object.keys(obj).length === 0
+}
 
 
 
-module.exports.mysql = {asyncMysql, mysqlQuery, add, update, find, del, con}
+
+module.exports.mysql = {
+    asyncMysql, 
+    mysqlQuery, 
+    add, 
+    update, 
+    find, 
+    del, 
+    con, 
+    isVide
+}
 
 
 

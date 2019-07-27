@@ -4,9 +4,7 @@ CREATE DATABASE ademag;
 use ademag;
 
 
-INSERT INTO users(nombre,password,email) VALUES
-('andres2','ajskh','asjklhd')
-;
+
 
 
 DROP TABLE IF EXISTS `users`;
