@@ -4,10 +4,31 @@ module.exports = Object.freeze({
 
 /***ADMIN QUERYS***/
     
-    TEST:(data)=>{
-        return `SELECT * FROM logs`
+    SELECT_ALL:(data)=>{
+        return `
+            SELECT * FROM ${data.table}`
     },
-    TEST_POST:(data)=>{
-        return `SELECT * FROM logs  WHERE id_log = ${data.id}`
+    FIND:(data, parametre)=>{
+        return `
+            SELECT * FROM ${data.table} WHERE ${data.table}.${data.parametre} = ${parametre}`
+    },
+    ADD:(data, req)=>{
+        var values = req.body.values? req.body.values.map(value=> values = `'${value}'`): null
+        if (values === null) return `ERR`
+        return `
+            INSERT INTO ${data.table} (${data.parametres}) 
+            VALUES (${values})`
+    },
+    UPDATE:(data, req)=>{
+        let value = req.body.value? req.body.value : null
+        if (value === null) return `ERR`
+        return `
+            UPDATE ${data.table} 
+            SET ${data.table}.${data.parametre} = '${value}' 
+            WHERE ${data.table}.id_user = ${req.params.id}`
+    },
+    DELETE:(data, req)=>{
+        return `
+            DELETE FROM ${data.table} WHERE ${data.table}.id_user = ${req.params.id}`
     }
  })
