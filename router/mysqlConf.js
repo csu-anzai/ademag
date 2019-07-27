@@ -11,10 +11,12 @@ const con = mysql.createConnection({
     port:3306
 });
 
+
 con.connect((err)=>{ 
     err ? console.log(gutil.colors.red(`problème de connection avec la base des données`, err))
     :     console.log(gutil.colors.magenta(`Connecté à la base des données`));
 });
+
 
 mysqlQuery = (res, query, next)=>{
     con.query(query, (err, results) =>{
@@ -39,21 +41,21 @@ printC = (consoleMsg, msgConsole)=>{
 add = async(req, res, data)=>{
     let query = request.ADD(data, req)
     let {code, insertId} = await asyncMysql(query)
-    printC(data.consoleMsg, insertId? insertId : code)
+    //printC(data.consoleMsg, insertId? insertId : code)
     res.send({err:code, res:insertId})
 }
 
 update = async(req, res, data)=>{
     let query = request.UPDATE(data, req)
     let {code, changedRows} = await asyncMysql(query)
-    printC(data.consoleMsg, changedRows > 0)
+    //printC(data.consoleMsg, changedRows > 0)
     res.send({err:code, res:changedRows})
 }
 
 del = async(req, res, data)=>{
     let query = request.DELETE(data, req)
     let {code, affectedRows} = await asyncMysql(query)
-    printC(data.consoleMsg, affectedRows > 0)
+    //printC(data.consoleMsg, affectedRows > 0)
     res.send({err:code, res:affectedRows})
 }
 

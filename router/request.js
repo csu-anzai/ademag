@@ -58,6 +58,5 @@ module.exports = Object.freeze({
         if (id === null || isNaN(id)) return `ERR`
         return `
             DELETE FROM ${data.table} WHERE ${data.table}.${data.key} = ${req.params.id}`
-    }                               
-
+    }
  })

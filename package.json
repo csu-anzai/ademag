@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
-    "test": "mocha test/users-test.js"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
