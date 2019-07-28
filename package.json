@@ -1,7 +1,7 @@
 {
-  "name": "malki-projet",
+  "name": "ademag",
   "version": "1.0.0",
-  "description": "",
+  "description": "Back end du site ademag",
   "main": "bin/www",
   "scripts": {
     "start": "node ./bin/www",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/InfoGitHubUser/malki-projet.git"
+    "url": "https://github.com/andresvcc/ademag.git"
   },
-  "author": "",
+  "author": "andres caballero",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/InfoGitHubUser/malki-projet/issues"
+    "url": "https://github.com/andresvcc/ademag/issues"
   },
-  "homepage": "https://github.com/InfoGitHubUser/malki-projet#readme",
+  "homepage": "https://github.com/andresvcc/ademag#readme",
   "dependencies": {
     "ansi-colors": "^4.1.1",
     "body-parser": "^1.19.0",
@@ -36,5 +36,8 @@
     "concurrently": "^4.1.1",
     "mocha": "^6.2.0",
     "nodemon": "^1.19.1"
+  },
+  "directories": {
+    "test": "test"
   }
 }
