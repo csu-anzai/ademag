@@ -9,7 +9,7 @@ gestio de la base des données sur mysql et on plus la
 connexion, l'idee est fair un peu d'abstraction.
 **********************************************************/
 const mysql = require('mysql');
-const gutil = require('gulp-util');
+const c = require('ansi-colors');
 let request = require('./request');
 
 //let connection =  server.dbConnection();
@@ -22,8 +22,8 @@ const con = mysql.createConnection({
 });
 
 con.connect((err)=>{ 
-    err ? console.log(gutil.colors.red(`problème de connection avec la base des données`, err))
-    :     console.log(gutil.colors.magenta(`Connecté à la base des données`));
+    err ? console.log(c.red(`problème de connection avec la base des données`, err))
+    :     console.log(c.magenta(`Connecté à la base des données`));
 });
 
 
@@ -43,28 +43,45 @@ asyncMysql = (query)=>{
     });
 }
 
-printC = (consoleMsg, msgConsole)=>{
-    console.log(gutil.colors.magenta(consoleMsg),msgConsole);
+printY = (consoleMsg, msgConsole)=>{
+    console.log(c.inverse.yellow(consoleMsg),msgConsole);
 }
+
+printC= (consoleMsg, msgConsole)=>{
+    console.log(c.bgMagenta(consoleMsg),msgConsole);
+}
+
+printB = (consoleMsg, msgConsole)=>{
+    console.log(c.inverse.blue(consoleMsg),msgConsole);
+}
+
+printG = (consoleMsg, msgConsole)=>{
+    console.log(c.inverse.green(consoleMsg),msgConsole);
+}
+
+printR = (consoleMsg, msgConsole)=>{
+    console.log(c.inverse.red(consoleMsg),msgConsole);
+}
+
 
 add = async(req, res, data)=>{
     let query = request.ADD(data, req)
     let {code, insertId} = await asyncMysql(query)
-    //printC(data.consoleMsg, insertId? insertId : code)
+    printC(data.consoleMsg, insertId? insertId : code)
     res.send({err:code, res:insertId})
 }
 
 update = async(req, res, data)=>{
     let query = request.UPDATE(data, req)
     let {code, changedRows} = await asyncMysql(query)
-    //printC(data.consoleMsg, changedRows > 0)
+    printC(data.consoleMsg, changedRows > 0)
     res.send({err:code, res:changedRows})
 }
 
 del = async(req, res, data)=>{
     let query = request.DELETE(data, req)
     let {code, affectedRows} = await asyncMysql(query)
-    //printC(data.consoleMsg, affectedRows > 0)
+    printC(data.consoleMsg, affectedRows > 0)
     res.send({err:code, res:affectedRows})
 }
 

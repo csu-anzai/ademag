@@ -4,9 +4,12 @@
     Andres Vicente Caballero Cantillo
     ADEMAG
 **********************************************************/
+let express = require('express');
+let router = express.Router();
 var multer = require('multer')
-
-const routing = (app)=> {
+let request = require('../mysql/request');
+let mysql = require('../mysql/mysqlConf');
+let utilmy = require('../utilmy/utilmy');
 
 /*-------------------------------------------------
 |                 MULTER CONFIG                   |
@@ -30,7 +33,7 @@ const routing = (app)=> {
     |      SERVICES       |
     ---------------------*/
 
-    app.post('/upload', function (req, res) {
+    router.post('/', function (req, res) {
         upload(req, res, function (err) {
             if (err instanceof multer.MulterError) {
                 console.log(err)
@@ -42,10 +45,15 @@ const routing = (app)=> {
                 return res.status(500).json(err)
                 // An unknown error occurred when uploading.
             }
+            printG('file upload %s', req.files[0].filename)
             return res.status(200).json({filename: req.files[0].filename})
             // Everything went fine.
         })
-    });    
-}
+    });
+    
+    router.get('/test', (req, res)=>{
+        res.send('upload ok')
+    })
 
-module.exports.routing = routing;
+
+module.exports = router;

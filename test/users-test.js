@@ -6,7 +6,7 @@ let server = require('../app');
 let util = require('util');
 let mysql = require('../mysql/mysqlConf')
 let request = require('../mysql/request')
-let utilmy = require('../utilmy/util')
+let utilmy = require('../utilmy/utilmy')
 
 chai.should();
 chai.use(chaiHttp);
@@ -116,6 +116,7 @@ describe('# test', () => {
                         if(err || res.statusCode == 400) done(err, res.statusCode);
                         if (res.body[0].id_test == res1.body[0].id_test) {
                             done();
+                            printC('find user id:', res.body[0].id_test)
                             console.log('#8  fonction find :id is ok - get /test/find/%s - status code: %s, results:%s',res1.body[0].id_test,res.statusCode, util.inspect(res.body[0].id_test, false, null))
                         }else{
                             done(new Error('not foud'));
@@ -136,6 +137,7 @@ describe('# test', () => {
                         if(err || res.statusCode == 400) done(err, res.statusCode);
                         if(res.body[0].nombre == 'test'){
                             done();
+                            printC('find user nombre:', res.body[0].nombre)
                             console.log('#9 fonction find params is ok - get /test/find/?nombre="test" status code: %s, results: %s',res.statusCode, jsonToString(res.body[0]))
                         }else{
                             done(new Error('no found'))

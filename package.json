@@ -4,7 +4,7 @@
   "description": "",
   "main": "bin/www",
   "scripts": {
-    "start": "mocha && node ./bin/www",
+    "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "test": "nodemon --exec \"mocha -R min\"",
     "dt": "concurrently \"npm run dev\" \"npm run test\""
@@ -20,15 +20,15 @@
   },
   "homepage": "https://github.com/InfoGitHubUser/malki-projet#readme",
   "dependencies": {
+    "ansi-colors": "^4.1.1",
+    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
     "express": "^4.17.1",
-    "gulp-util": "^3.0.8",
+    "lodash.template": ">=4.5.0",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
-    "mysql": "^2.17.1",
-    "body-parser": "^1.19.0",
-    "lodash.template": ">=4.5.0"
+    "mysql": "^2.17.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",

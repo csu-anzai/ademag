@@ -11,7 +11,7 @@ let express = require('express');
 let router = express.Router();
 let request = require('../mysql/request');
 let mysql = require('../mysql/mysqlConf');
-let utilmy = require('../utilmy/util');
+let utilmy = require('../utilmy/utilmy');
 
 /* User routes */
 /*- GET */
@@ -23,23 +23,23 @@ router.get('/', (req, res)=> {
 
 router.get('/find', (req, res)=>{
     req.query.nombre ? 
-    find(req.query.nombre, res, {
-        table:'test',
-        parametre:'nombre',
-        type: false // false is string
-    }) :
-req.query.email ? 
-    find(req.query.email, res, {
-        table:'test',
-        parametre:'email',
-        type: false // false is string
-    }) :
-req.query.id ? 
-    find(req.query.id, res, {
-        table:'test',
-        parametre:'id_test',
-        type: true // false is string
-    }) : res.send('parametre inconue') 
+        find(req.query.nombre, res, {
+            table:'test',
+            parametre:'nombre',
+            type: false // false is string
+        }) :
+    req.query.email ? 
+        find(req.query.email, res, {
+            table:'test',
+            parametre:'email',
+            type: false // false is string
+        }) :
+    req.query.id ? 
+        find(req.query.id, res, {
+            table:'test',
+            parametre:'id_test',
+            type: true // false is string
+        }) : res.send('parametre inconue') 
 })
 
 router.get('/:id', (req, res)=> {
