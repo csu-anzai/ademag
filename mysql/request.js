@@ -8,7 +8,7 @@ ce module contiens toutes les requetes SQL, ceci a fin de
 simplifier la lecture du code.
 *********************************************************/
 
-const util = require('./util')
+const util = require('../utilmy/util')
 
 module.exports = Object.freeze({
 

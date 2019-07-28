@@ -1,4 +1,4 @@
-const routerUser = require('./testHttp')
+const routerUser = require('../test/testHttp')
 
 
 const routing = (app)=> {
