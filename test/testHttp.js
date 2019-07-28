@@ -9,9 +9,9 @@ ce code contiens les requetes http apartir du routage user
 
 let express = require('express');
 let router = express.Router();
-let request = require('../mysql/request');
-let mysql = require('../mysql/mysqlConf');
-let utilmy = require('../utilmy/utilmy');
+let request = require('../assets/mysql/request');
+let mysql = require('../assets/mysql/mysqlConf');
+let utilmy = require('../assets/utilmy/utilmy');
 
 /* User routes */
 /*- GET */

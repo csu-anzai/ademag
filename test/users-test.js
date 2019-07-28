@@ -4,9 +4,9 @@ let chai = require('chai');
 let chaiHttp = require('chai-http');
 let server = require('../app');
 let util = require('util');
-let mysql = require('../mysql/mysqlConf')
-let request = require('../mysql/request')
-let utilmy = require('../utilmy/utilmy')
+let mysql = require('../assets/mysql/mysqlConf')
+let request = require('../assets/mysql/request')
+let utilmy = require('../assets/utilmy/utilmy')
 
 chai.should();
 chai.use(chaiHttp);
