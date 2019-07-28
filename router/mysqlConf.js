@@ -1,3 +1,13 @@
+/********************************************************
+    mysqlConfig
+*********************************************************
+    Andres Vicente Caballero Cantillo
+    ADEMAG
+*********************************************************
+ce module contiens plusieurs fonction en relation a la 
+gestio de la base des données sur mysql et on plus la 
+connexion, l'idee est fair un peu d'abstraction.
+**********************************************************/
 const mysql = require('mysql');
 const gutil = require('gulp-util');
 let request = require('./request');
@@ -10,7 +20,6 @@ const con = mysql.createConnection({
     database: "ademag",
     port:3306
 });
-
 
 con.connect((err)=>{ 
     err ? console.log(gutil.colors.red(`problème de connection avec la base des données`, err))
@@ -67,13 +76,6 @@ all = (req, res, data)=>{
     mysqlQuery(res, request.SELECT_ALL(data))
 }
 
-isVide = (obj)=>{
-   return Object.keys(obj).length === 0
-}
-
-
-
-
 module.exports.mysql = {
     asyncMysql, 
     mysqlQuery, 
@@ -81,8 +83,7 @@ module.exports.mysql = {
     update, 
     find, 
     del, 
-    con, 
-    isVide
+    con
 }
 
 

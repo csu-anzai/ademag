@@ -1,41 +1,51 @@
+/********************************************************
+    test
+*********************************************************
+    Andres Vicente Caballero Cantillo
+    ADEMAG
+*********************************************************
+ce code contiens les requetes http apartir du routage user
+*********************************************************/
+
 let express = require('express');
 let router = express.Router();
 let request = require('./request');
 let mysql = require('./mysqlConf');
+let util = require('util');
 
 /* User routes */
 /*- GET */
 router.get('/', (req, res)=> {
     all(req, res, {
-        table:'users'
+        table:'test'
     })
 })
 
 router.get('/find', (req, res)=>{
     req.query.nombre ? 
     find(req.query.nombre, res, {
-        table:'users',
+        table:'test',
         parametre:'nombre',
         type: false // false is string
     }) :
 req.query.email ? 
     find(req.query.email, res, {
-        table:'users',
+        table:'test',
         parametre:'email',
         type: false // false is string
     }) :
 req.query.id ? 
     find(req.query.id, res, {
-        table:'users',
-        parametre:'id_user',
+        table:'test',
+        parametre:'id_test',
         type: true // false is string
     }) : res.send('parametre inconue') 
 })
 
 router.get('/:id', (req, res)=> {
     find(req.params.id, res, {
-        table:'users',
-        parametre:'id_user',
+        table:'test',
+        parametre:'id_test',
         type: true // true is integer
     })
 })
@@ -43,18 +53,18 @@ router.get('/:id', (req, res)=> {
 /*- POST */
 router.post('/', (req, res)=> {
     add(req, res, {
-        table:'users',
+        table:'test',
         parametres:'nombre, password, email',
         consoleMsg:'new user: '
     })
 })
 
 /*- PUT */
-router.put('/password/:id', async(req, res)=> {
+router.put('/update/:id', async(req, res)=> {
     update(req, res, {
-        table:'users',
+        table:'test',
         parametre:'password',
-        key:'id_user',
+        key:'id_test',
         consoleMsg:'update password: '
     })
 })
@@ -62,8 +72,8 @@ router.put('/password/:id', async(req, res)=> {
 /*- DELETE */
 router.delete('/:id', async(req, res)=> {
     del(req, res, {
-        table:'users',
-        key:'id_user',
+        table:'test',
+        key:'id_test',
         consoleMsg:'delete user: '
     })
 })

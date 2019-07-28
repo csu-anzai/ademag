@@ -1,11 +1,9 @@
-const routerUser = require('./users')
+const routerUser = require('./testHttp')
 
 
 const routing = (app)=> {
 
-    
-
-    app.use('/users', routerUser);
+    app.use('/test', routerUser);
 
 }
 

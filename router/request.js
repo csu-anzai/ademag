@@ -1,12 +1,21 @@
+/********************************************************
+    request
+*********************************************************
+    Andres Vicente Caballero Cantillo
+    ADEMAG
+*********************************************************
+ce module contiens toutes les requetes SQL, ceci a fin de 
+simplifier la lecture du code.
+*********************************************************/
+
 const util = require('./util')
-
-
-//ce module contiens toutes les requetes SQL, ceci a fin de simplifier la lecture du code.
 
 module.exports = Object.freeze({
 
 /***QUERYS***/
-    
+    TEST:()=>{
+        return `SELECT 1 as n1`
+    },
     SELECT_ALL:(data)=>{
         let table = data.table? data.table : null
         if(table==null) return `ERR`   
@@ -24,7 +33,6 @@ module.exports = Object.freeze({
             `SELECT * FROM ${table} WHERE ${table}.${params} = '${parametreClean}'`
         //console.log(results)
         return results
-            
     },
     ADD:(data, req)=>{       
         let table = data.table? data.table : null

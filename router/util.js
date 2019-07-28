@@ -15,4 +15,8 @@ cleanObj =(data)=>{
     });
 }
 
-module.exports.util = {cleen, cleanArray, cleanObj}
+isVide = (obj)=>{
+    return Object.keys(obj).length === 0
+ }
+
+module.exports.util = {cleen, cleanArray, cleanObj, isVide}

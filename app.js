@@ -26,11 +26,10 @@ routerController.routing(app)
 
 
 app.use((error, req, res, next)=> {
-    if (error instanceof SyntaxError) {
-      res.send('requette mal ecris, ou de merde :'+error);
-    } else {
-      next();
-    }
+    error instanceof SyntaxError ?
+      res.send('requette mal ecris, ou de merdique :'+error) : next()
 });
+
+
 
 module.exports = app;

@@ -1,19 +1,23 @@
+/********************************************************
+    tables
+*********************************************************
+    Andres Vicente Caballero Cantillo
+    ADEMAG
+*********************************************************/
+
 use ademag;
 DROP DATABASE ademag;
 CREATE DATABASE ademag;
 use ademag;
 
 
-
-
-
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `id_user` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `test`;
+CREATE TABLE IF NOT EXISTS `test` (
+  `id_test` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(255),
   `password` VARCHAR(255),
   `email` VARCHAR(255),
-  PRIMARY KEY `pk_id_user`(`id_user`)
+  PRIMARY KEY `pk_test`(`id_test`)
 ) ENGINE = InnoDB;
 
 
