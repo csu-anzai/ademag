@@ -14,132 +14,131 @@ use ademag;
 DROP TABLE IF EXISTS `test`;
 CREATE TABLE IF NOT EXISTS `test` (
   `id_test` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(255),
-  `password` VARCHAR(255),
-  `email` VARCHAR(255),
+  `name` VARCHAR(255),
+  `value` VARCHAR(255),
   PRIMARY KEY `pk_test`(`id_test`)
 ) ENGINE = InnoDB;
 
 
-/*table articulos*/ 
-DROP TABLE IF EXISTS articulos;
-CREATE TABLE articulos (
-   id_articulo INT(255) AUTO_INCREMENT NOT NULL,
-   titulo VARCHAR(255) NOT NULL,
-   fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-   fecha_modificacion DATETIME ON UPDATE CURRENT_TIMESTAMP,
-   descripcion TEXT,
-   CONSTRAINT pk_articulos PRIMARY KEY(id_articulo)
+/*table articles*/ 
+DROP TABLE IF EXISTS articles;
+CREATE TABLE articles (
+   id_article INT(255) AUTO_INCREMENT NOT NULL,
+   title VARCHAR(255) NOT NULL,
+   publication_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+   modification_date DATETIME ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   description TEXT,
+   CONSTRAINT pk_articles PRIMARY KEY(id_article)
 )ENGINE = InnoDB;
 
-/*table eventos*/ 
-DROP TABLE IF EXISTS eventos;
-CREATE TABLE eventos (
-   id_evento INT(255) AUTO_INCREMENT NOT NULL,
-   id_articulo INT(255) NOT NULL,
-   fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-   fecha_evento DATE NOT NULL,
-   descripcion TEXT,
-   titulo VARCHAR(255),
-   hypervinculo VARCHAR(255),
-   CONSTRAINT pk_eventos PRIMARY KEY(id_evento),
-   CONSTRAINT fk_articulos FOREIGN KEY(id_articulo)
-      REFERENCES articulos(id_articulo) ON UPDATE CASCADE ON DELETE CASCADE    
+/*table events*/ 
+DROP TABLE IF EXISTS events;
+CREATE TABLE events (
+   id_event INT(255) AUTO_INCREMENT NOT NULL,
+   id_article INT(255) NOT NULL,
+   publication_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+   event_date DATE NOT NULL,
+   description TEXT,
+   title VARCHAR(255),
+   url_link VARCHAR(255),
+   CONSTRAINT pk_eventos PRIMARY KEY(id_event),
+   CONSTRAINT fk_articles FOREIGN KEY(id_article)
+      REFERENCES articles(id_article) ON UPDATE CASCADE ON DELETE CASCADE    
 )ENGINE = InnoDB;
 
-/*table autores*/ 
-DROP TABLE IF EXISTS autores;
-CREATE TABLE autores (
-   id_autor INT(255) AUTO_INCREMENT NOT NULL,
-   nombre VARCHAR(255),
-   appellido VARCHAR(255),
-   fecha_nacimiento DATETIME DEFAULT CURRENT_TIMESTAMP,
+/*table authors*/ 
+DROP TABLE IF EXISTS authors;
+CREATE TABLE authors (
+   id_author INT(255) AUTO_INCREMENT NOT NULL,
+   name VARCHAR(255),
+   last_name VARCHAR(255),
+   birth_date DATETIME,
    email VARCHAR(255),
-   direccion VARCHAR(255),
-   CONSTRAINT pk_autores PRIMARY KEY(id_autor)
+   address VARCHAR(255),
+   CONSTRAINT pk_authors PRIMARY KEY(id_author)
 )ENGINE = InnoDB;
 
-/*table articulos_autores*/ 
-DROP TABLE IF EXISTS articulos_autores;
-CREATE TABLE articulos_autores (
-   id_autor INT(255) NOT NULL,
-   id_articulo INT(255) NOT NULL,
-   CONSTRAINT pk_articulos_autores PRIMARY KEY(id_autor, id_articulo),
-   CONSTRAINT fk_articulos2 FOREIGN KEY(id_articulo)
-      REFERENCES articulos(id_articulo) ON UPDATE CASCADE ON DELETE CASCADE, 
-   CONSTRAINT fk_autores FOREIGN KEY(id_autor)
-      REFERENCES autores(id_autor) ON UPDATE CASCADE ON DELETE CASCADE 
+/*table articles_authors*/ 
+DROP TABLE IF EXISTS articles_authors;
+CREATE TABLE articles_authors (
+   id_author INT(255) NOT NULL,
+   id_article INT(255) NOT NULL,
+   CONSTRAINT pk_articles_authors PRIMARY KEY(id_author, id_article),
+   CONSTRAINT fk_articles2 FOREIGN KEY(id_article)
+      REFERENCES articles(id_article) ON UPDATE CASCADE ON DELETE CASCADE, 
+   CONSTRAINT fk_authors FOREIGN KEY(id_author)
+      REFERENCES authors(id_author) ON UPDATE CASCADE ON DELETE CASCADE 
 )ENGINE = InnoDB;
 
-/*table documentos*/ 
-DROP TABLE IF EXISTS documentos;
-CREATE TABLE documentos (
-   id_documento INT(255) AUTO_INCREMENT NOT NULL,
-   id_articulo INT(255) NOT NULL,
-   titulo VARCHAR(255),
-   descripcion VARCHAR(255),
-   hypervinculo VARCHAR(255),
-   tipo VARCHAR(255),
-   CONSTRAINT pk_documentos PRIMARY KEY(id_documento),
-   CONSTRAINT fk_articulos3 FOREIGN KEY(id_articulo)
-      REFERENCES articulos(id_articulo) ON UPDATE CASCADE ON DELETE CASCADE 
+/*table documents*/ 
+DROP TABLE IF EXISTS documents;
+CREATE TABLE documents (
+   id_document INT(255) AUTO_INCREMENT NOT NULL,
+   id_article INT(255) NOT NULL,
+   title VARCHAR(255),
+   description VARCHAR(255),
+   url_link VARCHAR(255),
+   type VARCHAR(255),
+   CONSTRAINT pk_documents PRIMARY KEY(id_document),
+   CONSTRAINT fk_articles3 FOREIGN KEY(id_article)
+      REFERENCES articles(id_article) ON UPDATE CASCADE ON DELETE CASCADE 
 )ENGINE = InnoDB;
 
-/*table subtitulos*/ 
-DROP TABLE IF EXISTS subtitulos;
-CREATE TABLE subtitulos (
-   id_subtitulo INT(255) AUTO_INCREMENT NOT NULL,
-   id_articulo INT(255) NOT NULL,
-   subtitulo VARCHAR(255),
-   orden INT(255),
-   CONSTRAINT pk_subtitulos PRIMARY KEY(id_subtitulo),
-   CONSTRAINT fk_articulos4 FOREIGN KEY(id_articulo)
-      REFERENCES articulos(id_articulo) ON UPDATE CASCADE ON DELETE CASCADE 
+/*table subtitle*/ 
+DROP TABLE IF EXISTS subtitle;
+CREATE TABLE subtitle (
+   id_subtitle INT(255) AUTO_INCREMENT NOT NULL,
+   id_article INT(255) NOT NULL,
+   subtitle_text VARCHAR(255),
+   subtitle_order INT(255),
+   CONSTRAINT pk_subtitle PRIMARY KEY(id_subtitle),
+   CONSTRAINT fk_articles4 FOREIGN KEY(id_article)
+      REFERENCES articles(id_article) ON UPDATE CASCADE ON DELETE CASCADE 
 )ENGINE = InnoDB;
 
-/*table parrafos*/ 
-DROP TABLE IF EXISTS parrafos;
-CREATE TABLE parrafos (
-   id_parrafo INT(255) AUTO_INCREMENT NOT NULL,
-   id_subtitulo INT(255) NOT NULL,
-   parrafo TEXT,
-   orden INT(255),
-   CONSTRAINT pk_parrafos PRIMARY KEY(id_parrafo),
-   CONSTRAINT fk_subtitulos FOREIGN KEY(id_subtitulo)
-      REFERENCES subtitulos(id_subtitulo) ON UPDATE CASCADE ON DELETE CASCADE 
+/*table paragraphs*/ 
+DROP TABLE IF EXISTS paragraphs;
+CREATE TABLE paragraphs (
+   id_paragraph INT(255) AUTO_INCREMENT NOT NULL,
+   id_subtitle INT(255) NOT NULL,
+   paragraph_text TEXT,
+   paragraph_order INT(255),
+   CONSTRAINT pk_paragraphs PRIMARY KEY(id_paragraph),
+   CONSTRAINT fk_subtitle FOREIGN KEY(id_subtitle)
+      REFERENCES subtitle(id_subtitle) ON UPDATE CASCADE ON DELETE CASCADE 
 )ENGINE = InnoDB;
 
-/*table medias*/ 
+/*table medias*/
 DROP TABLE IF EXISTS medias;
 CREATE TABLE medias (
    id_media INT(255) AUTO_INCREMENT NOT NULL,
-   hypervinculo VARCHAR(255),
-   titulo VARCHAR(255),
-   descripcion VARCHAR(255),
-   tipo VARCHAR(255),
+   url_link VARCHAR(255),
+   title VARCHAR(255),
+   description VARCHAR(255),
+   type VARCHAR(255),
    CONSTRAINT pk_medias PRIMARY KEY(id_media)
-)ENGINE = InnoDB; 
+)ENGINE = InnoDB;
 
-/*table parrafos_medias*/ 
-DROP TABLE IF EXISTS parrafos_medias;
-CREATE TABLE parrafos_medias (
-   id_parrafo INT(255) NOT NULL,
+/*table media_paragraph*/ 
+DROP TABLE IF EXISTS media_paragraph;
+CREATE TABLE media_paragraph (
+   id_paragraph INT(255) NOT NULL,
    id_media INT(255) NOT NULL,
-   CONSTRAINT pk_parrafos_medias PRIMARY KEY(id_parrafo, id_media),
-   CONSTRAINT fk_parrafos FOREIGN KEY(id_parrafo)
-      REFERENCES parrafos(id_parrafo) ON UPDATE CASCADE ON DELETE CASCADE, 
+   CONSTRAINT pk_media_paragraph PRIMARY KEY(id_paragraph, id_media),
+   CONSTRAINT fk_paragraphs FOREIGN KEY(id_paragraph)
+      REFERENCES paragraphs(id_paragraph) ON UPDATE CASCADE ON DELETE CASCADE, 
    CONSTRAINT fk_medias FOREIGN KEY(id_media)
       REFERENCES medias(id_media) ON UPDATE CASCADE ON DELETE CASCADE 
-)ENGINE = InnoDB; 
+)ENGINE = InnoDB;
 
-/*table articulos_medias*/ 
-DROP TABLE IF EXISTS articulos_medias;
-CREATE TABLE articulos_medias (
-   id_articulo INT(255) NOT NULL,
+/*table gallery*/
+DROP TABLE IF EXISTS gallery;
+CREATE TABLE gallery (
+   id_article INT(255) NOT NULL,
    id_media INT(255) NOT NULL,
-   CONSTRAINT pk_articulos_medias PRIMARY KEY(id_articulo, id_media),
-   CONSTRAINT fk_articulos5 FOREIGN KEY(id_articulo)
-      REFERENCES articulos(id_articulo) ON UPDATE CASCADE ON DELETE CASCADE, 
+   CONSTRAINT pk_gallery PRIMARY KEY(id_article, id_media),
+   CONSTRAINT fk_articles5 FOREIGN KEY(id_article)
+      REFERENCES articles(id_article) ON UPDATE CASCADE ON DELETE CASCADE, 
    CONSTRAINT fk_medias2 FOREIGN KEY(id_media)
       REFERENCES medias(id_media) ON UPDATE CASCADE ON DELETE CASCADE 
-)ENGINE = InnoDB; 
+)ENGINE = InnoDB;

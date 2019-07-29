@@ -1,5 +1,5 @@
 cleen =(string)=>{
-    return string.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '') 
+    return string.replace(/[^a-z0-9\s]/gi, '')
 }
 
 cleanArray =(array)=>{

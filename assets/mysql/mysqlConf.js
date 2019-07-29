@@ -63,26 +63,28 @@ printR = (consoleMsg, msgConsole)=>{
     console.log(c.inverse.red(consoleMsg),msgConsole);
 }
 
-
 add = async(req, res, data)=>{
     let query = request.ADD(data, req)
     let {code, insertId} = await asyncMysql(query)
     printC(data.consoleMsg, insertId? insertId : code)
-    res.send({err:code, res:insertId})
+    code? res.status(400).send({err:code}):
+    res.status(200).send({res:insertId})
 }
 
 update = async(req, res, data)=>{
     let query = request.UPDATE(data, req)
     let {code, changedRows} = await asyncMysql(query)
     printC(data.consoleMsg, changedRows > 0)
-    res.send({err:code, res:changedRows})
+    code? res.status(400).send({err:code}):
+    res.status(200).send({res:changedRows})
 }
 
 del = async(req, res, data)=>{
     let query = request.DELETE(data, req)
     let {code, affectedRows} = await asyncMysql(query)
     printC(data.consoleMsg, affectedRows > 0)
-    res.send({err:code, res:affectedRows})
+    code? res.status(400).send({err:code}):
+    res.status(200).send({res:affectedRows})
 }
 
 find = (parametre, res, data)=>{

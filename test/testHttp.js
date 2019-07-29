@@ -22,16 +22,16 @@ router.get('/', (req, res)=> {
 })
 
 router.get('/find', (req, res)=>{
-    req.query.nombre ? 
-        find(req.query.nombre, res, {
+    req.query.name ? 
+        find(req.query.name, res, {
             table:'test',
-            parametre:'nombre',
+            parametre:'name',
             type: false // false is string
         }) :
-    req.query.email ? 
+    req.query.value ? 
         find(req.query.email, res, {
             table:'test',
-            parametre:'email',
+            parametre:'value',
             type: false // false is string
         }) :
     req.query.id ? 
@@ -54,8 +54,8 @@ router.get('/:id', (req, res)=> {
 router.post('/', (req, res)=> {
     add(req, res, {
         table:'test',
-        parametres:'nombre, password, email',
-        consoleMsg:'new user: '
+        parametres:'name, value',
+        consoleMsg:'new test data: '
     })
 })
 
@@ -63,9 +63,9 @@ router.post('/', (req, res)=> {
 router.put('/update/:id', async(req, res)=> {
     update(req, res, {
         table:'test',
-        parametre:'password',
+        parametre:'value',
         key:'id_test',
-        consoleMsg:'update password: '
+        consoleMsg:'update value test data: '
     })
 })
 
@@ -74,7 +74,7 @@ router.delete('/:id', async(req, res)=> {
     del(req, res, {
         table:'test',
         key:'id_test',
-        consoleMsg:'delete user: '
+        consoleMsg:'delete test data: '
     })
 })
 
