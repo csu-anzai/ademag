@@ -16,18 +16,10 @@ app.use(express.static(__dirname + '/public'));
 app.use('/images', express.static('public/images')); 
 app.use(cors())
 
-app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json());
 
 routerController.routing(app)
-
-
-app.use((error, req, res, next)=> {
-    error instanceof SyntaxError ?
-      res.send('requette mal ecris, ou de merdique :'+error) : next()
-});
-
-
-
 
 module.exports = app;

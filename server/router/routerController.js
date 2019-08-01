@@ -1,4 +1,4 @@
-const test = require('../test/testHttp')
+const test = require('../../test/testHttp')
 const uploader = require('./upload')
 const article = require('./article')
 
