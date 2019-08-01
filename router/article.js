@@ -37,11 +37,14 @@ router.get('/:id', (req, res)=> {
 })
 
 router.get('/n/:id', (req, res)=>{
-    find(req.params.id, res, {
+    let subtitle = request.FIND({
         table:'subtitle',
         parametre:'id_article',
         type: true // true is number type
-    })
+    }, req.params.id)
+
+    res.send(subtitle)
+    
 })
 
 router.post('/', (req, res)=> {

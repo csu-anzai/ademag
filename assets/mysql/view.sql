@@ -4,7 +4,22 @@ values(
     'subtitle 1 de 2'
 )
 
-select subtitle.*, articles.id_article
-from subtitle,articles 
-where subtitle.id_article = articles.id_article
+insert into paragraphs(id_subtitle, paragraph_order, paragraph_text)
+values(
+    5,1,
+    'parrafo 1 de sub 5'
+)
 
+
+select *
+from subtitle
+
+select id_paragraph, subtitle.id_subtitle, paragraph_order, subtitle_order, paragraph_text 
+from paragraphs, subtitle
+where paragraphs.id_subtitle IN (
+    select subtitle.id_subtitle
+    from subtitle
+    where subtitle.id_article = 2
+)
+and subtitle.id_subtitle = paragraphs.id_subtitle
+order by subtitle_order, paragraph_order
