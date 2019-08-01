@@ -9,7 +9,7 @@ gestio de la base des données sur mysql et on plus la
 connexion, l'idee est fair un peu d'abstraction.
 **********************************************************/
 const mysql = require('mysql');
-const c = require('ansi-colors');
+const colorC = require('ansi-colors');
 let request = require('./request');
 
 //let connection =  server.dbConnection();
@@ -22,8 +22,8 @@ const con = mysql.createConnection({
 });
 
 con.connect((err)=>{ 
-    err ? console.log(c.red(`problème de connection avec la base des données`, err))
-    :     console.log(c.magenta(`Connecté à la base des données`));
+    err ? console.log(colorC.red(`problème de connection avec la base des données`, err))
+    :     console.log(colorC.magenta(`Connecté à la base des données`));
 });
 
 
@@ -44,23 +44,23 @@ asyncMysql = (query)=>{
 }
 
 printY = (consoleMsg, msgConsole)=>{
-    console.log(c.inverse.yellow(consoleMsg),msgConsole);
+    console.log(colorC.inverse.yellow(consoleMsg),msgConsole);
 }
 
 printC= (consoleMsg, msgConsole)=>{
-    console.log(c.bgMagenta(consoleMsg),msgConsole);
+    console.log(colorC.bgMagenta(consoleMsg),msgConsole);
 }
 
 printB = (consoleMsg, msgConsole)=>{
-    console.log(c.inverse.blue(consoleMsg),msgConsole);
+    console.log(colorC.inverse.blue(consoleMsg),msgConsole);
 }
 
 printG = (consoleMsg, msgConsole)=>{
-    console.log(c.inverse.green(consoleMsg),msgConsole);
+    console.log(colorC.inverse.green(consoleMsg),msgConsole);
 }
 
 printR = (consoleMsg, msgConsole)=>{
-    console.log(c.inverse.red(consoleMsg),msgConsole);
+    console.log(colorC.inverse.red(consoleMsg),msgConsole);
 }
 
 add = async(req, res, data)=>{
