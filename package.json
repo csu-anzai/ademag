@@ -4,8 +4,8 @@
   "description": "Back end du site ademag",
   "main": "bin/www",
   "scripts": {
-    "start": "node ./server/bin/www",
-    "dev": "nodemon ./server/bin/www",
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www",
     "test": "nodemon --exec \"mocha -R min\"",
     "dt": "concurrently \"npm run dev\" \"npm run test\""
   },
