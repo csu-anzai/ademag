@@ -18,7 +18,7 @@ jsonToString = (obj)=>{
     return (Object.keys(obj).map(function(k) { return obj[k] })).toString()
 }
 
-before(done => {
+before(async(done) => {
     console.log('\n\n-----------------------\n--\n-- START TEST\n--\n-------------------------\n');
     done();
 });
@@ -27,37 +27,36 @@ after(done => {
     console.log('\n\n-----------------------\n--\n-- END TEST\n--\n-------------------------');
     done();
 });
-
+/*
 beforeEach(done => {
-    //console.log('------------------------');
+    console.log('\n');
     done();
 });
-
+*/
 
 
 /* asyn test */
 describe('# test', () => {
+    
+    it('#0 BD connection', async () => {
+        const result2 = await asyncMysql('DELETE FROM test WHERE name = "test"')
+        const result = await asyncMysql('SELECT 1 as n1')
+        let {results, err} = await findMongoAsync(Usuario, {
+            jsonFind: {}, 
+            stringSelect: 'nombre email role estado google img'
+        })
+        console.log('\n----------------------TEST DES CONNECTION BD----------------------------------\n')
+        chai.expect(result[0].n1).to.equal(1)
+        console.log('#0 mysql and mongoDB connect : true')
+    }).timeout(0); 
 
     describe('\n\n-------focntion test------\n', () => {
-        
-        it('#0 BD connection', async () => {
-            const result = await asyncMysql('SELECT 1 as n1')
-            const result2 = await asyncMysql('DELETE FROM test WHERE name = "test"')
-            let {results, err} = await findMongo(Usuario, {
-                jsonFind: {}, 
-                stringSelect: 'nombre email role estado google img'
-            })
-            console.log('\n----------------------TEST DES CONNECTION BD----------------------------------\n')
-            chai.expect(result[0].n1).to.equal(1)
-            console.log('#0 mysql and mongoDB connect : true')
-        }); 
-
         it('#1 fonction asyncMysq dans mysqlConf', async () => {
             const result = await asyncMysql('SELECT 1 as n1')
             console.log('\n----------------------TEST DES FONCTIONS BASIQUES----------------------------------\n')
             chai.expect(result[0].n1).to.equal(1)
             console.log('#1 asyncMysql is ok')
-        }); 
+        }).timeout(0); 
 
         it('\n #2 test fonction isVide dans  mysqlConf', (done) => {
             isVide({notVide:'no'})? done(new Error('no found')) :
@@ -218,9 +217,8 @@ describe('# test', () => {
         it('assertion success', async () => {
             const result = await asyncMysql('SELECT 1 as n1')
             const result2 = await asyncMysql('DELETE FROM articles WHERE title = "article test"')
-            console.log('\n----------------------TEST API----------------------------------\n')
             chai.expect(result[0].n1).to.equal(1)
-            //console.log('#1 asyncMysql is ok')
+            console.log('\n----------------------TEST API----------------------------------\n')
         }); 
 
         describe('', () => {

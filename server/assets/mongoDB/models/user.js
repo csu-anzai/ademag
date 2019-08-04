@@ -30,8 +30,8 @@ let usuarioSchema = new Schema({
     google:{
         type:Boolean,
         default:false
-    }
-
+    },
+    plus:[]
 })
 
 module.exports = mongoose.model('Usuario', usuarioSchema)
