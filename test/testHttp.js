@@ -9,19 +9,19 @@ ce code contiens les requetes http apartir du routage user
 
 let express = require('express');
 let router = express.Router();
-let request = require('../server/assets/mysql/request');
-let mysql = require('../server/assets/mysql/mysqlConf');
-let utilmy = require('../server/assets/utilmy/utilmy');
+
 
 /* User routes */
 /*- GET */
-router.get('/', (req, res)=> {
+router
+
+.get('/', (req, res)=> {
     all(req, res, {
         table:'test'
     })
 })
 
-router.get('/find', (req, res)=>{
+.get('/find', (req, res)=>{
     req.query.name ? 
         find(req.query.name, res, {
             table:'test',
@@ -42,7 +42,7 @@ router.get('/find', (req, res)=>{
         }) : res.send('parametre inconue') 
 })
 
-router.get('/:id', (req, res)=> {
+.get('/:id', (req, res)=> {
     find(req.params.id, res, {
         table:'test',
         parametre:'id_test',
@@ -51,7 +51,7 @@ router.get('/:id', (req, res)=> {
 })
 
 /*- POST */
-router.post('/', (req, res)=> {
+.post('/', (req, res)=> {
     add(req, res, {
         table:'test',
         parametres:'name, value',
@@ -60,7 +60,7 @@ router.post('/', (req, res)=> {
 })
 
 /*- PUT */
-router.put('/update/:id', async(req, res)=> {
+.put('/update/:id', async(req, res)=> {
     update(req, res, {
         table:'test',
         parametre:'value',
@@ -70,7 +70,7 @@ router.put('/update/:id', async(req, res)=> {
 })
 
 /*- DELETE */
-router.delete('/:id', async(req, res)=> {
+.delete('/:id', async(req, res)=> {
     del(req, res, {
         table:'test',
         key:'id_test',

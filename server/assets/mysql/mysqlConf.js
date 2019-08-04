@@ -12,7 +12,6 @@ const mysql = require('mysql');
 const colorC = require('ansi-colors');
 let request = require('./request');
 
-//let connection =  server.dbConnection();
 const con = mysql.createConnection({
     host: "37.120.187.69",
     user: "andres",
@@ -95,7 +94,7 @@ all = (req, res, data)=>{
     mysqlQuery(res, request.SELECT_ALL(data))
 }
 
-module.exports.mysql = {
+module.exports = {
     asyncMysql, 
     mysqlQuery, 
     add, 

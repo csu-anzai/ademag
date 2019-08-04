@@ -7,9 +7,6 @@
 let express = require('express');
 let router = express.Router();
 var multer = require('multer')
-let request = require('../assets/mysql/request');
-let mysql = require('../assets/mysql/mysqlConf');
-let utilmy = require('../assets/utilmy/utilmy');
 
 /*-------------------------------------------------
 |                 MULTER CONFIG                   |
