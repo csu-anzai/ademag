@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
+const colorC = require('ansi-colors');
 
 mongoose.connect('mongodb://localhost:27017/ademag', {useNewUrlParser: true})
-    .then(() => console.log('MongoDB Connected'))
+    .then(() => console.log(colorC.blueBright(`Connecté à la base des données `+colorC.green(`MongoDB`))))
     .catch(err => console.log('Mongo Error:', err))
-
-
 
 findMongo = (models, data)=>{
     return new Promise(resolve => {

@@ -5,6 +5,7 @@ let chaiHttp = require('chai-http');
 let server = require('../server/app');
 let util = require('util');
 let request = require('../server/assets/mysql/request')
+const Usuario = require('../server/assets/mongoDB/models/user')
 
 chai.should();
 chai.use(chaiHttp);
@@ -38,33 +39,44 @@ beforeEach(done => {
 describe('# test', () => {
 
     describe('\n\n-------focntion test------\n', () => {
-
-        it('assertion success', async () => {
+        
+        it('#0 BD connection', async () => {
             const result = await asyncMysql('SELECT 1 as n1')
             const result2 = await asyncMysql('DELETE FROM test WHERE name = "test"')
+            let {results, err} = await findMongo(Usuario, {
+                jsonFind: {}, 
+                stringSelect: 'nombre email role estado google img'
+            })
+            console.log('\n----------------------TEST DES CONNECTION BD----------------------------------\n')
+            chai.expect(result[0].n1).to.equal(1)
+            console.log('#0 mysql and mongoDB connect : true')
+        }); 
+
+        it('#1 fonction asyncMysq dans mysqlConf', async () => {
+            const result = await asyncMysql('SELECT 1 as n1')
             console.log('\n----------------------TEST DES FONCTIONS BASIQUES----------------------------------\n')
             chai.expect(result[0].n1).to.equal(1)
             console.log('#1 asyncMysql is ok')
         }); 
 
-        it('\n #1 test fonction isVide dans  mysqlConf', (done) => {
+        it('\n #2 test fonction isVide dans  mysqlConf', (done) => {
             isVide({notVide:'no'})? done(new Error('no found')) :
             (done(), console.log('#2 function isVide is ok'))
         }).timeout(0);
 
-        it('\n #2 test fonction mysqlQuery dans  mysqlConf', done => {
+        it('\n #3 test fonction mysqlQuery dans  mysqlConf', done => {
             mysqlQuery(res, request.TEST('test msg'),(results)=>{
                 results[0].n1 != 1 ? done(new Error('mysqlQuery not foud')):
                 (done(), console.log('#3 fonction mysqlQuery is ok'))
             })
         }).timeout(0);
 
-        it('\n #1 test fonction cleen dans util', (done) => {
+        it('\n #4 test fonction cleen dans util', (done) => {
             cleen('*+/#n1') != 'n1'? done(new Error('no found')) :
             (done(), console.log('#4 function cleen is ok'))
         }).timeout(0);
 
-        it('\n #1 test fonction cleanArray dans util', (done) => {
+        it('\n #5 test fonction cleanArray dans util', (done) => {
             let results = cleanArray(['*/n1','n2/-+,','()&n3']) 
             jsonToString(results) != `'n1','n2','n3'` ? done(new Error('no found :'+jsonToString(results))) :
             (done(), console.log('#5 function cleanArray is ok'))

@@ -21,8 +21,8 @@ const con = mysql.createConnection({
 });
 
 con.connect((err)=>{ 
-    err ? console.log(colorC.red(`problème de connection avec la base des données`, err))
-    :     console.log(colorC.magenta(`Connecté à la base des données`));
+    err ? console.log(colorC.red(`problème de connection avec la base des données`+colorC.yellow('Mysql')+ err))
+    :     console.log(colorC.blueBright(`Connecté à la base des données `)+colorC.yellow('Mysql'));
 });
 
 
