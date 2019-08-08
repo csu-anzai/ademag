@@ -80,6 +80,18 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
+Number.prototype.padLeft = function(base,chr){
+  var  len = (String(base || 10).length - String(this).length)+1;
+  return len > 0? new Array(len).join(chr || '0')+this : this;
+}
+
+var d = new Date,
+  dformat = [(d.getMonth()+1).padLeft(),
+           d.getDate().padLeft(),
+           d.getFullYear()].join('/') +' ' +
+          [d.getHours().padLeft(),
+           d.getMinutes().padLeft(),
+           d.getSeconds().padLeft()].join(':');
 
 function onListening() {
   var addr = server.address();
@@ -87,5 +99,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
-  console.log(addr, 'devServer -> http://localhost:'+addr.port)
+  console.log(addr, 'devServer -> http://localhost:'+addr.port+' ::: '+dformat)
 }
