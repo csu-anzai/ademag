@@ -14,19 +14,16 @@ let router = express.Router();
 
 router
 
-.get('/', (req, res)=> {
-    all(req, res, {
-        table:'articles'
-    })
-})
-
-.get('/find', (req, res)=>{
+.get('/', (req, res)=>{
     req.query.title ? 
         find(req.query.title, res, {
             table:'articles',
             parametre:'title',
             type: false // false is string type
-        }) : res.status(400).send({err:'PARAMS INCONUE'}) 
+        }) : 
+        all(req, res, {
+            table:'articles'
+        })
 })
 
 .get('/:id', (req, res)=> {
@@ -37,31 +34,20 @@ router
     })
 })
 
-.get('/n/:id', (req, res)=>{
-    let subtitle = request.FIND({
-        table:'subtitle',
-        parametre:'id_article',
-        type: true // true is number type
-    }, req.params.id)
-
-    res.send(subtitle)
-    
-})
-
 .post('/', (req, res)=> {
     add(req, res, {
         table:'articles',
         parametres:'title, description',
-        consoleMsg:'new article created: '
+        consoleMsg:'new article-Mysql created: '
     })
 })
 
-.put('/update/:id', async(req, res)=> {
+.put('/:id', async(req, res)=> {
     update(req, res, {
         table:'articles',
         parametre:'description',
         key:'id_article',
-        consoleMsg:'update article description: '
+        consoleMsg:'update article-Mysql description: '
     })
 })
 
@@ -70,7 +56,7 @@ router
     del(req, res, {
         table:'articles',
         key:'id_article',
-        consoleMsg:'delete article: '
+        consoleMsg:'delete article-mysql: '
     })
 })
 

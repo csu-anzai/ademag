@@ -15,13 +15,7 @@ let router = express.Router();
 /*- GET */
 router
 
-.get('/', (req, res)=> {
-    all(req, res, {
-        table:'test'
-    })
-})
-
-.get('/find', (req, res)=>{
+.get('/', (req, res)=>{
     req.query.name ? 
         find(req.query.name, res, {
             table:'test',
@@ -34,12 +28,10 @@ router
             parametre:'value',
             type: false // false is string
         }) :
-    req.query.id ? 
-        find(req.query.id, res, {
-            table:'test',
-            parametre:'id_test',
-            type: true // false is string
-        }) : res.send('parametre inconue') 
+    //default    
+        all(req, res, {
+            table:'test'
+        })
 })
 
 .get('/:id', (req, res)=> {
@@ -60,7 +52,7 @@ router
 })
 
 /*- PUT */
-.put('/update/:id', async(req, res)=> {
+.put('/:id', async(req, res)=> {
     update(req, res, {
         table:'test',
         parametre:'value',

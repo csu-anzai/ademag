@@ -4,19 +4,26 @@ let router = express.Router();
 const _ = require('underscore');
 const Usuario = require('../assets/mongoDB/models/user')
 
+jsonToString = (obj)=>{
+    return (Object.keys(obj).map(function(k) { return obj[k] })).toString()
+}
+
 router
 
 .get('/', (req, res)=>{
+    req.query.nombre ? 
     findMongo(res, Usuario, {
-        jsonFind: {estado:true}, 
+        jsonFind: {nombre:req.query.nombre}, 
         stringSelect: 'nombre role'
-    })
-})
-
-.get('/del', (req, res)=>{
+    }) : 
+    req.query.del ?
     findMongo(res, Usuario, {
         jsonFind: {estado:false}, 
         stringSelect: 'nombre role estado'
+    }):
+    findMongo(res, Usuario, {
+        jsonFind: {estado:true}, 
+        stringSelect: 'nombre role'
     })
 })
 
@@ -28,39 +35,40 @@ router
 })
 
 .post('/', (req, res)=> {
+    if (req.body.values.length < 4) res.json({err:'il manquent des element', ok:false})
+    
     saveMongo(res, Usuario, {
-        nombre: req.body.nombre,
-        email: req.body.email,
-        password: req.body.password,
-        role: req.body.role
+        nombre: req.body.values[0],
+        email: req.body.values[1],
+        password: req.body.values[2],
+        role: req.body.values[3],
+        consoleMsg:'new article-MongoDB created: '
     })
 })
 
 .put('/:id', async(req, res)=> {
-    if(isVide(req.body)) return  res.json({ok:false, err:'rien a introduire'})
+    if(isVide(req.body)) return  res.json({ok:false, err:'body is void'})
 
-    const results = await Usuario.updateOne(
-        { _id: req.params.id},
-        {
-            $push:{plus:req.body},
-            $set:{estado:true}
-        }
-    );
+    updateMongo(res, Usuario, {
+        id: req.params.id,
+        objPush: req.body.push,
+        objSet: req.body.set,
+        consoleMsg:'update-$Set article-MongoDB: '
+    })
 
-    if(results.nModified = 0){
-        res.json({ok:false})
-    }else{
-        findMongo(res, Usuario,{
-            jsonFind: {_id: req.params.id}, 
-            stringSelect: null,
-            info:results
-        })
-    }
+
+})
+
+.delete('/:id', async(req, res)=>{
+    deleteMongo(res, Usuario, {
+        id:req.params.id,
+        consoleMsg:'delete article-MongoDB: '
+    })
 })
 
 .delete('/del/', async(req, res)=>{
     const results = await Usuario.deleteMany({ estado: false });
-
+    
     results.err? res.status(400).json({ok:false, err}):
     results.ok != 1 ? res.status(400).json({ok:false, results}):
     findMongo(res, Usuario, {
@@ -69,24 +77,6 @@ router
         info:results
     })
 })
-
-.delete('/:id', async(req, res)=>{
-    const results = await Usuario.updateOne(
-        { _id: req.params.id }, 
-        {$set:{estado:false}
-    });
-
-    if(results.nModified = 0){
-        res.json({ok:false})
-    }else{
-        findMongo(res, Usuario,{
-            jsonFind: {_id: req.params.id}, 
-            stringSelect: 'nombre role estado',
-            info:results
-        })
-    }
-})
-
 
 
 module.exports = router;

@@ -33,28 +33,55 @@ findMongoAsync = (models, data)=>{
 
 findMongo = async(res, models, data)=>{
     let {results, err} = await findMongoAsync(models, data)
-    err? res.status(400).json({err, status:false}):
-    isVide(results)? res.status(200).json({info:'is vide', status:true, results}):
-    res.json({info: data.info, results, status:true})
+    err? res.status(400).json({err, ok:false}):
+    isVide(results)? res.status(200).json({info:'is vide', ok:true, results}):
+    res.json({info: data.info, results, ok:true})
 }
 
 saveMongo = async(res, models, data)=>{
-    if(isVide(req.body)) return  res.json({ok:false, err:'rien a introduire'})
+    if(isVide(data)) return  res.json({ok:false, err:'rien a introduire'})
     
     let element = new models (data)
     element.save((err, results)=>{
-        if(err){
-            return res.status(400).json({
-                ok:false,
-                err
+        err? res.status(400).json({ok:false, err}):(
+            printC(data.consoleMsg, results._id),
+            res.json({
+                ok:true,
+                res:results._id
             })
-        }
-
-        res.json({
-            ok:true,
-            user:results
-        })
+        )
     })
+}
+
+updateMongo = async(res, models, data)=>{
+    const results = data.objPush? 
+    
+        await models.updateOne(
+            { _id: data.id},
+            {
+                $set:data.objSet,
+                $push:{plus:data.objPush},
+            }
+        ) :
+        
+        await models.updateOne(
+            { _id: data.id},
+            {
+                $set:data.objSet
+            }
+        )
+
+    printC(data.consoleMsg, true)
+    res.json({res:results.nModified, ok:true})
+}
+
+deleteMongo = async(res, models, data)=>{
+    const results = await models.updateOne(
+        { _id: data.id }, 
+        {$set:{estado:false}
+    });
+    printC(data.consoleMsg, true)
+    res.json({res: results.nModified, ok:true})
 }
 
 module.exports = {findMongoAsync, mongoose, saveMongo, findMongo, mongoConexion}

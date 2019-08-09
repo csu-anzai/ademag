@@ -12,13 +12,13 @@ const cors = require('cors');
 const bodyParser = require('body-parser')
 const {} = require('./assets/assets')
 
+app.use(express.static(__dirname + '/public'))
+    .use('/images', express.static('public/images'))
+    .use(cors())
+    .use(bodyParser.urlencoded({extended: true}))
+    .use(bodyParser.json());
 
-app.use(express.static(__dirname + '/public'));
-app.use('/images', express.static('public/images')); 
-app.use(cors())
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json());
+
 routerController.routing(app)
-
 
 module.exports = app;

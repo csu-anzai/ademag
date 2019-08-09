@@ -13,9 +13,9 @@ const colorC = require('ansi-colors');
 let request = require('./request');
 
 const con = mysql.createConnection({
-    host: "37.120.187.69",
-    user: "andres",
-    password: "Hipermaga66*",
+    host: "localhost",
+    user: "root",
+    password: "",
     database: "ademag",
     port:3306
 });
@@ -28,8 +28,8 @@ con.connect((err)=>{
 
 mysqlQuery = (res, query, next)=>{
     con.query(query, (err, results) =>{
-        err ? res.json({err:err}):(
-            next? next(results) : res.send(results)
+        err ? res.status(400).json({err, ok:false}):(
+            next? next(results) : res.json({results, ok:true})
         )
     });
 }
@@ -43,47 +43,47 @@ asyncMysql = (query)=>{
 }
 
 printY = (consoleMsg, msgConsole)=>{
-    console.log(colorC.inverse.yellow(consoleMsg),msgConsole);
+    console.log(colorC.yellow(consoleMsg),msgConsole);
 }
 
 printC= (consoleMsg, msgConsole)=>{
-    console.log(colorC.bgMagenta(consoleMsg),msgConsole);
+    console.log(colorC.magenta(consoleMsg),msgConsole);
 }
 
 printB = (consoleMsg, msgConsole)=>{
-    console.log(colorC.inverse.blue(consoleMsg),msgConsole);
+    console.log(colorC.blue(consoleMsg),msgConsole);
 }
 
 printG = (consoleMsg, msgConsole)=>{
-    console.log(colorC.inverse.green(consoleMsg),msgConsole);
+    console.log(colorC.green(consoleMsg),msgConsole);
 }
 
 printR = (consoleMsg, msgConsole)=>{
-    console.log(colorC.inverse.red(consoleMsg),msgConsole);
+    console.log(colorC.red(consoleMsg),msgConsole);
 }
 
 add = async(req, res, data)=>{
     let query = request.ADD(data, req)
     let {code, insertId} = await asyncMysql(query)
     printC(data.consoleMsg, insertId? insertId : code)
-    code? res.status(400).send({err:code}):
-    res.status(200).send({res:insertId})
+    code? res.status(400).send({err:code, ok:false}):
+    res.status(200).send({res:insertId, ok:true})
 }
 
 update = async(req, res, data)=>{
     let query = request.UPDATE(data, req)
     let {code, changedRows} = await asyncMysql(query)
     printC(data.consoleMsg, changedRows > 0)
-    code? res.status(400).send({err:code}):
-    res.status(200).send({res:changedRows})
+    code? res.status(400).send({err:code, ok:false}):
+    res.status(200).send({res:changedRows, ok:true})
 }
 
 del = async(req, res, data)=>{
     let query = request.DELETE(data, req)
     let {code, affectedRows} = await asyncMysql(query)
     printC(data.consoleMsg, affectedRows > 0)
-    code? res.status(400).send({err:code}):
-    res.status(200).send({res:affectedRows})
+    code? res.status(400).send({err:code, ok:false}):
+    res.status(200).send({res:affectedRows, ok:true})
 }
 
 find = (parametre, res, data)=>{
