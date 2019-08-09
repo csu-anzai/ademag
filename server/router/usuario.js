@@ -2,7 +2,7 @@ let express = require('express');
 const bcrypt = require('bcrypt');
 let router = express.Router();
 const _ = require('underscore');
-const Usuario = require('../assets/mongoDB/models/user')
+const Article = require('../assets/mongoDB/models/article')
 
 jsonToString = (obj)=>{
     return (Object.keys(obj).map(function(k) { return obj[k] })).toString()
@@ -11,72 +11,72 @@ jsonToString = (obj)=>{
 router
 
 .get('/', (req, res)=>{
-    req.query.nombre ? 
-    findMongo(res, Usuario, {
-        jsonFind: {nombre:req.query.nombre}, 
-        stringSelect: 'nombre role'
+    req.query.title ? 
+    findMongo(res, Article, {
+        jsonFind: {title:req.query.title}, 
+        stringSelect: 'title'
     }) : 
     req.query.del ?
-    findMongo(res, Usuario, {
-        jsonFind: {estado:false}, 
-        stringSelect: 'nombre role estado'
+    findMongo(res, Article, {
+        jsonFind: {status:false}, 
+        stringSelect: 'title'
     }):
-    findMongo(res, Usuario, {
-        jsonFind: {estado:true}, 
-        stringSelect: 'nombre role'
+    findMongo(res, Article, {
+        jsonFind: {status:true}, 
+        stringSelect: 'title'
     })
 })
 
 .get('/:id', (req, res)=> {
-    findMongo(res, Usuario,{
-        jsonFind: {_id: req.params.id, estado:true}, 
+    findMongo(res, Article,{
+        jsonFind: {_id: req.params.id, status:true}, 
         stringSelect: null
     })
 })
 
 .post('/', (req, res)=> {
-    if (req.body.values.length < 4) res.json({err:'il manquent des element', ok:false})
+    if (req.body.values.length < 1) res.status(400).json({err:'il manquent des element', ok:false})
     
-    saveMongo(res, Usuario, {
-        nombre: req.body.values[0],
-        email: req.body.values[1],
-        password: req.body.values[2],
-        role: req.body.values[3],
+    saveMongo(res, Article, {
+        title: req.body.values[0],
         consoleMsg:'new article-MongoDB created: '
     })
 })
 
+
 .put('/:id', async(req, res)=> {
-    if(isVide(req.body)) return  res.json({ok:false, err:'body is void'})
+    if(isVide(req.body)) return  res.status(400).json({ok:false, err:'Bad Request'})
 
-    updateMongo(res, Usuario, {
+    updateMongo(res, Article, {
         id: req.params.id,
-        objPush: req.body.push,
+        objPush: {in:req.body.push},
         objSet: req.body.set,
-        consoleMsg:'update-$Set article-MongoDB: '
+        consoleMsg:'update article-MongoDB: '
     })
-
-
 })
 
+
 .delete('/:id', async(req, res)=>{
-    deleteMongo(res, Usuario, {
+    if(isVide(req.params)) return  res.status(400).json({ok:false, err:'Bad Request'})
+    deleteMongo(res, Article, {
         id:req.params.id,
         consoleMsg:'delete article-MongoDB: '
     })
 })
 
+
+/*
 .delete('/del/', async(req, res)=>{
-    const results = await Usuario.deleteMany({ estado: false });
+    const results = await Article.deleteMany({ status: false });
     
     results.err? res.status(400).json({ok:false, err}):
     results.ok != 1 ? res.status(400).json({ok:false, results}):
-    findMongo(res, Usuario, {
+    findMongo(res, Article, {
         jsonFind: {}, 
-        stringSelect: 'nombre estado',
+        stringSelect: 'nombre status',
         info:results
     })
 })
-
+*/
 
 module.exports = router;

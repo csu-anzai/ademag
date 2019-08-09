@@ -60,7 +60,7 @@ updateMongo = async(res, models, data)=>{
             { _id: data.id},
             {
                 $set:data.objSet,
-                $push:{plus:data.objPush},
+                $push:data.objPush,
             }
         ) :
         
@@ -78,7 +78,7 @@ updateMongo = async(res, models, data)=>{
 deleteMongo = async(res, models, data)=>{
     const results = await models.updateOne(
         { _id: data.id }, 
-        {$set:{estado:false}
+        {$set:{status:false}
     });
     printC(data.consoleMsg, true)
     res.json({res: results.nModified, ok:true})

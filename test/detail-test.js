@@ -71,7 +71,7 @@ const CRUDTest =(urlAD, data)=>{
                 .put(`/${urlAD}/${id}`)
                 .send({
                     value:'new value',
-                    set:{role:'New ROLE'}
+                    set:{status:true}
                 })
             if(res.status < 400){
                 chai.expect(res.body.ok).to.true
