@@ -31,48 +31,42 @@ findMongoAsync = (models, data)=>{
     });
 }
 
-findMongo = async(res, models, data)=>{
+findMongo = async(res, models, data, next)=>{
     let {results, err} = await findMongoAsync(models, data)
+    let rfinal = err? err:results 
+    next? next(rfinal):
     err? res.status(400).json({err, ok:false}):
     isVide(results)? res.status(200).json({info:'is vide', ok:true, results}):
     res.json({info: data.info, results, ok:true})
 }
 
-saveMongo = async(res, models, data)=>{
+saveMongo = async(res, models, data, next)=>{
     if(isVide(data)) return  res.json({ok:false, err:'rien a introduire'})
     
     let element = new models (data)
     element.save((err, results)=>{
-        err? res.status(400).json({ok:false, err}):(
+        err? res.status(400).json({ok:false, err}):
+        next? next(results):(
             printC(data.consoleMsg, results._id),
             res.json({
                 ok:true,
-                res:results._id
+                insertId:results._id
             })
         )
     })
 }
 
-updateMongo = async(res, models, data)=>{
-    const results = data.objPush? 
-    
-        await models.updateOne(
-            { _id: data.id},
-            {
-                $set:data.objSet,
-                $push:data.objPush,
-            }
-        ) :
-        
-        await models.updateOne(
-            { _id: data.id},
-            {
-                $set:data.objSet
-            }
-        )
-
-    printC(data.consoleMsg, true)
-    res.json({res:results.nModified, ok:true})
+updateMongo = async(res, models, data, next)=>{
+    const results = await models.updateOne(
+        { _id: data.id},
+        {
+            $push:data.push,
+            $set:data.set
+        }
+    )
+    printC(data.consoleMsg, results)
+    next? next(results):
+    res.json({changedRows:results.nModified, ok:true})
 }
 
 deleteMongo = async(res, models, data)=>{
@@ -81,7 +75,7 @@ deleteMongo = async(res, models, data)=>{
         {$set:{status:false}
     });
     printC(data.consoleMsg, true)
-    res.json({res: results.nModified, ok:true})
+    res.json({affectedRows: results.nModified, ok:true})
 }
 
 module.exports = {findMongoAsync, mongoose, saveMongo, findMongo, mongoConexion}

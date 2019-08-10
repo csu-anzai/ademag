@@ -29,6 +29,7 @@ const CRUDTest =(urlAD, data)=>{
                 console.log(`#/${urlAD}-1 ${colorC.blue('GET')} ${urlAD} is ok ::: status code: ${colorC.green(res.status)}`)
             }else {
                 console.log(`# ${colorC.red(`/${urlAD}-1 GET ${urlAD} not found `)}::: status code: ${colorC.green(res.status)}`)
+                chai.expect(res.body.err, `error ${colorC.red(res.body.err)} ::: status code ${colorC.green(res.status)}`).to.not.exist
                 chai.expect(res.body[0], `la rute nexiste pas ::: status code ${colorC.green(res.status)}`).to.exist
             }
         }).timeout(0); 
@@ -43,10 +44,11 @@ const CRUDTest =(urlAD, data)=>{
                  })
             if(res.status < 400){
                 chai.expect(res.body.ok).to.true
-                console.log(`#/${urlAD}-2 ${colorC.blue('POST')} /${urlAD}/ is ok ::: status code: ${colorC.green(res.status)} new test data: ${res.body.res}`)
+                console.log(`#/${urlAD}-2 ${colorC.blue('POST')} /${urlAD}/ is ok ::: status code: ${colorC.green(res.status)} new test data: ${res.body.insertId}`)
             }else{
                 console.log(`# ${colorC.red(`/${urlAD}-2 POST /${urlAD} not found `)}::: status code: ${colorC.green(res.status)}`)
-                chai.expect(res.body.res, `la rute nexiste pas ::: status code ${colorC.green(res.status)}`).to.exist
+                chai.expect(res.body.err, `error ${colorC.red(res.body.err)} ::: status code ${colorC.green(res.status)}`).to.not.exist
+                chai.expect(res.body.insertId, `obj insertId not found ::: status code ${colorC.green(res.status)}`).to.exist
             }
         }).timeout(0); 
     })
@@ -55,7 +57,8 @@ const CRUDTest =(urlAD, data)=>{
         it(`# test GET /${urlAD}/:id`, async () => {
             const res = await chai.request(server)
                 .get(`/${urlAD}/?${data.UpdateParametre}=${data.createValues[0]}`)
-            chai.expect(res.body.results, `la rute nexiste pas ::: status code ${colorC.green(res.status)}`).to.exist
+            chai.expect(res.body.err, `error ${colorC.red(res.body.err)} ::: status code ${colorC.green(res.status)}`).to.not.exist
+            chai.expect(res.body.results, `le element results nexiste pas dans le json ::: status code ${colorC.green(res.status)}`).to.exist
             let resID = res.body.results
             id = resID[resID.length -1][data.PrimaryKey]
             chai.expect(res.status, 'HTTP request error, status code '+res.status).equal(200)
@@ -70,15 +73,18 @@ const CRUDTest =(urlAD, data)=>{
             const res = await chai.request(server)
                 .put(`/${urlAD}/${id}`)
                 .send({
+                    "description":"NEW DESCRIPTION",
                     value:'new value',
-                    set:{status:true}
+                    set:{status:true},
+                    push:{}
                 })
             if(res.status < 400){
                 chai.expect(res.body.ok).to.true
-                console.log(`#/${urlAD}-3 ${colorC.blue('PUT')} ${urlAD}/${id} is ok ::: status code: ${colorC.green(res.status)} changedRows: ${res.body.res}`)
+                console.log(`#/${urlAD}-3 ${colorC.blue('PUT')} ${urlAD}/${id} is ok ::: status code: ${colorC.green(res.status)} changedRows: ${res.body.changedRows}`)
             }else{
                 console.log(`# ${colorC.red(`/${urlAD}-3 PUT ${urlAD}/${id} not found `)}::: status code: ${colorC.green(res.status)}`)
-                chai.expect(res.body.res, `la rute nexiste pas ::: status code ${colorC.green(res.status)}`).to.exist
+                chai.expect(res.body.err, `error ${colorC.red(res.body.err)} ::: status code ${colorC.green(res.status)}`).to.not.exist
+                chai.expect(res.body.changedRows, `objet changedRows not found ::: status code ${colorC.green(res.status)}`).to.exist
             }    
         }).timeout(0); 
     })
@@ -89,10 +95,11 @@ const CRUDTest =(urlAD, data)=>{
                 .delete(`/${urlAD}/${id}`)
             if(res.status < 400){
                 chai.expect(res.body.ok).to.true
-                console.log(`#${urlAD}-4 ${colorC.blue('DELETE')} ${urlAD}/${id} is ok ::: status code: ${colorC.green(res.status)} affectedRows: ${res.body.res}`)
+                console.log(`#${urlAD}-4 ${colorC.blue('DELETE')} ${urlAD}/${id} is ok ::: status code: ${colorC.green(res.status)} affectedRows: ${res.body.affectedRows}`)
             }else{
                 console.log(`# ${colorC.red(`${urlAD}-3 DELETE ${urlAD}/${id} not found `)}::: status code: ${colorC.green(res.status)}`)
-                chai.expect(res.body.res, `la rute nexiste pas ::: status code ${colorC.green(res.status)}`).to.exist
+                chai.expect(res.body.err, `error ${colorC.red(res.body.err)} ::: status code ${colorC.green(res.status)}`).to.not.exist
+                chai.expect(res.body.affectedRows, `objet affectedRows not found ::: status code ${colorC.green(res.status)}`).to.exist
             }
         }).timeout(0); 
     })
@@ -101,11 +108,12 @@ const CRUDTest =(urlAD, data)=>{
         it(`# test FINAL /${urlAD}`, async () => {
             const res = await chai.request(server)
                 .get(`/${urlAD}/${id}`)
-            let resID = res.body.results
-            chai.expect(res.body.results, `la rute nexiste pas ::: status code ${colorC.green(res.status)}`).to.exist
+
+            chai.expect(res.body.results, `objet results not found ::: status code ${colorC.green(res.status)}`).to.exist
+            chai.expect(res.body.err, `error ${colorC.red(res.body.err)} ::: status code ${colorC.green(res.status)}`).to.not.exist
             chai.expect(res.status, 'HTTP request error, status code '+res.status).equal(200)
-            chai.expect(isVide(resID)).to.true
-            chai.expect(res.body.ok).to.true
+            chai.expect(res.body.ok, 'ok is false').to.true
+            console.log(`#${urlAD}-4 ${colorC.blue('FINAL')} ${urlAD}/${id} is ok ::: status code: ${colorC.green(res.status)}`)
         }).timeout(0); 
     })
 }

@@ -67,15 +67,26 @@ add = async(req, res, data)=>{
     let {code, insertId} = await asyncMysql(query)
     printC(data.consoleMsg, insertId? insertId : code)
     code? res.status(400).send({err:code, ok:false}):
-    res.status(200).send({res:insertId, ok:true})
+    res.status(200).send({insertId, ok:true})
 }
 
-update = async(req, res, data)=>{
+
+updateExecute = async(req, res, data, next)=>{
     let query = request.UPDATE(data, req)
     let {code, changedRows} = await asyncMysql(query)
-    printC(data.consoleMsg, changedRows > 0)
+    printC(data.consoleMsg, 'changedRows = '+changedRows)
     code? res.status(400).send({err:code, ok:false}):
-    res.status(200).send({res:changedRows, ok:true})
+    next? next(changedRows):
+    res.status(200).send({changedRows, ok:true})
+}
+
+update = async(req, res, data, next)=>{
+    !data.table? res.status(400).send({err:'table object has not been specified ', ok:false}) : 
+    !data.parametre?  res.status(400).send({err:'parametre object has not been specified ', ok:false}) : 
+    !req.params.id? res.status(400).send({err:'params.id object has not been specified ', ok:false}) : 
+    !req.body.value? res.status(400).send({err:'value object has not been specified ', ok:false}) : 
+    !data.key? res.status(400).send({err:'key object has not been specified ', ok:false}) :
+    updateExecute(req, res, data, next)
 }
 
 del = async(req, res, data)=>{
@@ -83,10 +94,14 @@ del = async(req, res, data)=>{
     let {code, affectedRows} = await asyncMysql(query)
     printC(data.consoleMsg, affectedRows > 0)
     code? res.status(400).send({err:code, ok:false}):
-    res.status(200).send({res:affectedRows, ok:true})
+    res.status(200).send({affectedRows, ok:true})
 }
 
-find = (parametre, res, data)=>{
+find = (parametre, res, data, next)=>{
+    !parametre? res.status(400).send({err:'value parametre object has not been specified ', ok:false}) :
+    !data.table? res.status(400).send({err:'table object has not been specified ', ok:false}) : 
+    !data.parametre?  res.status(400).send({err:'parametre object has not been specified ', ok:false}) : 
+    next? mysqlQuery(res, request.FIND(data, parametre), next):
     mysqlQuery(res, request.FIND(data, parametre))
 }
 

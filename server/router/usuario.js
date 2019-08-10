@@ -4,10 +4,6 @@ let router = express.Router();
 const _ = require('underscore');
 const Article = require('../assets/mongoDB/models/article')
 
-jsonToString = (obj)=>{
-    return (Object.keys(obj).map(function(k) { return obj[k] })).toString()
-}
-
 router
 
 .get('/', (req, res)=>{
@@ -49,8 +45,8 @@ router
 
     updateMongo(res, Article, {
         id: req.params.id,
-        objPush: {in:req.body.push},
-        objSet: req.body.set,
+        push: {in:req.body.push},
+        set: req.body.set,
         consoleMsg:'update article-MongoDB: '
     })
 })

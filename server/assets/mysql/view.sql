@@ -11,8 +11,9 @@ values(
 )
 
 
-select *
-from subtitle
+select _id
+from articles
+WHERE id_article = 17
 
 select id_paragraph, subtitle.id_subtitle, paragraph_order, subtitle_order, paragraph_text 
 from paragraphs, subtitle

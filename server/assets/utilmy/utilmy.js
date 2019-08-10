@@ -17,6 +17,10 @@ cleanObj =(data)=>{
 
 isVide = (obj)=>{
     return Object.keys(obj).length === 0
- }
+}
 
-module.exports.util = {cleen, cleanArray, cleanObj, isVide}
+jsonToString = (obj)=>{
+    return (Object.keys(obj).map(function(k) { return obj[k] })).toString()
+}
+
+module.exports.util = {cleen, cleanArray, cleanObj, isVide, jsonToString}
