@@ -67,7 +67,7 @@ router
 
 .get('/:id', async(req, res)=> {
     let objArticle = await articleById(req.params.id)
-    
+
     let data = {
         jsonFind: {_id: objArticle._id, status:true}, 
         stringSelect: null
@@ -80,7 +80,7 @@ router
 })
 
 .post('/', (req, res)=> {
-    if (req.body.values.length < 1) res.status(400).json({err:'il manquent des element', ok:false})
+    if (req.body.values.length < 2) res.status(400).json({err:'il manquent des element', ok:false})
 
     let data = {
         title: req.body.values[0],
@@ -120,6 +120,14 @@ router
             res.send({ok:true, changedRows, resIn})
         })
     })
+})
+
+.delete('/del', async(req, res)=>{
+    const results = await Article.deleteMany({ status: false });
+    
+    results.err? res.status(400).json({ok:false, err}):
+    results.ok != 1 ? res.status(400).json({ok:false, results}):
+    res.send({ok:true, info:'all element status off deleted'})
 })
 
 /*- DELETE */

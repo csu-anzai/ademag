@@ -5,7 +5,7 @@ let Schema = mongoose.Schema;
 let articleSchema = new Schema({
     title:{
         type:String,
-        required:[true, 'El nombre es necesario']
+        required:[true, 'the params title is necessary']
     },
     status:{
         type:Boolean,

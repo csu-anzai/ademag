@@ -123,7 +123,11 @@ describe('# test', () => {
         })
     })
 
+
+
+
     /************************************************************/
+/*
     describe('API ROUTER /user', () => {
         CRUDTest('user', {
             createValues:["nombre","email","password","ROLEXX"],
@@ -143,7 +147,7 @@ describe('# test', () => {
             PrimaryKey:'id_event'
         })
     })
-*/
+
     /************************************************************/
 /*
     describe('API ROUTER /authors', () => {
@@ -153,7 +157,7 @@ describe('# test', () => {
             PrimaryKey:'id_author'
         })
     })
-*/
+
     /************************************************************/
 /*
     describe('API ROUTER /documents', () => {

@@ -37,7 +37,7 @@ module.exports = Object.freeze({
     ADD:(data, req)=>{       
         let table = data.table? data.table : null
         let parametres = data.parametres? data.parametres : null
-        let valuesClean = req.body.values? cleanArray(req.body.values) : null       
+        let valuesClean = req.body.values? cleanArray(req.body.values) : null
         //console.log(table, parametres, valuesClean)
         if (valuesClean==null || table==null || parametres==null) return `ERR`
         let results = `

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const colorC = require('ansi-colors');
 
 
+
 //Set up default mongoose connection
 mongoose.connect('mongodb://localhost:27017/ademag', {useNewUrlParser: true})
 // Get Mongoose to use the global promise library
@@ -64,9 +65,11 @@ updateMongo = async(res, models, data, next)=>{
             $set:data.set
         }
     )
-    printC(data.consoleMsg, results)
-    next? next(results):
-    res.json({changedRows:results.nModified, ok:true})
+    
+    next? next(results):(
+        printC(data.consoleMsg, results),
+        res.json({changedRows:results.nModified, ok:true})
+    )
 }
 
 deleteMongo = async(res, models, data)=>{
