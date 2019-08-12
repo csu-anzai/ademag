@@ -85,11 +85,11 @@ module.exports = Object.freeze({
         let params = data.params? data.params : null
         let valueClean = data.value? cleen(data.value):null
         if (table==null) return {err:'ERROR: Table unspecified'}
-        if(valueClean==null) return {err:'ERROR: value not found'}
-        if(params==null) return {err:'ERROR: params unspecified'}
+        if(valueClean==null) return  `SELECT * FROM ${table} ${data.limit? 'limit '+data.limit : ''}`
+        if(params==null) return  `SELECT * FROM ${table}`
         let results = data.type ?
-            `SELECT * FROM ${table} WHERE ${table}.${params} = '${parametreClean}'`:
-            `SELECT * FROM ${table} WHERE ${table}.${params} = ${parametreClean}` 
+            `SELECT * FROM ${table} WHERE ${params} = '${valueClean}' ${data.limit? 'limit '+data.limit : ''}`:
+            `SELECT * FROM ${table} WHERE ${params} = ${valueClean} ${data.limit? 'limit '+data.limit : ''}`
         return results
     }
  })

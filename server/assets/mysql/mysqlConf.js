@@ -42,27 +42,6 @@ asyncMysql = (query)=>{
     });
 }
 
-printY = (consoleMsg, msgConsole)=>{
-    console.log(colorC.yellow(consoleMsg),msgConsole);
-}
-
-printC= (consoleMsg, msgConsole)=>{
-    console.log(colorC.magenta(consoleMsg),msgConsole);
-}
-
-printB = (consoleMsg, msgConsole)=>{
-    console.log(colorC.blue(consoleMsg),msgConsole);
-}
-
-printG = (consoleMsg, msgConsole)=>{
-    console.log(colorC.green(consoleMsg),msgConsole);
-}
-
-printR = (consoleMsg, msgConsole)=>{
-    console.log(colorC.red(consoleMsg),msgConsole);
-}
-
-
 createExecute = async(req, res, data, next)=>{
     let query = request.ADD(data, req)
     let {code, insertId} = await asyncMysql(query)
@@ -93,9 +72,9 @@ select = (data)=>{
     return new Promise(async (resolve)=>{
         let query = request.SELECT(data)
         if(query.err) resolve(query)
-        else{
-            let queryResults = await asyncMysql(query)
-            resolve(queryResults)
+        else{  
+            let resSQL = await asyncMysql(query)
+            resolve(resSQL)
         }
     })
 }

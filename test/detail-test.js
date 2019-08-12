@@ -54,8 +54,8 @@ const CRUDTest =(urlAD, data)=>{
         }).timeout(0); 
     })
 
-    describe(`# test GET /${urlAD}/:id`, () => {
-        it(`# test GET /${urlAD}/:id`, async () => {
+    describe(`# test /${urlAD}/?${data.UpdateParametre}=${data.createValues[0]}`, () => {
+        it(`# test GET /${urlAD}/?${data.UpdateParametre}=${data.createValues[0]}`, async () => {
             const res = await chai.request(server)
                 .get(`/${urlAD}/?${data.UpdateParametre}=${data.createValues[0]}`)
             chai.expect(res.body.err, `error ${colorC.red(res.body.err)} ::: status code ${colorC.green(res.status)}`).to.not.exist
@@ -63,11 +63,15 @@ const CRUDTest =(urlAD, data)=>{
             let resID = res.body.results
             //console.log('AQUI ESTA LA OTRA', resID[resID.length -1][data.PrimaryKey])
             id = resID[resID.length -1][data.PrimaryKey]
+
+            console.log('resID', id)
+
+
             chai.expect(res.status, 'HTTP request error, status code '+res.status).equal(200)
             chai.expect(resID[resID.length -1][data.PrimaryKey]).to.exist
             chai.expect(res.body.ok).to.true
             //console.log(`#8.2 ${colorC.blue('GET')} /${urlAD}/${id} is ok ::: status code: ${colorC.green(res.status)} resultat: ${jsonToString(resID[resID.length -1])}`)
-        }).timeout(0); 
+        }).timeout(0);
     })
 
     describe(`# test PUT /${urlAD}`, () => {
@@ -112,8 +116,9 @@ const CRUDTest =(urlAD, data)=>{
             const res = await chai.request(server)
                 .get(`/${urlAD}/${id}`)
 
-            chai.expect(res.body.results, `objet results not found ::: status code ${colorC.green(res.status)}`).to.exist
             chai.expect(res.body.err, `error ${colorC.red(res.body.err)} ::: status code ${colorC.green(res.status)}`).to.not.exist
+            chai.expect(res.body.results, `objet results not found ::: status code ${colorC.green(res.status)}`).to.exist
+            
             chai.expect(res.status, 'HTTP request error, status code '+res.status).equal(200)
             chai.expect(res.body.ok, 'ok is false').to.true
             //console.log(`#${urlAD}-4 ${colorC.blue('FINAL')} ${urlAD}/${id} is ok ::: status code: ${colorC.green(res.status)}`)

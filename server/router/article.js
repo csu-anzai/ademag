@@ -73,30 +73,48 @@ let updateData = async(req)=>{
 router
 
 /*- READ */
-.get('/', (req, res)=>{
-    req.query.title ? 
-        findMysql(req.query.title, res, {
+.get('/', async(req, res)=>{
+    let resSql = req.query.title ?  
+        await select({
             table:'articles',
-            parametre:'title',
-            type: false // false is string type
-        }): 
-        allMysql(req, res, {
-            table:'articles'
+            params:'title',
+            value:req.query.title,
+            type:'String'
+        }):
+        await select({
+            table:'articles',
         })
+
+    if (resSql.err) return res.status(400).json({err:resSql.err, ok:false})
+    if (resSql.code) return res.status(400).json({err:resSql.code, ok:false})
+    if (resSql.length < 1) return res.send({info:'it is empty', ok:true, results:resSql, in:{}})
+    res.send({info:'', ok:true, results:resSql})
 })
 
 .get('/:id', async(req, res)=> {
-    let objArticle = await articleById(req.params.id)
-   // console.log(objArticle)
-    let data = {
-        jsonFind: {_id: objArticle._id, status:true}, 
-        stringSelect: null
-    }
-
-    objArticle.length < 1 ? res.send({info:'not found', ok:true, results:objArticle, in:{}}):
-    findMongo(res, Article, data, (mongoRes)=>{
-        res.send({ok:true, results:objArticle, in:mongoRes})
+    let resSqlTT = await select({
+        table:'articles',
+        params:'_id',
+        value:req.params.id,
+        type:'String',
+        limit:1
     })
+
+    let resSql = resSqlTT[0]
+    if (resSqlTT.length < 1) return res.send({info:'it is empty', ok:true, results:resSqlTT, in:{}})
+    if (resSql.err) return res.status(400).json({err:resSql.err, ok:false})
+    if (resSql.code) return res.status(400).json({err:resSql.code, ok:false})
+
+    let resMongo = await find({
+        models:Article,
+        data:{
+            jsonFind: {_id: `${resSql._id}`, status:true}, 
+            stringSelect: null
+        }
+    })
+
+    if (resMongo.err) return res.status(400).json({err:resMongo.err, ok:false})
+    res.send({info:'', ok:true, results:resSql, in:resMongo})
 })
 
 /*- CREATE*/

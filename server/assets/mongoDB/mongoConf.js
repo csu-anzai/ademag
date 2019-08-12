@@ -17,10 +17,10 @@ mongoConexion.on('error', console.error.bind(console, 'MongoDB connection error:
 
 findMongoAsync = (models, data)=>{
     return new Promise(resolve => {
-        let skipV = data.skip || 0;
+        let skipV = data.skip?  data.skip : 0
         skipV = Number(skipV);
     
-        let limitV = data.limit || 0;
+        let limitV = data.limit? data.limit: 0
         limitV = Number(limitV);
 
         models.find(data.jsonFind, data.stringSelect)
@@ -43,7 +43,7 @@ findMongo = async(res, models, data, next)=>{
 
 find = async(data)=>{
     return new Promise(async(resolve)=>{
-        let {results, err} = await findMongoAsync(models, data)
+        let {results, err} = await findMongoAsync(data.models, data.data)
         err? resolve(err):resolve(results)
     })
 }
