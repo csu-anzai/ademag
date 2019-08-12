@@ -65,6 +65,7 @@ printR = (consoleMsg, msgConsole)=>{
 
 createExecute = async(req, res, data, next)=>{
     let query = request.ADD(data, req)
+    //console.log(query)
     let {code, insertId} = await asyncMysql(query)
     printC(data.consoleMsg, insertId? insertId : code)
     code? res.status(400).send({err:code, ok:false}):
@@ -72,7 +73,7 @@ createExecute = async(req, res, data, next)=>{
     res.status(200).send({insertId, ok:true})
 }
 
-add = async(req, res, data, next)=>{
+saveMysql = async(req, res, data, next)=>{
     !data.table? res.status(400).send({err:'table object has not been specified ', ok:false}) : 
     !req.body.values? res.status(400).send({err:'values object has not been specified ', ok:false}) : 
     createExecute(req, res, data, next)
@@ -81,6 +82,7 @@ add = async(req, res, data, next)=>{
 
 updateExecute = async(req, res, data, next)=>{
     let query = request.UPDATE(data, req)
+    //console.log(query)
     let {code, changedRows} = await asyncMysql(query)
     printC(data.consoleMsg, 'changedRows = '+changedRows)
     code? res.status(400).send({err:code, ok:false}):
@@ -88,7 +90,7 @@ updateExecute = async(req, res, data, next)=>{
     res.status(200).send({changedRows, ok:true})
 }
 
-update = async(req, res, data, next)=>{
+updateMysql = async(req, res, data, next)=>{
     !data.table? res.status(400).send({err:'table object has not been specified ', ok:false}) : 
     !data.parametre?  res.status(400).send({err:'parametre object has not been specified ', ok:false}) : 
     !req.params.id? res.status(400).send({err:'params.id object has not been specified ', ok:false}) : 
@@ -100,19 +102,21 @@ update = async(req, res, data, next)=>{
 
 deleteExecute = async(req, res, data, next)=>{
     let query = request.DELETE(data, req)
+    console.log('aqui la query',query)
     let {code, affectedRows} = await asyncMysql(query)
-    printC(data.consoleMsg, affectedRows > 0)
+   // console.log('aqui en mysqlconf delete', code)
+    printC(data.consoleMsg, affectedRows )
     code? res.status(400).send({err:code, ok:false}):
     next? next(affectedRows):
     res.status(200).send({affectedRows, ok:true})
 }
 
-del = async(req, res, data, next)=>{
+deleteMysql = async(req, res, data, next)=>{
     !req.params.id? res.status(400).send({err:'params.id object has not been specified ', ok:false}) : 
     deleteExecute(req, res, data, next)
 }
 
-find = (parametre, res, data, next)=>{
+findMysql = (parametre, res, data, next)=>{
     !parametre? res.status(400).send({err:'value parametre object has not been specified ', ok:false}) :
     !data.table? res.status(400).send({err:'table object has not been specified ', ok:false}) : 
     !data.parametre?  res.status(400).send({err:'parametre object has not been specified ', ok:false}) : 
@@ -120,17 +124,18 @@ find = (parametre, res, data, next)=>{
     mysqlQuery(res, request.FIND(data, parametre))
 }
 
-all = (req, res, data)=>{
-    mysqlQuery(res, request.SELECT_ALL(data))
+allMysql = (req, res, data, next)=>{
+    mysqlQuery(res, request.SELECT_ALL(data), next)
 }
 
 module.exports = {
+    allMysql,
     asyncMysql, 
     mysqlQuery, 
-    add, 
-    update, 
-    find, 
-    del, 
+    saveMysql, 
+    updateMysql, 
+    findMysql, 
+    deleteMysql, 
     con
 }
 

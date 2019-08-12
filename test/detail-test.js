@@ -60,6 +60,7 @@ const CRUDTest =(urlAD, data)=>{
             chai.expect(res.body.err, `error ${colorC.red(res.body.err)} ::: status code ${colorC.green(res.status)}`).to.not.exist
             chai.expect(res.body.results, `le element results nexiste pas dans le json ::: status code ${colorC.green(res.status)}`).to.exist
             let resID = res.body.results
+            //console.log('AQUI ESTA LA OTRA', resID[resID.length -1][data.PrimaryKey])
             id = resID[resID.length -1][data.PrimaryKey]
             chai.expect(res.status, 'HTTP request error, status code '+res.status).equal(200)
             chai.expect(resID[resID.length -1][data.PrimaryKey]).to.exist

@@ -119,7 +119,7 @@ describe('# test', () => {
         CRUDTest('article', {
             createValues:['title','description'],
             UpdateParametre:'title',
-            PrimaryKey:'id_article'
+            PrimaryKey:'_id'
         })
     })
 

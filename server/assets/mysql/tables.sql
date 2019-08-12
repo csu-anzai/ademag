@@ -23,20 +23,19 @@ CREATE TABLE IF NOT EXISTS `test` (
 /*table articles*/ 
 DROP TABLE IF EXISTS articles;
 CREATE TABLE articles (
-   id_article INT(255) AUTO_INCREMENT NOT NULL,
-   _id VARCHAR(255) DEFAULT 'vide',
+   _id VARCHAR(255) NOT NULL,
    title VARCHAR(255) NOT NULL,
    publication_date DATETIME DEFAULT CURRENT_TIMESTAMP,
    modification_date DATETIME ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    description TEXT,
-   CONSTRAINT pk_articles PRIMARY KEY(id_article)
+   CONSTRAINT pk_articles PRIMARY KEY(_id)
 )ENGINE = InnoDB;
 
 /*table events*/ 
 DROP TABLE IF EXISTS events;
 CREATE TABLE events (
    id_event INT(255) AUTO_INCREMENT NOT NULL,
-   id_article INT(255) NOT NULL,
+   id_article VARCHAR(255) NOT NULL,
    publication_date DATETIME DEFAULT CURRENT_TIMESTAMP,
    event_date DATE NOT NULL,
    description TEXT,
@@ -44,7 +43,7 @@ CREATE TABLE events (
    url_link VARCHAR(255),
    CONSTRAINT pk_eventos PRIMARY KEY(id_event),
    CONSTRAINT fk_articles FOREIGN KEY(id_article)
-      REFERENCES articles(id_article) ON UPDATE CASCADE ON DELETE CASCADE    
+      REFERENCES articles(_id) ON UPDATE CASCADE ON DELETE CASCADE    
 )ENGINE = InnoDB;
 
 /*table authors*/ 

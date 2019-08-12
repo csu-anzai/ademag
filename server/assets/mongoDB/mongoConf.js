@@ -42,43 +42,48 @@ findMongo = async(res, models, data, next)=>{
 }
 
 saveMongo = async(res, models, data, next)=>{
-    if(isVide(data)) return  res.json({ok:false, err:'rien a introduire'})
+    if(isVide(data)) return  res.json({ok:false, err:'data not found'})
     
     let element = new models (data)
     element.save((err, results)=>{
         err? res.status(400).json({ok:false, err}):
         next? next(results):(
             printC(data.consoleMsg, results._id),
-            res.json({
-                ok:true,
-                insertId:results._id
-            })
+            res.json({ok:true, insertId:results._id})
         )
     })
 }
 
 updateMongo = async(res, models, data, next)=>{
-    const results = await models.updateOne(
-        { _id: data.id},
+    let queryData = data.push ? 
         {
             $push:data.push,
             $set:data.set
+        }:{
+            $set:data.set
         }
+
+    const results = await models.updateOne(
+        { _id: data.id},
+        queryData
     )
-    
+
     next? next(results):(
         printC(data.consoleMsg, results),
         res.json({changedRows:results.nModified, ok:true})
     )
 }
 
-deleteMongo = async(res, models, data)=>{
+deleteMongo = async(res, models, data, next)=>{
+    console.log('ID save  78 conf Mongo:: ', data.id)
     const results = await models.updateOne(
-        { _id: data.id }, 
+        { _id: data._id }, 
         {$set:{status:false}
     });
-    printC(data.consoleMsg, true)
-    res.json({affectedRows: results.nModified, ok:true})
+    next? next(results):(
+        printC(data.consoleMsg, results),
+        res.json({affectedRows: results.nModified, ok:true})
+    )
 }
 
 module.exports = {findMongoAsync, mongoose, saveMongo, findMongo, mongoConexion}

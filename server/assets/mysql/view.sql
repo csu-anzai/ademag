@@ -11,7 +11,7 @@ values(
 )
 
 
-select _id
+select *
 from articles
 WHERE id_article = 17
 
@@ -24,3 +24,16 @@ where paragraphs.id_subtitle IN (
 )
 and subtitle.id_subtitle = paragraphs.id_subtitle
 order by subtitle_order, paragraph_order
+
+
+SELECT * 
+FROM articles 
+WHERE _id = '5d4f43815114693c68d57fe7'
+
+INSERT INTO articles (_id, title, description)
+VALUES ('5d4f43815f114693c68d57fe7','title','description')
+
+
+UPDATE articles
+SET articles.description = 'NEW DESCRIPTION'
+WHERE articles._id = '5d4f5117498f59645c38adf9'

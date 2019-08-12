@@ -57,14 +57,14 @@ module.exports = Object.freeze({
         let results = `
             UPDATE ${table} 
             SET ${table}.${parametre} = '${value}' 
-            WHERE ${table}.${key} = ${id}`
+            WHERE ${table}.${key} = '${id}'`
         //console.log(results)
         return results
     },
     DELETE:(data, req)=>{
         let id = req.params.id? cleen(req.params.id):null
-        if (id === null || isNaN(id)) return `ERR`
+        if (id === null) return `ERR`
         return `
-            DELETE FROM ${data.table} WHERE ${data.table}.${data.key} = ${req.params.id}`
+            DELETE FROM ${data.table} WHERE ${data.table}.${data.key} = '${req.params.id}'`
     }
  })

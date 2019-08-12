@@ -17,25 +17,25 @@ router
 
 .get('/', (req, res)=>{
     req.query.name ? 
-        find(req.query.name, res, {
+    findMysql(req.query.name, res, {
             table:'test',
             parametre:'name',
             type: false // false is string
         }) :
     req.query.value ? 
-        find(req.query.email, res, {
+    findMysql(req.query.email, res, {
             table:'test',
             parametre:'value',
             type: false // false is string
         }) :
     //default    
-        all(req, res, {
+        allMysql(req, res, {
             table:'test'
         })
 })
 
 .get('/:id', (req, res)=> {
-    find(req.params.id, res, {
+    findMysql(req.params.id, res, {
         table:'test',
         parametre:'id_test',
         type: true // true is integer
@@ -44,7 +44,7 @@ router
 
 /*- POST */
 .post('/', (req, res)=> {
-    add(req, res, {
+    saveMysql(req, res, {
         table:'test',
         parametres:'name, value',
         consoleMsg:'new test data: '
@@ -53,7 +53,7 @@ router
 
 /*- PUT */
 .put('/:id', async(req, res)=> {
-    update(req, res, {
+    updateMysql(req, res, {
         table:'test',
         parametre:'value',
         key:'id_test',
@@ -63,7 +63,7 @@ router
 
 /*- DELETE */
 .delete('/:id', async(req, res)=> {
-    del(req, res, {
+    deleteMysql(req, res, {
         table:'test',
         key:'id_test',
         consoleMsg:'delete test data: '
