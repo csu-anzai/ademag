@@ -87,7 +87,7 @@ router
 
 .get('/:id', async(req, res)=> {
     let objArticle = await articleById(req.params.id)
-    console.log(objArticle)
+   // console.log(objArticle)
     let data = {
         jsonFind: {_id: objArticle._id, status:true}, 
         stringSelect: null
@@ -100,37 +100,32 @@ router
 })
 
 /*- CREATE*/
-.post('/', (req, res)=> {
-    if (req.body.values.length < 2) return res.status(400).json({err:'il manquent des element', ok:false})
+.post('/', async(req, res)=> {
+    if (!req.body.value) return res.status(400).json({err:`the 'value' parameter has not been specified`, ok:false})
+    if (req.body.value.length < 2) return res.status(400).json({err:`missing elements within the parameter 'value'`, ok:false})
 
-    let data = {
-        title: req.body.values[0],
-        consoleMsg:'new article-MongoDB created: '
-    }
-
-    /*  on va creer en premier un document dans mongoDB et avec
-        cette identifiant on va a creer le registre dans mysql */
-    saveMongo(res, Article, data, (mongoRes)=>{
-        let values = {
-            body:{
-                values:[
-                    `${mongoRes._id}`,
-                    req.body.values[0], 
-                    req.body.values[1]
-                ]
-            }
+    let resMongo = await save({
+        models:Article,
+        data:{
+            title:req.body.value[0]
         }
-
-        saveMysql(values, res, {
-            table:'articles',
-            parametres:'_id, title, description',
-            consoleMsg:`new article created _id:${mongoRes._id},  mysql id: `
-        }, async(insertId)=>{
-            let objArticle = await articleById(mongoRes._id)
-            //console.log('esto es el rest', objArticle._id)
-            res.send({ok:true, insertId:objArticle._id, mongoRes})
-        })
     })
+
+    if (resMongo.err) return res.status(400).json({err:resMongo.err, ok:false})
+    
+    let resSql = await insert({
+        table:'articles',
+        params:'_id, title, description',
+        value:[
+            `${resMongo._id}`,
+            req.body.value[0],
+            req.body.value[1]
+        ]
+    })
+
+    if (resSql.err) return res.status(400).json({err:resSql.err, ok:false})
+    printC('a new article has been created', `title:${req.body.value[0]}, id:${resMongo._id}`)
+    res.send({ok:true, insertId:resMongo._id, affectedRows:resSql.affectedRows, in:resMongo})
 })
 
 /*- UPDATE */

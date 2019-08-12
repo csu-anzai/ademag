@@ -40,7 +40,8 @@ const CRUDTest =(urlAD, data)=>{
             const res = await chai.request(server)
                 .post('/'+urlAD)
                 .send({
-                    values:data.createValues
+                    values:data.createValues,
+                    value:data.createValues
                  })
             if(res.status < 400){
                 chai.expect(res.body.ok).to.true
@@ -76,6 +77,7 @@ const CRUDTest =(urlAD, data)=>{
                 .send({
                     "description":"NEW DESCRIPTION",
                     value:'new value',
+                    values:'new value',
                     set:{status:true},
                     push:{}
                 })
@@ -114,7 +116,7 @@ const CRUDTest =(urlAD, data)=>{
             chai.expect(res.body.err, `error ${colorC.red(res.body.err)} ::: status code ${colorC.green(res.status)}`).to.not.exist
             chai.expect(res.status, 'HTTP request error, status code '+res.status).equal(200)
             chai.expect(res.body.ok, 'ok is false').to.true
-            console.log(`#${urlAD}-4 ${colorC.blue('FINAL')} ${urlAD}/${id} is ok ::: status code: ${colorC.green(res.status)}`)
+            //console.log(`#${urlAD}-4 ${colorC.blue('FINAL')} ${urlAD}/${id} is ok ::: status code: ${colorC.green(res.status)}`)
         }).timeout(0); 
     })
 }

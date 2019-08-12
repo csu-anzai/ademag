@@ -66,5 +66,30 @@ module.exports = Object.freeze({
         if (id === null) return `ERR`
         return `
             DELETE FROM ${data.table} WHERE ${data.table}.${data.key} = '${req.params.id}'`
+    },
+    INSERT:(data)=>{
+        let table = data.table? data.table : null
+        let params = data.params? data.params : null
+        let valueClean = data.value? cleanArray(data.value).toString() : null
+        if (table==null) return {err:'ERROR: Table unspecified'}
+        if(valueClean==null) return {err:'ERROR: value[] not found'}
+        if(params==null) return {err:'ERROR: params unspecified'}
+        let results = `
+            INSERT INTO ${table} (${params}) 
+            VALUES (${valueClean})`
+        //console.log(results)
+        return results
+    },
+    SELECT:(data)=>{
+        let table = data.table? data.table : null
+        let params = data.params? data.params : null
+        let valueClean = data.value? cleen(data.value):null
+        if (table==null) return {err:'ERROR: Table unspecified'}
+        if(valueClean==null) return {err:'ERROR: value not found'}
+        if(params==null) return {err:'ERROR: params unspecified'}
+        let results = data.type ?
+            `SELECT * FROM ${table} WHERE ${table}.${params} = '${parametreClean}'`:
+            `SELECT * FROM ${table} WHERE ${table}.${params} = ${parametreClean}` 
+        return results
     }
  })

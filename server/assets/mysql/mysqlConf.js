@@ -65,7 +65,6 @@ printR = (consoleMsg, msgConsole)=>{
 
 createExecute = async(req, res, data, next)=>{
     let query = request.ADD(data, req)
-    //console.log(query)
     let {code, insertId} = await asyncMysql(query)
     printC(data.consoleMsg, insertId? insertId : code)
     code? res.status(400).send({err:code, ok:false}):
@@ -79,10 +78,30 @@ saveMysql = async(req, res, data, next)=>{
     createExecute(req, res, data, next)
 }
 
+insert = (data)=>{
+    return new Promise(async (resolve)=>{
+        let query = request.INSERT(data)
+        if(query.err) resolve(query)
+        else{
+            let queryResults = await asyncMysql(query)
+            resolve(queryResults)
+        }
+    })
+}
+
+select = (data)=>{
+    return new Promise(async (resolve)=>{
+        let query = request.SELECT(data)
+        if(query.err) resolve(query)
+        else{
+            let queryResults = await asyncMysql(query)
+            resolve(queryResults)
+        }
+    })
+}
 
 updateExecute = async(req, res, data, next)=>{
     let query = request.UPDATE(data, req)
-    //console.log(query)
     let {code, changedRows} = await asyncMysql(query)
     printC(data.consoleMsg, 'changedRows = '+changedRows)
     code? res.status(400).send({err:code, ok:false}):
@@ -102,9 +121,7 @@ updateMysql = async(req, res, data, next)=>{
 
 deleteExecute = async(req, res, data, next)=>{
     let query = request.DELETE(data, req)
-    console.log('aqui la query',query)
     let {code, affectedRows} = await asyncMysql(query)
-   // console.log('aqui en mysqlconf delete', code)
     printC(data.consoleMsg, affectedRows )
     code? res.status(400).send({err:code, ok:false}):
     next? next(affectedRows):
@@ -136,6 +153,8 @@ module.exports = {
     updateMysql, 
     findMysql, 
     deleteMysql, 
+    insert,
+    select,
     con
 }
 

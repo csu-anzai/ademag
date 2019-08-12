@@ -41,6 +41,13 @@ findMongo = async(res, models, data, next)=>{
     res.json({info: data.info, results, ok:true})
 }
 
+find = async(data)=>{
+    return new Promise(async(resolve)=>{
+        let {results, err} = await findMongoAsync(models, data)
+        err? resolve(err):resolve(results)
+    })
+}
+
 saveMongo = async(res, models, data, next)=>{
     if(isVide(data)) return  res.json({ok:false, err:'data not found'})
     
@@ -51,6 +58,15 @@ saveMongo = async(res, models, data, next)=>{
             printC(data.consoleMsg, results._id),
             res.json({ok:true, insertId:results._id})
         )
+    })
+}
+
+save = async(data)=>{
+    return new Promise(async (resolve)=>{
+        let element = new data.models (data.data)
+        element.save((err, results)=>{
+            err? resolve(err):resolve(results)
+        })
     })
 }
 
@@ -75,7 +91,7 @@ updateMongo = async(res, models, data, next)=>{
 }
 
 deleteMongo = async(res, models, data, next)=>{
-    console.log('ID save  78 conf Mongo:: ', data.id)
+    //console.log('ID save  78 conf Mongo:: ', data.id)
     const results = await models.updateOne(
         { _id: data._id }, 
         {$set:{status:false}
@@ -86,4 +102,4 @@ deleteMongo = async(res, models, data, next)=>{
     )
 }
 
-module.exports = {findMongoAsync, mongoose, saveMongo, findMongo, mongoConexion}
+module.exports = {findMongoAsync, mongoose, saveMongo, findMongo, mongoConexion, save, find}
