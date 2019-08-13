@@ -1,8 +1,6 @@
 /********************************************************
     Upload
 *********************************************************
-    Andres Vicente Caballero Cantillo
-    ADEMAG
 **********************************************************/
 let express = require('express');
 let router = express.Router();
@@ -14,7 +12,7 @@ var multer = require('multer')
 
     var storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, 'public/images')
+            cb(null, 'server/public/images')
         },
         filename: function (req, file, cb) {
             let random = Math.round(Math.random() * (9000 - 1000) + 1000) 
