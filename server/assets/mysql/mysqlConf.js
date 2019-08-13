@@ -97,6 +97,16 @@ updateMysql = async(req, res, data, next)=>{
     updateExecute(req, res, data, next)
 }
 
+update = async(data)=>{
+    return new Promise(async (resolve)=>{
+        let query = request.UPDATE_ASYNC(data)
+        if(query.err) resolve(query)
+        else{
+            let queryResults = await asyncMysql(query)
+            resolve(queryResults)
+        }
+    })
+}
 
 deleteExecute = async(req, res, data, next)=>{
     let query = request.DELETE(data, req)

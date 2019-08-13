@@ -20,52 +20,6 @@ let articleById = async(id)=> {
     return obj[0]
 }
 
-let updateData = async(req)=>{
-
-    let objArticle = await articleById(req.params.id)
-
-    //console.log('aqui el objeto', objArticle._id)
-    let mongoData = req.body.push? {
-        id:objArticle._id,
-        push:{in:req.body.push},
-        set:{title:objArticle.title},
-        consoleMsg: 'Update article-Mongo: '
-    }:{
-        id:objArticle._id,
-        set:{title:objArticle.title},
-        consoleMsg: 'Update article-Mongo: '
-    }
-
-    let sqlData = 
-    req.body.description?
-    {
-        table:'articles',
-        parametre:'description',
-        value:req.body.description,
-        key:'_id',
-        consoleMsg:'update article-Mysql description: '
-    }:
-    req.body.title?
-    {
-        table:'articles',
-        parametre:'title',
-        value:req.body.title,
-        key:'_id',
-        consoleMsg:'update article-Mysql description: '
-    }:{}
-
-    let values = {
-        params:{
-            id:`${req.params.id}`
-        },
-        body:{
-            value:sqlData.value
-        }
-    } 
-
-    return {sqlData, values, mongoData}
-}
-
 /*---------------------------------------------
  |                  ROUTER                    |
  ---------------------------------------------*/
@@ -74,7 +28,7 @@ router
 
 /*- READ */
 .get('/', async(req, res)=>{
-    let resSql = req.query.title ?  
+    let resSql = req.query.title ?
         await select({
             table:'articles',
             params:'title',
@@ -85,9 +39,9 @@ router
             table:'articles',
         })
 
+    if (resSql.length < 1) return res.send({info:'it is empty', ok:true, results:resSql, in:{}})
     if (resSql.err) return res.status(400).json({err:resSql.err, ok:false})
     if (resSql.code) return res.status(400).json({err:resSql.code, ok:false})
-    if (resSql.length < 1) return res.send({info:'it is empty', ok:true, results:resSql, in:{}})
     res.send({info:'', ok:true, results:resSql})
 })
 
@@ -101,9 +55,10 @@ router
     })
 
     let resSql = resSqlTT[0]
-    if (resSqlTT.length < 1) return res.send({info:'it is empty', ok:true, results:resSqlTT, in:{}})
+    if (resSqlTT.length < 1) return res.send({info:`id: ${req.params.id} not found`, ok:true, results:resSqlTT, in:{}})
     if (resSql.err) return res.status(400).json({err:resSql.err, ok:false})
     if (resSql.code) return res.status(400).json({err:resSql.code, ok:false})
+    
 
     let resMongo = await find({
         models:Article,
@@ -147,32 +102,71 @@ router
 })
 
 /*- UPDATE */
-.put('/:id', async(req, res)=> {
-    /*  les diferent donnes necesaires pour faire le changement sont
-        stokes dans des json et furnis par updateData(req)      */
-    let {values, sqlData, mongoData} = await updateData(req)
-    //console.log('l142 put update ::', mongoData)
-    isVide(sqlData)? 
 
-    /*  si sqlData est vide il n'y a pas de changement dans mysql 
-        donc on va directement à updateMongo                     */
-        updateMongo(res, Article, mongoData, (resIn)=>{
-            res.send({ok:true, changedRows:0, resIn})
-        }) :
+.put('/:id', async(req, res)=>{
 
-    /*  si sqlData n'est pas vide on doit faire deux changement, 
-        le changement dans mongo se fait apres celui de mysql     */
-        updateMysql(values, res, sqlData, async(changedRows)=>{
-            let {mongoData} = await updateData(req)
-            //console.log(mongoData)
-            updateMongo(res, Article, mongoData, (resIn)=>{
-                res.send({ok:true, changedRows, resIn})
-            })
-        })
+    let resSqlTT = await select({
+        table:'articles',
+        params:'_id',
+        value:req.params.id,
+        type:'String',
+        limit:1
+    })
+
+    let resSql = resSqlTT[0]
+    if (resSqlTT.length < 1) return res.send({info:`id: ${req.params.id} not found`, ok:true, results:resSqlTT, in:{}})
+    if (resSql.err) return res.status(400).json({err:resSql.err, ok:false})
+    if (resSql.code) return res.status(400).json({err:resSql.code, ok:false})
+
+    let description = req.body.description? 
+        await update({
+            id:`${resSql._id}`,
+            table:'articles',
+            params:'description',
+            value:req.body.description,
+            key:'_id'
+        }):false
+    if (description.err) return res.status(400).json({info:'description ERROR', err:description.err, ok:false})
+
+    let title = req.body.title? 
+        await update({
+            id:resSql._id,
+            table:'articles',
+            params:'title',
+            value:req.body.title,
+            key:'_id'
+        }):false
+   if (title.err) return res.status(400).json({info:'title ERROR', err:title.err, ok:false})
+        // ici verification avant le changement
+   let resSqlTTOK = await select({
+        table:'articles',
+        params:'_id',
+        value:req.params.id,
+        type:'String',
+        limit:1
+    })
+
+    let resSqlOK = resSqlTTOK[0]
+    if (resSqlTT.length < 1) return res.send({info:`id: ${req.params.id} not found`, ok:true, results:resSqlTT, in:{}})
+    if (resSqlOK.err) return res.status(400).json({err:resSqlOK.err, ok:false})
+    if (resSqlOK.code) return res.status(400).json({err:resSqlOK.code, ok:false})
+
+    let inM = req.body.push?
+    await modify(Article,{
+        id:resSqlOK._id,
+        push:{in:req.body.push},
+        set:{title:resSqlOK.title}
+    }):
+    await modify(Article,{
+        id:resSqlOK._id,
+        set:{title:resSqlOK.title}
+    })
+
+    res.send({info:'', ok:true, description:description.affectedRows, title:title.affectedRows, in:inM})
 })
 
 /*- DELETE */
-.delete('/del', async(req, res)=>{
+.delete('/vide', async(req, res)=>{
     /*  va effacer reelment touts les document avec status:false 
         dans la collection articles                                */ 
     const results = await Article.deleteMany({ status: false });
@@ -184,7 +178,20 @@ router
 
 
 .delete('/:id', async(req, res)=> {
-    let objArticle = await articleById(req.params.id)
+    let resSqlTT = await select({
+        table:'articles',
+        params:'_id',
+        value:req.params.id,
+        type:'String',
+        limit:1
+    })
+
+    let resSql = resSqlTT[0]
+    if (resSqlTT.length < 1) return res.send({info:`id: ${req.params.id} not found`, ok:true, results:resSqlTT, in:{}})
+    if (resSql.err) return res.status(400).json({info:'ERROR query', err:resSql.err, ok:false})
+    if (resSql.code) return res.status(400).json({info:'ERROR mysql results',err:resSql.code, ok:false})
+
+    let objArticle = resSqlTT
     //console.log('aqui en delete article ',objArticle )
     //  si l'array des valeurs n'est pas si grande on sais qu'il es vide
     if(objArticle.length < 1) return res.send({info:'id not found', ok:true, results:objArticle, affectedRows:0, in:{}})

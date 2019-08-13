@@ -123,9 +123,6 @@ describe('# test', () => {
         })
     })
 
-
-
-
     /************************************************************/
 /*
     describe('API ROUTER /user', () => {
@@ -141,7 +138,7 @@ describe('# test', () => {
     /************************************************************/ 
 /*
     describe('API ROUTER /events', () => {
-        CRUDTestMysql('events', {
+        CRUDTest('events', {
             createValues:['title','description'],
             UpdateParametre:'title',
             PrimaryKey:'id_event'
@@ -151,7 +148,7 @@ describe('# test', () => {
     /************************************************************/
 /*
     describe('API ROUTER /authors', () => {
-        CRUDTestMysql('authors', {
+        CRUDTest('authors', {
             createValues:['name','last_name', 'email', 'address'],
             UpdateParametre:'name',
             PrimaryKey:'id_author'
@@ -161,7 +158,7 @@ describe('# test', () => {
     /************************************************************/
 /*
     describe('API ROUTER /documents', () => {
-        CRUDTestMysql('documents', {
+        CRUDTest('documents', {
             createValues:['title','description'],
             UpdateParametre:'title',
             PrimaryKey:'id_document'

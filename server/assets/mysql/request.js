@@ -91,5 +91,26 @@ module.exports = Object.freeze({
             `SELECT * FROM ${table} WHERE ${params} = '${valueClean}' ${data.limit? 'limit '+data.limit : ''}`:
             `SELECT * FROM ${table} WHERE ${params} = ${valueClean} ${data.limit? 'limit '+data.limit : ''}`
         return results
+    },
+    UPDATE_ASYNC:(data)=>{
+        let table = data.table? data.table : null
+        let params = data.params? data.params : null
+        let id = data.id? cleen(data.id):null
+        let value = data.value? cleen(data.value) : null
+        let key = data.key? data.key : null
+
+        if(table==null) return {err:'ERROR: Table unspecified'}
+        if(params==null) return {err:'ERROR: params unspecified'}
+        if(id==null) return {err:'UPDATE ERROR: id unspecified'}
+        if(value==null) return {err:'ERROR: value unspecified'}
+        if(key==null) return {err:'ERROR: key unspecified'}
+
+        //console.log(table, parametre, id, value, key)
+        let results = `
+            UPDATE ${table} 
+            SET ${table}.${params} = '${value}' 
+            WHERE ${table}.${key} = '${id}'`
+        //console.log(results)
+        return results
     }
  })

@@ -63,10 +63,7 @@ const CRUDTest =(urlAD, data)=>{
             let resID = res.body.results
             //console.log('AQUI ESTA LA OTRA', resID[resID.length -1][data.PrimaryKey])
             id = resID[resID.length -1][data.PrimaryKey]
-
-            console.log('resID', id)
-
-
+            //console.log('resID', id)
             chai.expect(res.status, 'HTTP request error, status code '+res.status).equal(200)
             chai.expect(resID[resID.length -1][data.PrimaryKey]).to.exist
             chai.expect(res.body.ok).to.true

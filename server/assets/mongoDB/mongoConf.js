@@ -90,6 +90,25 @@ updateMongo = async(res, models, data, next)=>{
     )
 }
 
+modify = async(models, data)=>{
+    return new Promise(async (resolve)=>{
+        let queryData = data.push ? 
+        {
+            $push:data.push,
+            $set:data.set
+        }:{
+            $set:data.set
+        }
+    
+        const results = await models.updateOne(
+            { _id: data.id},
+            queryData
+        )
+
+        resolve(results)
+    })
+}
+
 deleteMongo = async(res, models, data, next)=>{
     //console.log('ID save  78 conf Mongo:: ', data.id)
     const results = await models.updateOne(
@@ -102,4 +121,4 @@ deleteMongo = async(res, models, data, next)=>{
     )
 }
 
-module.exports = {findMongoAsync, mongoose, saveMongo, findMongo, mongoConexion, save, find}
+module.exports = {findMongoAsync, mongoose, saveMongo, findMongo, mongoConexion, save, find, modify}
