@@ -1,8 +1,6 @@
 /********************************************************
     request
 *********************************************************
-    Andres Vicente Caballero Cantillo
-    ADEMAG
 *********************************************************
 ce module contiens toutes les requetes SQL, ceci a fin de 
 simplifier la lecture du code.

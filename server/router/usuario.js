@@ -4,6 +4,8 @@ let router = express.Router();
 const _ = require('underscore');
 const Article = require('../assets/mongoDB/models/article')
 
+//CRUD examnple mongodb
+
 router
 
 .get('/', (req, res)=>{

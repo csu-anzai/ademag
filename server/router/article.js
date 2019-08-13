@@ -1,8 +1,6 @@
 /********************************************************
     articles
 *********************************************************
-    Andres Vicente Caballero Cantillo
-    ADEMAG
 *********************************************************
 ce code contiens les requetes http apartir du routage user
 *********************************************************/
@@ -161,7 +159,7 @@ router
         id:resSqlOK._id,
         set:{title:resSqlOK.title}
     })
-
+    printC('a article has been updated', `id:${resSqlOK._id}`)
     res.send({info:'', ok:true, description:description.affectedRows, title:title.affectedRows, in:inM})
 })
 
@@ -191,7 +189,7 @@ router
     if (resSql.err) return res.status(400).json({info:'ERROR query', err:resSql.err, ok:false})
     if (resSql.code) return res.status(400).json({info:'ERROR mysql results',err:resSql.code, ok:false})
 
-    let objArticle = resSqlTT
+    let objArticle = resSql
     //console.log('aqui en delete article ',objArticle )
     //  si l'array des valeurs n'est pas si grande on sais qu'il es vide
     if(objArticle.length < 1) return res.send({info:'id not found', ok:true, results:objArticle, affectedRows:0, in:{}})

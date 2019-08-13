@@ -1,8 +1,6 @@
 /********************************************************
     mysqlConfig
 *********************************************************
-    Andres Vicente Caballero Cantillo
-    ADEMAG
 *********************************************************
 ce module contiens plusieurs fonction en relation a la 
 gestio de la base des données sur mysql et on plus la 
