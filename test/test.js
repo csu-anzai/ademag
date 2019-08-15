@@ -6,9 +6,8 @@ const chaiAsPromised = require('chai-as-promised');
 const server = require('../server/app');
 const util = require('util');
 const request = require('../server/assets/mysql/request')
-const Usuario = require('../server/assets/mongoDB/models/user')
+const Document = require('../server/assets/mongoDB/models/document')
 const CRUDTest = require('./detail-test')
-
 
 chai.should();
 chai.use(chaiHttp);
@@ -50,7 +49,7 @@ describe('# test', () => {
     describe('# test', () => {
         it('# MongoBD connection', async () => {
             
-            let {results, err} = await findMongoAsync(Usuario, {
+            let {results, err} = await findMongoAsync(Document, {
                 jsonFind: {}, 
                 stringSelect: 'nombre email role estado google img'
             })
@@ -85,19 +84,12 @@ describe('# test', () => {
             (done(), console.log('#2 function isVide is ok'))
         }).timeout(0);
 
-        it('\n #3 test fonction mysqlQuery dans  mysqlConf', done => {
-            mysqlQuery(res, request.TEST('test msg'),(results)=>{
-                results[0].n1 != 1 ? done(new Error('mysqlQuery not foud')):
-                (done(), console.log('#3 fonction mysqlQuery is ok'))
-            })
-        }).timeout(0);
-
-        it('\n #4 test fonction cleen dans util', (done) => {
+        it('\n #3 test fonction cleen dans util', (done) => {
             cleen('*+/#n1') != 'n1'? done(new Error('no found')) :
             (done(), console.log('#4 function cleen is ok'))
         }).timeout(0);
 
-        it('\n #5 test fonction cleanArray dans util', (done) => {
+        it('\n #4 test fonction cleanArray dans util', (done) => {
             let results = cleanArray(['*/n1','n2/-+,','()&n3']) 
             jsonToString(results) != `'n1','n2','n3'` ? done(new Error('no found :'+jsonToString(results))) :
             (done(), console.log('#5 function cleanArray is ok'))
@@ -117,22 +109,31 @@ describe('# test', () => {
     /************************************************************/
     describe('API ROUTER /article', () => {
         CRUDTest('article', {
-            createValues:['title','description'],
+            createValues:['title Article','description Article'],
             UpdateParametre:'title',
             PrimaryKey:'_id'
         })
     })
 
     /************************************************************/
-/*
     describe('API ROUTER /user', () => {
-        CRUDTest('user', {
-            createValues:["nombre","email","password","ROLEXX"],
-            UpdateParametre:'nombre',
+        CRUDTest('document', {
+            createValues:["title document","description document"],
+            UpdateParametre:'title',
             PrimaryKey:'_id'
         })
     })
+    
+    /*
+    describe('API ROUTER /contacts', () => {
+        CRUDTest('contacts', {
+            createValues:["nom","prenom","email"],
+            UpdateParametre:'nom',
+            PrimaryKey:'id_contact'
 
+        })
+    })
+*/
     
 
     /************************************************************/ 

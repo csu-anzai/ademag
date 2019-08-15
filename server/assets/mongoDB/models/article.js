@@ -11,7 +11,14 @@ let articleSchema = new Schema({
         type:Boolean,
         default:true
     },
-    in:[]
+    in:{
+        type:Array,
+        default:[]
+    },
+    doc:{
+        type:Object,
+        default:{void:true}
+    }
 })
 
 module.exports = mongoose.model('Article', articleSchema)
