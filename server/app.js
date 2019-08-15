@@ -16,12 +16,17 @@ app.use(express.static(__dirname + '/public'))
     .use(bodyParser.urlencoded({extended: true}))
     .use(bodyParser.json());
 
-
-routerController.routing(app)
+/*
+app.use(function (req, res, next) {
+    printB(req.method, req.originalUrl)
+    next();
+});
+*/
 
 app.use((error, req, res, next)=> {	
     error instanceof SyntaxError ?	
-      res.send({info:'ERROR DETECTED:'+error, error}) : next()	
+    res.send({info:'ERROR DETECTED:'+error, error}) : next()
 });
 
+routerController.routing(app)
 module.exports = app;

@@ -43,12 +43,12 @@ CREATE TABLE contacts (
    prenom VARCHAR(255),
    birthdate DATETIME,
    description VARCHAR(255),
-   CONSTRAINT pk_users PRIMARY KEY(id)
+   CONSTRAINT pk_contacts PRIMARY KEY(id)
 )ENGINE = InnoDB;
 
 /*---Table users---*/
 DROP TABLE IF EXISTS users;
-CREATE TABLE contacts (
+CREATE TABLE users (
    id INT(255) AUTO_INCREMENT NOT NULL,
    username VARCHAR(255) NOT NULL UNIQUE,
    pass VARCHAR(255),

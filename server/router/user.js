@@ -63,10 +63,7 @@ router
     if (results.pass.localeCompare(req.body.password) == 0){
         printC('user conected username:', results.username)
         res.send({ok:true, connect:true, info:'successful connection'})
-    }else{
-        console.log(req.body.password)
-        res.send({ok:true, connect:false, info:'Incorrect password'})
-    }
+    }else  res.send({ok:true, connect:false, info:'Incorrect password'})
 })
 
 .put('/restorePassword', async(req, res)=> {
