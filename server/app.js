@@ -19,4 +19,9 @@ app.use(express.static(__dirname + '/public'))
 
 routerController.routing(app)
 
+app.use((error, req, res, next)=> {	
+    error instanceof SyntaxError ?	
+      res.send({info:'ERROR DETECTED:'+error, error}) : next()	
+});
+
 module.exports = app;
