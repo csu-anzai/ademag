@@ -32,17 +32,6 @@ module.exports = Object.freeze({
             resolve(results)
         })
     },
-    deleteMongo:async(res, models, data, next)=>{
-        //console.log('ID save  78 conf Mongo:: ', data.id)
-        const results = await models.updateOne(
-            { _id: data._id }, 
-            {$set:{status:false}
-        });
-        next? next(results):(
-            printC(data.consoleMsg, results),
-            res.json({affectedRows: results.nModified, ok:true})
-        )
-    },
     trash:async(data)=>{
         return new Promise(async(resolve)=>{
             let results = await data.models.updateOne(

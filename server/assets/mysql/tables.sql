@@ -8,11 +8,11 @@ DROP DATABASE ademag;
 CREATE DATABASE ademag;
 use ademag;
 
-
+/*
 DROP DATABASE FlufayKfhP;
 CREATE DATABASE FlufayKfhP;
 use FlufayKfhP;
-
+*/
 
 DROP TABLE IF EXISTS `test`;
 CREATE TABLE IF NOT EXISTS `test` (
@@ -35,13 +35,23 @@ CREATE TABLE articles (
    CONSTRAINT pk_articles PRIMARY KEY(_id)
 )ENGINE = InnoDB;
 
-
 /*---Table contacts---*/
 DROP TABLE IF EXISTS contacts;
 CREATE TABLE contacts (
-   id_contact INT(255) AUTO_INCREMENT NOT NULL,
+   id INT(255) AUTO_INCREMENT NOT NULL,
    nom VARCHAR(255) NOT NULL UNIQUE,
    prenom VARCHAR(255),
+   birthdate DATETIME,
+   description VARCHAR(255),
+   CONSTRAINT pk_users PRIMARY KEY(id)
+)ENGINE = InnoDB;
+
+/*---Table users---*/
+DROP TABLE IF EXISTS users;
+CREATE TABLE contacts (
+   id INT(255) AUTO_INCREMENT NOT NULL,
+   username VARCHAR(255) NOT NULL UNIQUE,
+   pass VARCHAR(255),
    email VARCHAR(255),
-   CONSTRAINT pk_users PRIMARY KEY(id_contact)
+   CONSTRAINT pk_users PRIMARY KEY(id)
 )ENGINE = InnoDB;
