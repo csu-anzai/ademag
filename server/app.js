@@ -23,6 +23,10 @@ app.use(function (req, res, next) {
 });
 */
 
+app.get('/',(req, res)=>{
+    res.send('server OK')
+})
+
 app.use((error, req, res, next)=> {	
     error instanceof SyntaxError ?	
     res.send({info:'ERROR DETECTED:'+error, error}) : next()
