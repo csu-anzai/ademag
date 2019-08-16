@@ -12,8 +12,8 @@ let request = require('./request');
 
 const con = mysql.createConnection({
     host: "localhost",
-    user: "root",
-    password: "",
+    user: "andres",
+    password: "cJpMr&(8LcR)6AvC8*",
     database: "ademag",
     port:3306
 });
