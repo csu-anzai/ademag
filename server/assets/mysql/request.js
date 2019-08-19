@@ -43,7 +43,6 @@ module.exports = Object.freeze({
             {err:'ERROR: type unknown'}: {err:'ERROR: type unspecified'}
         return results
     },
-
     UPDATE_ASYNC:(data)=>{
         let table = data.table? data.table : null
         let params = data.params? data.params : null

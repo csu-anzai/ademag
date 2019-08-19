@@ -14,6 +14,7 @@ router
 
 /*- POST */
 .post('/', async (req, res)=> {
+    // verifier s'il existe l'objet value dans le corp, sino renvoie une reponse d'error au client
     if (!req.body.value) return res.status(400).json({err:`the 'value' parameter has not been specified`, ok:false})
     if (req.body.value.length < 2) return res.status(400).json({err:`missing elements within the parameter 'value'`, ok:false})
     
@@ -21,9 +22,9 @@ router
         table:'users',
         params:'username, email, pass',
         value:[
-            req.body.value[0],
-            req.body.value[1],
-            req.body.value[2]
+            req.body.value[0],//username
+            req.body.value[1],// email
+            req.body.value[2]// pass
         ]
     })
 

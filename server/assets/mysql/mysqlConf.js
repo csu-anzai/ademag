@@ -10,10 +10,20 @@ const mysql = require('mysql');
 const colorC = require('ansi-colors');
 let request = require('./request');
 
+/*
 const con = mysql.createConnection({
     host: "localhost",
     user: "andres",
     password: "cJpMr&(8LcR)6AvC8*",
+    database: "ademag",
+    port:3306
+});
+*/
+
+const con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
     database: "ademag",
     port:3306
 });
