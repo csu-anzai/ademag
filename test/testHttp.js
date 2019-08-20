@@ -6,7 +6,7 @@ ce code contiens les requetes http apartir du routage user
 
 let express = require('express');
 let router = express.Router();
-const mysql = require('../server/assets/mysql/mysqFonction')
+const mysql = require('../server/assets/mysql/mysqlFonction')
 
 /* User routes */
 /*- GET */

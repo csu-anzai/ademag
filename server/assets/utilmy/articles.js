@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const Article = require('../mongoDB/models/article')
-const mysql = require('../mysql/mysqFonction')
+const mysql = require('../mysql/mysqlFonction')
 const mongo = require('../mongoDB/mongoFonction')
 
 module.exports = Object.freeze({
