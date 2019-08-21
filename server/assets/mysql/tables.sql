@@ -22,7 +22,6 @@ CREATE TABLE IF NOT EXISTS `test` (
   PRIMARY KEY `pk_test`(`id_test`)
 ) ENGINE = InnoDB;
 
-
 /*table articles*/ 
 DROP TABLE IF EXISTS articles;
 CREATE TABLE articles (
@@ -39,7 +38,7 @@ CREATE TABLE articles (
 DROP TABLE IF EXISTS contacts;
 CREATE TABLE contacts (
    id INT(255) AUTO_INCREMENT NOT NULL,
-   nom VARCHAR(255) NOT NULL UNIQUE,
+   nom VARCHAR(255) NOT NULL,
    prenom VARCHAR(255),
    birthdate DATETIME,
    description VARCHAR(255),
