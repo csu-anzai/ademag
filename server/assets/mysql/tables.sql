@@ -50,8 +50,11 @@ CREATE TABLE contacts (
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
    id INT(255) AUTO_INCREMENT NOT NULL,
+   id_contact INT(255),
    username VARCHAR(255) NOT NULL UNIQUE,
    pass VARCHAR(255),
    email VARCHAR(255),
-   CONSTRAINT pk_users PRIMARY KEY(id)
+   CONSTRAINT pk_users PRIMARY KEY(id),
+   CONSTRAINT fr_contacts FOREIGN KEY (id_contact)
+     REFERENCES contacts(id) ON DELETE NO ACTION  ON UPDATE CASCADE
 )ENGINE = InnoDB;

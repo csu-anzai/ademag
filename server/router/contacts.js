@@ -1,6 +1,6 @@
 let express = require('express');
 let router = express.Router();
-
+const mysql = require('../assets/mysql/mysqlFonction')
 
 /*---------------------------------------------
  |                  ROUTER /contacts   (users)    |
@@ -10,26 +10,18 @@ let router = express.Router();
  /*- READ */ // Liste des users 
  .get('/', async(req, res)=>{
      // si l'objet nom existe dans la query, renvoie le resultat d'une recherche avec ce nom
-     let resSql = req.query.nom ?
-         await select({
-             table:'contacts',
-             params:'nom',
-             value:req.query.nom,
-             type:'String'
-         }):
-    //si il y aucune object fournis dans la query renvoie toutes les elment de la table contacts
-         await select({
-             table:'contacts',
-         })
+    let resSql = await mysql.select({
+            table:'contacts',
+    })
     
     // envoyer la reponse au client
-    res.send(resSql)
+    res.send({ok:true, results:resSql})
  })
 
 /*- READ */ // Liste des users by ID
  .get('/:id', async(req, res)=>{
     // renvoie 1 element de la table contact avec le id fournis dans l'URL
-    let resSqlTT = await select({
+    let results = await mysql.select({
         table:'contacts',
         params:'id_contact',
         value:req.params.id,
@@ -37,32 +29,40 @@ let router = express.Router();
         limit:1
     })
 
+    if (results.length < 1) return res.send({info:'it is empty', ok:true, results:results, in:{}})
+    if (results.err) return res.status(400).json({err:results.err, ok:false})
+    if (results.code) return res.status(400).json({err:results.code, ok:false})
     // envoyer la reponse au client
-    res.send(resSqlTT)
+    res.send({info:'', ok:true, results})
 })
 
  /*- CREATE*/
  .post('/',async(req,res)=>{
-     // cree un element dans la table contacts
-    let resultats = await insert({
+    // verifier s'il existe l'objet value dans le corp, sino renvoie une reponse d'error au client
+    if (!req.body.value) return res.status(400).json({err:`the 'value' parameter has not been specified`, ok:false})
+    if (req.body.value.length < 2) return res.status(400).json({err:`missing elements within the parameter 'value'`, ok:false})
+    
+    let results = await mysql.insert({
         table:'contacts',
-        params:'id_contact, nom, prenom,email',
+        params:'nom, prenom, birthdate, description',
         value:[
-            req.body.value[0],//id_contact
-            req.body.value[1],//nom
-            req.body.value[2],//prenom
-            req.body.value[3]// mail
+            req.body.value[0],// nom
+            req.body.value[1],// prenom
+            req.body.value[2],// birthdate
+            req.body.value[3] // description
         ]
     })
 
-    // envoyer la reponse au client
-    res.send(resultats);
+    if (results.err) return res.status(400).json({err:results.err, ok:false})
+    if (results.code) return res.status(400).json({err:results.code, ok:false})
+    printC('a new contact objet has been created id:', results.insertId)
+    res.send({ok:true, insertId:results.insertId})
 })
 
 /*- UPDATE */
 .put('/:id', async(req, res)=>{
     // recherche le id_contact dans la table contacts et garde le resultat dans la variable resSqlTT
-    let resSqlTT = await select({
+    let resSqlTT = await mysql.select({
         table:'contacts',
         params:'id_contact',
         value:req.params.id,
@@ -82,7 +82,7 @@ let router = express.Router();
 
     //si l'objet prenom exite dans le corp on modifie son prenom
     let prenom = req.body.prenom? 
-        await update({
+        await mysql.update({
             id:`${resSql.id_contact}`,
             table:'contacts',
             params:'prenom',
@@ -94,7 +94,7 @@ let router = express.Router();
 
     //si l'objet nom exite dans le corp on modifie son nom
     let nom = req.body.nom?
-        await update({
+        await mysql.update({
             id:`${resSql.id_contact}`,
             table:'contacts',
             params:'nom',

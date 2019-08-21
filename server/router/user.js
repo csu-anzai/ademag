@@ -20,11 +20,12 @@ router
     
     let results = await mysql.insert({
         table:'users',
-        params:'username, email, pass',
+        params:'id_contact, username, email, pass',
         value:[
-            req.body.value[0],//username
-            req.body.value[1],// email
-            req.body.value[2]// pass
+            req.body.value[0], // id_contact
+            req.body.value[1], // username
+            req.body.value[2], // email
+            req.body.value[3]  // pass
         ]
     })
 
@@ -53,14 +54,14 @@ router
                 type:'Srinng',
                 limit:1
             }):undefined
-    
+
     if (resultsT.length < 1) return res.send({info:'this user has not been found', err:'user not found'})
-    
+
     let results = resultsT[0]
     if (results.err) return res.status(400).json({err:results.err, ok:false})
     if (results.code) return res.status(400).json({err:results.code, ok:false})
     if (!req.body.password) return res.send({info:'password not found', ok:false})
-    
+
     if (results.pass.localeCompare(req.body.password) == 0){
         printC('user conected username:', results.username)
         res.send({ok:true, connect:true, info:'successful connection'})
