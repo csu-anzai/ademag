@@ -90,7 +90,7 @@ describe('# test', () => {
         }).timeout(0);
 
         it('\n #4 test fonction cleanArray dans util', (done) => {
-            let results = cleanArray(['*/n1','n2/-+,','()&n3']) 
+            let results = cleanArray(['*/n1','n2/+,','()&n3']) 
             jsonToString(results) != `'n1','n2','n3'` ? done(new Error('no found :'+jsonToString(results))) :
             (done(), console.log('#5 function cleanArray is ok'))
         }).timeout(0);

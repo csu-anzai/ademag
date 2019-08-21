@@ -45,9 +45,9 @@ CREATE TABLE contacts (
    CONSTRAINT pk_contacts PRIMARY KEY(id)
 )ENGINE = InnoDB;
 
-/*---Table users---*/
-DROP TABLE IF EXISTS users;
-CREATE TABLE users (
+/*---Table redacteur---*/
+DROP TABLE IF EXISTS redacteur;
+CREATE TABLE redacteur (
    id INT(255) AUTO_INCREMENT NOT NULL,
    id_contact INT(255),
    username VARCHAR(255) NOT NULL UNIQUE,
@@ -57,3 +57,12 @@ CREATE TABLE users (
    CONSTRAINT fr_contacts FOREIGN KEY (id_contact)
      REFERENCES contacts(id) ON DELETE NO ACTION  ON UPDATE CASCADE
 )ENGINE = InnoDB;
+
+DROP VIEW IF EXISTS users_redacteur;
+CREATE VIEW users_redacteur AS
+SELECT 
+   redacteur.id AS id_user, contacts.id AS id_contact, redacteur.username, redacteur.pass, redacteur.email, 
+   contacts.nom, contacts.prenom, contacts.birthdate, contacts.description 
+FROM redacteur, contacts
+WHERE redacteur.id_contact = contacts.id
+

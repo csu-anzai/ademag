@@ -1,11 +1,11 @@
 const colorC = require('ansi-colors');
 
 cleen =(string)=>{
-    return string.replace(/[^a-z0-9\s]/gi, '')
+    return string.replace(/[^a-z0-9-\s]/gi, '')
 }
 
 cleanArray =(array)=>{
-    let results = array.map(value =>{       
+    let results = array.map(value =>{
         return   `'${cleen(value)}'`
     })
     return results

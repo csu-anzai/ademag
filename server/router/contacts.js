@@ -9,16 +9,13 @@ const mysql = require('../assets/mysql/mysqlFonction')
  router
  /*- READ */ // Liste des users 
  .get('/', async(req, res)=>{
-     // si l'objet nom existe dans la query, renvoie le resultat d'une recherche avec ce nom
     let resSql = await mysql.select({
             table:'contacts',
     })
-    
-    // envoyer la reponse au client
     res.send({ok:true, results:resSql})
  })
 
-/*- READ */ // Liste des users by ID
+/*- READ */ // Liste des contacts by ID
  .get('/:id', async(req, res)=>{
     // renvoie 1 element de la table contact avec le id fournis dans l'URL
     let results = await mysql.select({

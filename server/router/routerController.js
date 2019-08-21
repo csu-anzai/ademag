@@ -3,8 +3,7 @@ const uploader = require('./upload');
 const article = require('./article');
 const document = require('./document');
 const contacts = require('./contacts')
-const user = require('./user')
-//const session = require('./session')
+const redacteur = require('./redacteur')
 
 
 const routing = (app)=> {
@@ -15,8 +14,7 @@ const routing = (app)=> {
         .use('/article', article)
         .use('/document', document)
         .use('/contacts',contacts)
-        .use('/user', user)
-        //.use('/sess', session)
+        .use('/redacteur', redacteur)
 }
 
 module.exports.routing = routing;
