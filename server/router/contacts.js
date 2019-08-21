@@ -23,7 +23,7 @@ const mysql = require('../assets/mysql/mysqlFonction')
     // renvoie 1 element de la table contact avec le id fournis dans l'URL
     let results = await mysql.select({
         table:'contacts',
-        params:'id_contact',
+        params:'id',
         value:req.params.id,
         type:'String',
         limit:1
@@ -64,7 +64,7 @@ const mysql = require('../assets/mysql/mysqlFonction')
     // recherche le id_contact dans la table contacts et garde le resultat dans la variable resSqlTT
     let resSqlTT = await mysql.select({
         table:'contacts',
-        params:'id_contact',
+        params:'id',
         value:req.params.id,
         type:'String',
         limit:1
