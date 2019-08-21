@@ -31,16 +31,33 @@ module.exports = Object.freeze({
         let table = data.table? data.table : null
         let params = data.params? data.params : null
         let valueClean = data.value? cleen(data.value):null
+        
         if (table==null) return {err:'ERROR: Table unspecified'}
-        if(valueClean==null) return  `SELECT * FROM ${table} ${data.where? 'WHERE '+data.where:''} ${data.limit? 'limit '+data.limit : ''}`
-        if(params==null) return  `SELECT * FROM ${table} ${data.where? 'WHERE '+data.where:''} ${data.limit? 'limit '+data.limit : ''}`
+
+        if(valueClean==null) return `
+            SELECT * 
+            FROM ${table} 
+            ${data.where? 'WHERE '+data.where:''} ${data.limit? 'limit '+data.limit : ''}`
+
+        if(params==null) return `
+            SELECT * 
+            FROM ${table} 
+            ${data.where? 'WHERE '+data.where:''} ${data.limit? 'limit '+data.limit : ''}`
+        
         let results = 
             data.type == 'String'?
-            `SELECT * FROM ${table} WHERE ${params} = '${valueClean}' ${data.where? 'AND '+data.where:''} ${data.limit? 'limit '+data.limit : ''}`:
+            `SELECT * 
+            FROM ${table} 
+            WHERE ${params} = '${valueClean}' ${data.where? 'AND '+data.where:''} ${data.limit? 'limit '+data.limit : ''}`:
+            
             data.type == 'Int'?
-            `SELECT * FROM ${table} WHERE ${params} = ${valueClean} ${data.where? 'AND '+data.where:''} ${data.limit? 'limit '+data.limit : ''}`:
+            `SELECT * 
+            FROM ${table} 
+            WHERE ${params} = ${valueClean} ${data.where? 'AND '+data.where:''} ${data.limit? 'limit '+data.limit : ''}`:
+            
             data.type? 
             {err:'ERROR: type unknown'}: {err:'ERROR: type unspecified'}
+        
         return results
     },
     UPDATE_ASYNC:(data)=>{
