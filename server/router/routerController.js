@@ -4,6 +4,7 @@ const article = require('./article');
 const document = require('./document');
 const contacts = require('./contacts')
 const user = require('./user')
+//const session = require('./session')
 
 
 const routing = (app)=> {
@@ -15,6 +16,7 @@ const routing = (app)=> {
         .use('/document', document)
         .use('/contacts',contacts)
         .use('/user', user)
+        //.use('/sess', session)
 }
 
 module.exports.routing = routing;
