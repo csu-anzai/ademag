@@ -14,7 +14,7 @@ router
 /*- GET */
 .get('/',(req, res)=>{
     req.session.id_user ? 
-        res.send({info:'your are logged', ok:true, results:req.session.id_user}):
+        res.send({info:'your are logged', ok:true, results:req.session.id}):
         res.send({info:'your are not logged', ok:true, results:[]})
 })
 
@@ -34,7 +34,7 @@ router
         select:'id_user, id_contact'
     })
 
-    if (find_username.length > 0) return res.send({info:'this username already exists', err:'NOT CREATED'})
+    if (find_username.length > 0) return res.send({info:'this username already exists', err:'NOT CREATED', ok:true})
 
     let results_contact = await mysql.insert({
         table:'contacts',
@@ -89,6 +89,7 @@ router
 
     req.session.id_user ? res.send({info:'déjà login'}):
     req.session.regenerate(function(err) {
+        if(err) return res.send({info:'LOGIN FAIL', ok:true, err})
         req.session.id_user = results.id_user
         req.session.id_contact = results.id_contact
         res.send({info:'LOGIN OK', ok:true, results})
@@ -99,6 +100,7 @@ router
 .put('/logout', async(req, res)=>{   
     req.session.id_user ?
         req.session.destroy(function(err) {
+            if(err) return res.send({info:'LOGOUT FAIL', ok:true, err})
             res.send({info:'LOGOUT OK', ok:true})
         }):
         res.send({info:'it is necessary to be logged in to log out', ok:false})
@@ -131,7 +133,8 @@ router
     printC('the contact object has been deleted affectedRows:', eliminated_contact.affectedRows)
    
     req.session.destroy((err)=>{
-        res.send({info:'', ok:true, affectedRows:{contacts:eliminated_contact.affectedRows, users:eliminated_user.affectedRows}})
+        if(err) return res.send({info:'DELETE OK AND LOGOUT FAIL', ok:true, err})
+        res.send({info:'DELETE OK AND LOGOUT OK', ok:true})
     })
 })
 

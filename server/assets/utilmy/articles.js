@@ -7,21 +7,29 @@ const mongo = require('../mongoDB/mongoFonction')
 module.exports = Object.freeze({
     //recherche des articles
     find: async(req,res)=>{
+        let user_id = req.session.id_user? req.session.id_user : '0'
+
         //si l'utilisateur furni le title dans le body, la recherche serait par title 
         //afficherait uniquement les articles avec status true(1)
-        let resSql = req.query.title ?
-        await mysql.select({
-            table:'articles',
-            params:'title',
-            value:req.query.title,
-            type:'String',
-            where:'status = "1"'
-        }):
+        let resSql = 
+        req.query.title ?
+            await mysql.select({
+                table:'articles',
+                params:'title',
+                value:req.query.title,
+                type:'String',
+                where:'status = "1"'
+            }):
+        req.query.my?
+            await mysql.select({
+                table:'articles',
+                where:`status = "1" AND id_redacteur = ${user_id}`
+            }):
         //dans le cas contraire la recherche retournerait toutes les articles 
         //afficherait uniquement les articles avec status true(1)
         await mysql.select({
             table:'articles',
-            where:'status = "1"'
+            where:`status = "1"`
         })
         if (resSql.length < 1) return res.send({info:'it is empty', ok:true, results:resSql, in:{}})
         if (resSql.err) return res.status(400).json({err:resSql.err, ok:false})
@@ -29,9 +37,11 @@ module.exports = Object.freeze({
         res.send({info:'', ok:true, results:resSql})
     },
     findTrash: async(req,res)=>{
+        let user_id = req.session.id_user? req.session.id_user : '0'
+
         let resSql = await mysql.select({
             table:'articles',
-            where:'status = 0'
+            where:`status = 0 AND id_redacteur = ${user_id}`
         })
         if (resSql.length < 1) return res.send({info:'it is empty', ok:true, results:resSql, in:{}})
         if (resSql.err) return res.status(400).json({err:resSql.err, ok:false})
@@ -79,11 +89,12 @@ module.exports = Object.freeze({
         
         let resSql = await mysql.insert({
             table:'articles',
-            params:'_id, title, description',
+            params:'_id, title, description, id_redacteur',
             value:[
                 `${resMongo._id}`,
                 req.body.value[0],
-                req.body.value[1]
+                req.body.value[1],
+                `${req.session.id_user}`
             ]
         })
     
@@ -92,20 +103,22 @@ module.exports = Object.freeze({
         res.send({ok:true, insertId:resMongo._id, affectedRows:resSql.affectedRows, in:resMongo})
     },
     update:async(req, res)=>{
+        let user_id = req.session.id_user? req.session.id_user : '0'
 
         let resSqlTT = await mysql.select({
             table:'articles',
             params:'_id',
             value:req.params.id,
             type:'String',
-            limit:1
+            limit:1,
+            where:`status = "1" AND id_redacteur = ${user_id}`
         })
-    
+
         let resSql = resSqlTT[0]
-        if (resSqlTT.length < 1) return res.send({info:`id: ${req.params.id} not found`, ok:true, results:resSqlTT, in:{}})
+        if (resSqlTT.length < 1) return res.send({info:`id: ${req.params.id} not found or it doesn't belong to you`, ok:false, results:resSqlTT, in:{}})
         if (resSql.err) return res.status(400).json({err:resSql.err, ok:false})
         if (resSql.code) return res.status(400).json({err:resSql.code, ok:false})
-    
+
         let description = req.body.description? 
             await mysql.update({
                 id:`${resSql._id}`,
@@ -133,14 +146,15 @@ module.exports = Object.freeze({
             params:'_id',
             value:req.params.id,
             type:'String',
-            limit:1
+            limit:1,
+            where:`status = "1" AND id_redacteur = ${user_id}`
         })
-    
+
         let resSqlOK = resSqlTTOK[0]
         if (resSqlTT.length < 1) return res.send({info:`id: ${req.params.id} not found`, ok:true, results:resSqlTT, in:{}})
         if (resSqlOK.err) return res.status(400).json({err:resSqlOK.err, ok:false})
         if (resSqlOK.code) return res.status(400).json({err:resSqlOK.code, ok:false})
-    
+
         let pop = req.body.pop?
         await mongo.modify({
             models:Article,
@@ -150,7 +164,7 @@ module.exports = Object.freeze({
                 in:[]
             }
         }):undefined
-    
+
         let smash = req.body.smash?
         await mongo.modify({
             models:Article,
@@ -159,7 +173,7 @@ module.exports = Object.freeze({
                 in:req.body.smash
             }
         }):undefined
-    
+
         let push = req.body.push?
         await mongo.modify({
             models:Article,
@@ -167,7 +181,7 @@ module.exports = Object.freeze({
             push:{in:req.body.push},
             set:{}
         }):undefined
-    
+
         let set = req.body.set?
         await mongo.modify({
             models:Article,
@@ -176,7 +190,7 @@ module.exports = Object.freeze({
                 doc:req.body.set
             }
         }):undefined
-    
+
         let inUP = await mongo.modify({
             models:Article,
             id:resSqlOK._id,
@@ -184,9 +198,9 @@ module.exports = Object.freeze({
                 title:resSqlOK.title,
             }
         })
-    
+
         let ok = inUP.n > 0 ? true:false
-    
+
         printC('a article has been updated', `id:${resSqlOK._id}`)
         res.send({
             changedRows:1,
@@ -202,16 +216,19 @@ module.exports = Object.freeze({
         })
     },
     eliminate:async(req, res)=>{
+        let user_id = req.session.id_user? req.session.id_user : '0'
+
         let resSqlTTSelect = await mysql.select({
             table:'articles',
             params:'_id',
             value:req.params.id,
             type:'String',
-            limit:1
+            limit:1,
+            where:`status = "1" AND id_redacteur = ${user_id}`
         })
-    
+
         let resSqlSelect = resSqlTTSelect[0]
-        if (resSqlTTSelect.length < 1) return res.send({info:`id: ${req.params.id} not found`, ok:true, results:resSqlTTSelect, in:{}})
+        if (resSqlTTSelect.length < 1) return res.send({info:`id: ${req.params.id} not found or it doesn't belong to you`, ok:false, results:resSqlTTSelect, in:{}})
         if (resSqlSelect.err) return res.status(400).json({err:resSqlSelect.err, ok:false})
         if (resSqlSelect.code) return res.status(400).json({err:resSqlSelect.code, ok:false})
 
@@ -234,16 +251,19 @@ module.exports = Object.freeze({
         res.send({info:'', ok:true, affectedRows:resSql.affectedRows, in:resMongo})
     },
     statusOff:async(req, res)=>{
+        let user_id = req.session.id_user? req.session.id_user : '0'
+
         let resSqlTT = await mysql.select({
             table:'articles',
             params:'_id',
             value:req.params.id,
             type:'String',
-            limit:1
+            limit:1,
+            where:`status = "1" AND id_redacteur = ${user_id}`
         })
     
         let resSql = resSqlTT[0]
-        if (resSqlTT.length < 1) return res.send({info:`id: ${req.params.id} not found`, ok:true, results:resSqlTT, in:{}})
+        if (resSqlTT.length < 1) return res.send({info:`id: ${req.params.id} not found or it doesn't belong to you `, ok:false, results:resSqlTT, in:{}})
         if (resSql.err) return res.status(400).json({err:resSql.err, ok:false})
         if (resSql.code) return res.status(400).json({err:resSql.code, ok:false})
 
@@ -273,16 +293,19 @@ module.exports = Object.freeze({
         res.send({info:'', ok:true, affectedRows:status, in:inUP})
     },
     statusON:async(req, res)=>{
+        let user_id = req.session.id_user? req.session.id_user : '0'
+
         let resSqlTT = await mysql.select({
             table:'articles',
             params:'_id',
             value:req.params.id,
             type:'String',
-            limit:1
+            limit:1,
+            where:`status = "0" AND id_redacteur = ${user_id}`
         })
     
         let resSql = resSqlTT[0]
-        if (resSqlTT.length < 1) return res.send({info:`id: ${req.params.id} not found in trash`, ok:true, results:resSqlTT, in:{}})
+        if (resSqlTT.length < 1) return res.send({info:`id: ${req.params.id} not found in trash or it doesn't belong to you`, ok:false, results:resSqlTT, in:{}})
         if (resSql.err) return res.status(400).json({err:resSql.err, ok:false})
         if (resSql.code) return res.status(400).json({err:resSql.code, ok:false})
 

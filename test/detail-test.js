@@ -24,6 +24,9 @@ const CRUDTest =(urlAD, data)=>{
             console.log(`\n-----------API ${urlAD}------------\n`)
             const res = await chai.request(server)
                 .get('/'+urlAD)
+                .send({
+                    session:'EM49NzIsasEpD061unupEiihQUr9XCSa'
+                })
             if(res.status < 400){
                 chai.expect(res.body.ok).to.true
                 console.log(`#/${urlAD}-1 ${colorC.blue('GET')} ${urlAD} is ok ::: status code: ${colorC.green(res.status)}`)
@@ -41,7 +44,8 @@ const CRUDTest =(urlAD, data)=>{
                 .post('/'+urlAD)
                 .send({
                     values:data.createValues,
-                    value:data.createValues
+                    value:data.createValues,
+                    session:'EM49NzIsasEpD061unupEiihQUr9XCSa'
                  })
             if(res.status < 400){
                 chai.expect(res.body.ok).to.true
@@ -58,6 +62,9 @@ const CRUDTest =(urlAD, data)=>{
         it(`# test GET /${urlAD}/?${data.UpdateParametre}=${data.createValues[0]}`, async () => {
             const res = await chai.request(server)
                 .get(`/${urlAD}/?${data.UpdateParametre}=${data.createValues[0]}`)
+                .send({
+                    session:'EM49NzIsasEpD061unupEiihQUr9XCSa'
+                })
             chai.expect(res.body.err, `error ${colorC.red(res.body.err)} ::: status code ${colorC.green(res.status)}`).to.not.exist
             chai.expect(res.body.results, `le element results nexiste pas dans le json ::: status code ${colorC.green(res.status)}`).to.exist
             let resID = res.body.results
@@ -80,7 +87,8 @@ const CRUDTest =(urlAD, data)=>{
                     value:'new value',
                     values:'new value',
                     set:{status:true},
-                    push:{}
+                    push:{},
+                    session:'EM49NzIsasEpD061unupEiihQUr9XCSa'
                 })
             if(res.status < 400){
                 chai.expect(res.body.ok).to.true
@@ -97,6 +105,9 @@ const CRUDTest =(urlAD, data)=>{
         it(`# test DELETE /${urlAD}`, async () => {
             const res = await chai.request(server)
                 .delete(`/${urlAD}/${id}`)
+                .send({
+                    session:'EM49NzIsasEpD061unupEiihQUr9XCSa'
+                })
             if(res.status < 400){
                 chai.expect(res.body.ok).to.true
                 console.log(`#${urlAD}-4 ${colorC.blue('DELETE')} ${urlAD}/${id} is ok ::: status code: ${colorC.green(res.status)} affectedRows: ${res.body.affectedRows}`)
@@ -112,7 +123,9 @@ const CRUDTest =(urlAD, data)=>{
         it(`# test FINAL /${urlAD}`, async () => {
             const res = await chai.request(server)
                 .get(`/${urlAD}/${id}`)
-
+                .send({
+                    session:'EM49NzIsasEpD061unupEiihQUr9XCSa'
+                })
             chai.expect(res.body.err, `error ${colorC.red(res.body.err)} ::: status code ${colorC.green(res.status)}`).to.not.exist
             chai.expect(res.body.results, `objet results not found ::: status code ${colorC.green(res.status)}`).to.exist
             
