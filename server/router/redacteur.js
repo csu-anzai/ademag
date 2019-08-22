@@ -9,8 +9,14 @@ let router = express.Router();
 const mysql = require('../assets/mysql/mysqlFonction')
 
 /* User routes */
-/*- GET */
+
 router
+/*- GET */
+.get('/',(req, res)=>{
+    req.session.id_user ? 
+        res.send({info:'your are logged', ok:true, results:req.session.id_user}):
+        res.send({info:'your are not logged', ok:true, results:[]})
+})
 
 /*- POST */
 .post('/', async (req, res)=> {

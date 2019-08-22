@@ -28,7 +28,14 @@ var multer = require('multer')
     |      SERVICES       |
     ---------------------*/
 
-    router.post('/', function (req, res) {
+    router
+
+    .use((req, res, next)=>{
+        req.session.id_user ? next():
+        res.status(400).send({err:'it is necessary to be logged', ok:false})
+    })
+
+    .post('/', function (req, res) {
         upload(req, res, function (err) {
             if (err instanceof multer.MulterError) {
                 console.log(err)
@@ -44,11 +51,10 @@ var multer = require('multer')
             return res.status(200).json({filename: req.files[0].filename})
             // Everything went fine.
         })
-    });
-    
-    router.get('/test', (req, res)=>{
-        res.send('upload ok')
     })
 
+    .get('/test', (req, res)=>{
+        res.send('upload ok')
+    })
 
 module.exports = router;

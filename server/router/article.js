@@ -15,6 +15,11 @@ const article = require('../assets/utilmy/articles')
 
 router
 
+.use((req, res, next)=>{
+    req.session.id_user ? next():
+    res.status(400).send({err:'it is necessary to be logged', ok:false})
+})
+
 /*- READ */
 .get('/', (req,res)=>article.find(req, res))
 .get('/trash', (req,res)=>article.findTrash(req, res))

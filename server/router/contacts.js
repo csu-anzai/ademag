@@ -7,6 +7,12 @@ const mysql = require('../assets/mysql/mysqlFonction')
  ---------------------------------------------*/
 
  router
+ 
+ .use((req, res, next)=>{
+    req.session.id_user ? next():
+    res.status(400).send({err:'it is necessary to be logged', ok:false})
+})
+
  /*- READ */ // Liste des users 
  .get('/', async(req, res)=>{
     let resSql = await mysql.select({

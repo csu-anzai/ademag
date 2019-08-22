@@ -28,7 +28,7 @@ sessionConf = (app)=> {
 
     app.use(function (req, res, next) {
         req.session.touch()
-        printB(`${req.method} ${req.originalUrl}`, req.session.id+'::: expired '+req.session.cookie.expires)
+        printB(`${req.method} ${req.originalUrl}`, req.session.id)
         next();
     });
 

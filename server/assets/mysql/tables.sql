@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `test` (
 DROP TABLE IF EXISTS articles;
 CREATE TABLE articles (
    _id VARCHAR(255) NOT NULL,
+   id_redacteur INT(255) NOT NULL,
    title VARCHAR(255) NOT NULL,
    status TINYINT(1) DEFAULT 1,
    publication_date DATETIME DEFAULT CURRENT_TIMESTAMP,
