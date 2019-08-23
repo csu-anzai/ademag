@@ -28,6 +28,10 @@ app.use((error, req, res, next)=> {
     res.send({info:'ERROR DETECTED:'+error, error}) : next()
 })
 
+app.get('/',(req, res)=>{
+    res.send({info:'server OK'})
+})
+
 sessionConf(app)
 
 routerController.routing(app)
