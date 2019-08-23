@@ -90,3 +90,4 @@ typings/
 #nginx
 ademag.nginx.conf*
 .ademag.nginx.conf*
+ademag.nginx.conf
