@@ -52,7 +52,7 @@ router
     if (results.length < 1) return res.send({info:`id: ${req.params.id} not found`, ok:true, results:results, in:{}})
     if (results0.err) return res.status(400).json({err:results0.err, ok:false})
     if (results0.code) return res.status(400).json({err:results0.code, ok:false})
-    res.send({info:'', ok:true, results0})
+    res.send({info:'', ok:true, results:results0})
 })
 
 /*- POST */
