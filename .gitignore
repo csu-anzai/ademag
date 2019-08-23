@@ -1,6 +1,7 @@
 #nginx
-*ademag.nginx.conf
-nginx/
+*.nginx.conf
+.vscode
+yarn.lock
 
 # Logs
 logs
@@ -90,6 +91,3 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
-
-
-
