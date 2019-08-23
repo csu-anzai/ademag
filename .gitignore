@@ -1,5 +1,6 @@
 #nginx
 ademag.nginx.conf
+nginx/
 
 # Logs
 logs
