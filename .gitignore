@@ -88,4 +88,5 @@ typings/
 .dynamodb/
 
 #nginx
-ademag.nginx.conf
+ademag.nginx.conf*
+.ademag.nginx.conf*
