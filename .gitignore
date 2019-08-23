@@ -1,3 +1,7 @@
+#nginx
+*ademag.nginx.conf
+nginx/
+
 # Logs
 logs
 *.log
@@ -86,3 +90,6 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+
+
