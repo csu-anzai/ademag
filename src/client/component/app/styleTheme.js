@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme, withStyles, makeStyles } from '@material-ui/core/styles';
-import { green, blue } from '@material-ui/core/colors';
+import { deepPurple, blue } from '@material-ui/core/colors';
 
 export const useStyles = makeStyles(theme => ({
     button: {
@@ -35,6 +35,10 @@ export const useStyles = makeStyles(theme => ({
       display: 'none',
     },
     header:{
+      textAlign: 'center',
+      textTransform: 'uppercase',
+      bgcolor: '#282c34',
+      p:1,
       position: 'relative',
       backgroundColor: '#282c34',
       minHeight: '100vh',
@@ -49,27 +53,35 @@ export const useStyles = makeStyles(theme => ({
       margin: 50,
       width: 180,
       height: 180,
-    },
-    app:{
-      textAlign: 'center',
-      textTransform: 'uppercase',
-      bgcolor: '#282c34',
-      p:1,
-    },
-    h1:{
-      color:'green'
     }
 }));
 
 
 export const theme = createMuiTheme({
+    root:{
+      padding: '4',
+    },
     palette: {
-      primary: blue,
-      default: green,
+      primary: deepPurple
     },
     typography: {
+      h1:{
+        color:'green'
+      },
+      h2:{
+        color:'red'
+      },
+      h3:{
+        color:'blue'
+      },
+      h4:{
+        color:'yellow'
+      },
       h5:{
-        color:'pink'
-      }
+        color:'white'
+      },
+      h6:{
+        color:'gris'
+      },
     }
 });

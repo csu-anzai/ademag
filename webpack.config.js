@@ -1,8 +1,15 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const outputDirectory = './src/server/public/site';
+
+
+
+var apiHost = "'http://localhost:5002'"
+
+
 
 module.exports = {
   entry: ['babel-polyfill', './src/client/index.js'],
@@ -10,6 +17,12 @@ module.exports = {
     path: path.join(__dirname, outputDirectory),
     filename: 'bundle.js'
   },
+   optimization: {
+     splitChunks: {
+       chunks: 'all'
+     }
+   },
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -51,6 +64,9 @@ module.exports = {
       inject: 'body',
       template: './public/index.html',
       favicon: './public/favicon.ico'
+    }),
+    new webpack.DefinePlugin({
+      __API__: apiHost
     })
   ]
 };
