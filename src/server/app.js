@@ -15,6 +15,7 @@ const logger = require('morgan');
 const {} = require('./assets/assets')
 
 app.use(express.static(__dirname + '/public/site'))
+    .use('/images', express.static('public'))
     .use('/images', express.static('public/images'))
     .use(cors({credentials: true,  origin: 'http://localhost:4000'}))
     .use(bodyParser.urlencoded({extended: true}))
@@ -31,8 +32,6 @@ app.use((error, req, res, next)=> {
 app.get('/',(req, res)=>{
     res.sendfile('./public/site/index.html')
 })
-
-app.get('/api/getUsername', (req, res) => res.send({ username:'andres'}));
 
 sessionConf(app)
 

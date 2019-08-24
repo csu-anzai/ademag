@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const outputDirectory = './src/server/public/site';
 
@@ -11,7 +11,8 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-    rules: [{
+    rules: [
+      {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
@@ -29,18 +30,25 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx']
+    extensions: ['.html', '.js', '.jsx', '.css']
   },
   devServer: {
+    //inline:false,
     port: 4000,
     open: true,
     proxy: {
       '/api': 'http://localhost:5002'
-    }
+    },
+    noInfo: true, // only errors & warns on hot reload
+    disableHostCheck: true,
   },
   plugins: [
-    new CleanWebpackPlugin([outputDirectory]),
+    new CleanWebpackPlugin({
+      cleanAfterEveryBuildPatterns: [outputDirectory]
+    }),
     new HtmlWebpackPlugin({
+      title: 'My page',
+      inject: 'body',
       template: './public/index.html',
       favicon: './public/favicon.ico'
     })
