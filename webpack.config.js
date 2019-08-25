@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const outputDirectory = './src/server/public/site';
 
@@ -18,10 +19,29 @@ module.exports = {
     filename: 'bundle.js'
   },
    optimization: {
-     splitChunks: {
-       chunks: 'all'
-     }
+    splitChunks: {
+      cacheGroups: {
+        chunks: 'all'
+      },
+      // include all types of chunks
+      chunks: 'all'
+    },
+    minimizer: [
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true, // Must be set to true if using source-maps in production
+        terserOptions: {
+          // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+        }
+      }),
+    ],
+    removeAvailableModules: true,
+    mangleWasmImports: true
    },
+   performance: {
+    hints: process.env.NODE_ENV === 'production' ? "warning" : false
+  },
   devtool: 'source-map',
   module: {
     rules: [
@@ -67,6 +87,6 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       __API__: apiHost
-    })
+    }),
   ]
 };

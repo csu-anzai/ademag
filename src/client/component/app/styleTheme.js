@@ -1,6 +1,6 @@
-import { ThemeProvider } from '@material-ui/styles';
-import { createMuiTheme, withStyles, makeStyles } from '@material-ui/core/styles';
-import { deepPurple, blue } from '@material-ui/core/colors';
+import makeStyles from '@material-ui/core/styles/makeStyles'
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
+import deepPurple from '@material-ui/core/colors/deepPurple';
 
 export const useStyles = makeStyles(theme => ({
     button: {

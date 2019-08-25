@@ -1,9 +1,6 @@
 import React, { useEffect }  from 'react';
-import Box from '@material-ui/core/Box';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import { ThemeProvider } from '@material-ui/styles';
+import {Button, Typography, Box, Avatar} from '@material-ui/core/';
+import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import {useStyles, theme} from './styleTheme'
 import './App.css'
 
