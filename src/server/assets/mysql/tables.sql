@@ -1,18 +1,7 @@
-/********************************************************
-    tables
-*********************************************************
-*********************************************************/
-
-use ademag;
-DROP DATABASE ademag;
-CREATE DATABASE ademag;
-use ademag;
-
-/*
-DROP DATABASE FlufayKfhP;
-CREATE DATABASE FlufayKfhP;
-use FlufayKfhP;
-*/
+use malki;
+DROP DATABASE malki;
+CREATE DATABASE malki;
+use malki;
 
 DROP TABLE IF EXISTS `test`;
 CREATE TABLE IF NOT EXISTS `test` (
@@ -22,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `test` (
   PRIMARY KEY `pk_test`(`id_test`)
 ) ENGINE = InnoDB;
 
-/*table articles*/ 
+/*1) Table articles*/ 
 DROP TABLE IF EXISTS articles;
 CREATE TABLE articles (
    _id VARCHAR(255) NOT NULL,
@@ -35,7 +24,7 @@ CREATE TABLE articles (
    CONSTRAINT pk_articles PRIMARY KEY(_id)
 )ENGINE = InnoDB;
 
-/*---Table contacts---*/
+/*2) Table contacts*/
 DROP TABLE IF EXISTS contacts;
 CREATE TABLE contacts (
    id INT(255) AUTO_INCREMENT NOT NULL,
@@ -46,7 +35,7 @@ CREATE TABLE contacts (
    CONSTRAINT pk_contacts PRIMARY KEY(id)
 )ENGINE = InnoDB;
 
-/*---Table redacteur---*/
+/*3) Table redacteur*/
 DROP TABLE IF EXISTS redacteur;
 CREATE TABLE redacteur (
    id INT(255) AUTO_INCREMENT NOT NULL,
@@ -59,11 +48,40 @@ CREATE TABLE redacteur (
      REFERENCES contacts(id) ON DELETE NO ACTION  ON UPDATE CASCADE
 )ENGINE = InnoDB;
 
+/*4) Table lecteurs*/ 
+DROP TABLE IF EXISTS lecteurs;
+CREATE TABLE lecteurs (
+   id INT(255) AUTO_INCREMENT NOT NULL,
+   id_contact INT(255) NOT NULL,
+   username VARCHAR(255) NOT NULL UNIQUE,
+   pass VARCHAR(255),
+   email VARCHAR(255),
+   CONSTRAINT pk_lecteurs PRIMARY KEY(id),
+    CONSTRAINT contact_lecteur FOREIGN KEY(id_contact)
+      REFERENCES contacts(id) ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE = InnoDB;
+
+/*5 View pour avoir la liste des contacts qui sont des redacteurs*/
 DROP VIEW IF EXISTS users_redacteur;
 CREATE VIEW users_redacteur AS
 SELECT 
    redacteur.id AS id_user, contacts.id AS id_contact, redacteur.username, redacteur.pass, redacteur.email, 
    contacts.nom, contacts.prenom, contacts.birthdate, contacts.description 
 FROM redacteur, contacts
-WHERE redacteur.id_contact = contacts.id
+WHERE redacteur.id_contact = contacts.id;
 
+/*6 View pour avoir la liste des contacts qui sont des lecteurs*/
+DROP VIEW IF EXISTS user_lecteur;
+CREATE VIEW user_lecteur AS 
+SELECT lecteurs.username,lecteurs.pass,lecteurs.email,lecteurs.id AS id_lecteur,contacts.nom,contacts.prenom,contacts.birthdate,contacts.description
+FROM lecteurs,contacts
+WHERE lecteurs.id_contact = contacts.id;
+
+
+
+
+
+
+SELECT * FROM user_redacteur 
+SELECT * FROM user_lecteur
+SELECT * FROM contacts

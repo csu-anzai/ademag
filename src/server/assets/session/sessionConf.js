@@ -4,10 +4,10 @@ const MySQLStore = require('express-mysql-session')(session);
 
 sessionConf = (app)=> {
     var options = {
-        host: "localhost",
-        user: "user",
-        password: "passw0rd",
-        database: "ademag",
+        host: "37.120.187.69",
+        user: "alex",
+        password: "c4pGr&(9LcR)6AvC8*",
+        database: "malki",
         port:3306
     };
     
