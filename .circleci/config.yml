@@ -34,6 +34,8 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
+      - run: npm install
+
       - run:
         name: Waiting for MySQL to be ready
         command: |
@@ -44,8 +46,6 @@ jobs:
             sleep 1
           done
           echo Failed waiting for MySQL && exit 1
-
-      - run: npm install
 
       # Import DB Dump
       - run:
