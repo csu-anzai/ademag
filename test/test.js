@@ -96,7 +96,7 @@ describe('# test', () => {
         }).timeout(0);
         
     })
-
+    
     /************************************************************/
     describe('API ROUTER /test', () => {
         CRUDTest('test', {
@@ -117,14 +117,16 @@ describe('# test', () => {
     })
 
     /************************************************************/
-    describe('API ROUTER /user', () => {
+    describe('API ROUTER /document', () => {
         CRUDTest('document', {
             createValues:["title document","description document"],
             UpdateParametre:'title',
             PrimaryKey:'_id'
         })
     })
-    
+
+    /************************************************************/
+
     /*
     describe('API ROUTER /contacts', () => {
         CRUDTest('contacts', {
