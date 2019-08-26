@@ -1,20 +1,52 @@
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
+
 #  projet
 
 # Installation
-**pour installer:** install.
+**pour installer:**
 ```bash
 $ npm install
 ```
 
-# Usage
-**pour demarrer:** start.
+#Usage de production 🚀
+
+**pour demarrer:**
 ```bash
 $ npm start
 ```
+Deployment, http://localhost:5002
 
-# Usage de develepement 
-**pour demarrer:** dev.
+
+#Usage de develepement 🔧
+
+**-pour demarrer server uniquement:** 
+```bash
+$ npm run server
+```
+Deployment, http://localhost:5002
+
+**-📌 pour demarrer client uniquement:**
+```bash
+$ npm run client
+```
+Deployment, http://localhost:4000
+
+**-📌 pour demarrer server et client:**
 ```bash
 $ npm run dev
 ```
-il sera deploye par default dans le port 5002, http://localhost:5002 :+1:
+Deployment, client: http://localhost:4000, server: http://localhost:5002
+
+**-📌 pour demarrer le mode develepement server/client avec des test unitaires à chaque lancement**
+```bash
+$ npm run dt
+```
+lDeployment, client: http://localhost:4000, server: http://localhost:5002 
+
+
+#Test unitaires ⚙
+**- pour demarrer:**
+```bash
+$ npm run test
+```
