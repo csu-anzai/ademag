@@ -49,6 +49,8 @@ module.exports = Object.freeze({
         res.send({info:'', ok:true, results:resSql})
     },
     findID: async(req, res)=>{
+        let user_id = req.session.id_user? req.session.id_user : '0'
+        
         let resSqlTT = await mysql.select({
             table:'articles',
             params:'_id',
@@ -75,6 +77,8 @@ module.exports = Object.freeze({
         res.send({info:'', ok:true, results:resSql, in:resMongo})
     },
     add:async(req, res)=> {
+        let user_id = req.session.id_user? req.session.id_user : '0'
+
         if (!req.body.value) return res.status(400).json({err:`the 'value' parameter has not been specified`, ok:false})
         if (req.body.value.length < 2) return res.status(400).json({err:`missing elements within the parameter 'value'`, ok:false})
     
@@ -94,7 +98,7 @@ module.exports = Object.freeze({
                 `${resMongo._id}`,
                 req.body.value[0],
                 req.body.value[1],
-                `${req.session.id_user}`
+                `${user_id}`
             ]
         })
     

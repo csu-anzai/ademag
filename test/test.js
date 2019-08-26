@@ -110,7 +110,7 @@ describe('# test', () => {
 
     describe('API ROUTER /article', () => {
         CRUDTest('article', {
-            createValues:['title Article','description Article'],
+            createValues:['title','description'],
             UpdateParametre:'title',
             PrimaryKey:'_id'
         })

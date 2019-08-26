@@ -15,7 +15,6 @@ const article = require('../assets/utilmy/articles')
 
 router
 
-
 .use((req, res, next)=>{
     if(req.body.session == 'EM49NzIsasEpD061unupEiihQUr9XCSa') return next()// cette ligne est uniquement pour la phase de developement
     if(req.session.id_user) next()

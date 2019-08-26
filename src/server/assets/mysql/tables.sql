@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `test` (
   PRIMARY KEY `pk_test`(`id_test`)
 ) ENGINE = InnoDB;
 
-/*1) Table articles*/ 
+/*1) Table articles*/  --'_id, title, description, id_redacteur',
 DROP TABLE IF EXISTS articles;
 CREATE TABLE articles (
    _id VARCHAR(255) NOT NULL,
@@ -85,3 +85,4 @@ WHERE lecteurs.id_contact = contacts.id;
 SELECT * FROM user_redacteur 
 SELECT * FROM user_lecteur
 SELECT * FROM contacts
+select * from articles
