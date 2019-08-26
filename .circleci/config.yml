@@ -7,9 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: ubuntu-1604:201808-01
-      - image: mongo:2.6.8
-      docker_layer_caching: true    # default - false
+      - image: circleci/node:7.10
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -17,10 +15,7 @@ jobs:
       # - image: circleci/mongo:3.4.4
 
     working_directory: ~/repo
-    branches:
-      only:
-        - master
-        - /rc-.*/
+
     steps:
       - checkout
 
@@ -31,7 +26,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: npm install
+      - run: yarn install
 
       - save_cache:
           paths:
@@ -39,4 +34,4 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: npm client
+      - run: yarn client
