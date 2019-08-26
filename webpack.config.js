@@ -6,11 +6,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 const outputDirectory = './src/server/public/site';
 
-
-
 var apiHost = "'http://localhost:5002'"
-
-
 
 module.exports = {
   entry: ['babel-polyfill', './src/client/index.js'],
@@ -70,7 +66,7 @@ module.exports = {
     port: 4000,
     open: true,
     proxy: {
-      '/api': 'http://localhost:5002'
+      '/api': 'http://localhost:5002' // url serveur final deployé
     },
     noInfo: true, // only errors & warns on hot reload
     disableHostCheck: true,

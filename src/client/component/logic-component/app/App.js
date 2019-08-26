@@ -3,7 +3,7 @@ import {Button, Typography, Box, Avatar} from '@material-ui/core/'
 import ThemeProvider from '@material-ui/styles/ThemeProvider'
 import {useStyles, theme} from './styleTheme'
 import {get, put, post, del} from '../global-fonctions/fetchAxios'
-
+import Login from '../login/Login'
 
 const status = async()=>{
   let result = await get({
@@ -55,6 +55,9 @@ export default function App(){
         <Typography variant="h1">Title Exemple h1</Typography>
         <Typography variant="h2">Title Exemple h2</Typography>
         <Typography variant="h3">Title Exemple h3</Typography>
+        <Box>
+          <Login></Login>
+        </Box>
         <Avatar alt="react" src={`${__API__}/images/react.png`} className={classes.bigAvatar} />
         <Typography variant="h4">Title Exemple h4</Typography>
         <Typography variant="h5">Title Exemple h5</Typography>
