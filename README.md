@@ -1,4 +1,6 @@
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
+[![CircleCI](https://img.shields.io/circleci/project/github/mui-org/material-ui/master.svg)](https://circleci.com/gh/andresvcc/ademag/18)
 
 #  projet
 
