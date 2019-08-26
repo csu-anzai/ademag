@@ -11,8 +11,8 @@ const colorC = require('ansi-colors');
 
 const con = mysql.createConnection({
     host: "localhost",
-    user: "user",
-    password: "passw0rd",
+    user: "root",
+    password: "",
     database: "ademag",
     port:3306
 });
