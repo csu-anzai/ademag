@@ -14,6 +14,8 @@ const logger = require('morgan');
 
 const {} = require('./assets/assets')
 
+
+app.use(require('prerender-node'))
 app.use(express.static(__dirname + '/public'))
     .use(express.static(__dirname + '/public/site'))
     .use('/images', express.static('public/images'))
@@ -28,6 +30,8 @@ app.use((error, req, res, next)=> {
     error instanceof SyntaxError ?	
     res.send({info:'ERROR DETECTED:'+error, error}) : next()
 })
+
+
 
 sessionConf(app)
 
