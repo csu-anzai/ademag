@@ -37,15 +37,15 @@ jobs:
       - run: npm install
 
       - run:
-        name: Waiting for MySQL to be ready
-        command: |
-          for i in `seq 1 30`;
-          do
-            nc -z 127.0.0.1 3306 && echo Success && exit 0
-            echo -n .
-            sleep 1
-          done
-          echo Failed waiting for MySQL && exit 1
+          name: Waiting for MySQL to be ready
+          command: |
+            for i in `seq 1 30`;
+            do
+              nc -z 127.0.0.1 3306 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for MySQL && exit 1
 
       # Import DB Dump
       - run:
