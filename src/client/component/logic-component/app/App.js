@@ -1,8 +1,14 @@
-import React, { useEffect }  from 'react'
-import ThemeProvider from '@material-ui/styles/ThemeProvider'
+import React, { useEffect }  from 'react';
+import {Button, Typography, Box, Avatar} from '@material-ui/core/';
+import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import {useStyles, theme} from './styleTheme'
-import {get, put, post, del} from '../global-fonctions/fetchAxios'
-import {Button, Typography, Box, Avatar} from '@material-ui/core/'
+
+import {
+  get,
+  put,
+  post,
+  del
+} from '../global-fonctions/fetchAxios'
 
 const status = async()=>{
   let result = await get({
