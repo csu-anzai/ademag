@@ -9,8 +9,9 @@
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "nodemon src/server/bin/www",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test": "nodemon --exec \"mocha -R min\"",
-    "dt": "concurrently \"npm run client\" \"npm run server\" \"npm run test\""
+    "test": "mocha -R min",
+    "testJob":"nodemon --exec \"mocha -R min\"",
+    "dt": "concurrently \"npm run client\" \"npm run server\" \"npm run testJob\""
   },
   "repository": {
     "type": "git",
