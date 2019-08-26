@@ -10,7 +10,7 @@
     "server": "nodemon src/server/bin/www",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "mocha -R min",
-    "testJob":"nodemon --exec \"mocha -R min\"",
+    "testJob": "nodemon --exec \"mocha -R min\"",
     "dt": "concurrently \"npm run client\" \"npm run server\" \"npm run testJob\""
   },
   "repository": {
