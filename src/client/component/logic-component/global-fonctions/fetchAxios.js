@@ -12,7 +12,31 @@ export const status = () =>{
   })
 }
 
+export const get = async(data) =>{
+  return new Promise(async (resolve)=>{
+    axios.get(`${__API__}${data.url}`, { withCredentials: true })
+    .then(res => {
+      resolve(res.data)
+    })
+    .catch(err => {
+      resolve(err)
+    })
+  })
+}
+
 /* PUT */
+export const put = async(data) =>{
+  return new Promise(async (resolve)=>{
+    axios.put(`${__API__}${data.url}`, data, { withCredentials: true })
+    .then(res => {
+      resolve(res.data)
+    })
+    .catch(err => {
+      resolve(err)
+    })
+  })
+}
+
 export const login = (data) =>{
     axios.put(`${__API__}/redacteur/login`, data, { withCredentials: true })
     .then(res => {
@@ -34,7 +58,19 @@ export const logout = ()=>{
 }
 
 /* POST */
-  export const create = (data) =>{
+export const post = async(data) =>{
+  return new Promise(async (resolve)=>{
+    axios.post(`${__API__}${data.url}`, data, { withCredentials: true })
+    .then(res => {
+      resolve(res.data)
+    })
+    .catch(err => {
+      resolve(err)
+    })
+  })
+}
+
+export const create = (data) =>{
     axios.post(`${__API__}/redacteur`, data, { withCredentials: true })
     .then(res => {
       console.log(res.data)
@@ -45,6 +81,18 @@ export const logout = ()=>{
 }
 
 /* DELETE */
+export const del = async(data) =>{
+  return new Promise(async (resolve)=>{
+    axios.delete(`${__API__}${data.url}`, { withCredentials: true })
+    .then(res => {
+      resolve(res.data)
+    })
+    .catch(err => {
+      resolve(err)
+    })
+  })
+}
+
 export const eliminate = () =>{
     axios.delete(`${__API__}/redacteur`, { withCredentials: true })
     .then(res => {
@@ -54,3 +102,4 @@ export const eliminate = () =>{
         console.log(err)
     })
 }
+
