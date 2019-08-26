@@ -10,7 +10,7 @@ jobs:
       - image: circleci/node:10.16
       environment:
           MYSQL_HOST: 127.0.0.1
-          MYSQL_DB: mate
+          MYSQL_DB: ademag
           MYSQL_USER: root
           MYSQL_ALLOW_EMPTY_PASSWORD: true
           MYSQL_PASSWORD:
@@ -19,6 +19,7 @@ jobs:
         environment:
           MYSQL_USER: root
           MYSQL_ALLOW_EMPTY_PASSWORD: true
+      - image: mongo:3.4.4-jessie
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
