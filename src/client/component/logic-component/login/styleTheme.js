@@ -1,42 +1,29 @@
 import { fade, withStyles, makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 
-export const BootstrapInput = withStyles(theme => ({
-    root: {
-      'label + &': {
-        marginTop: theme.spacing(3),
-      },
-    },
-    input: {
-      borderRadius: 4,
-      position: 'relative',
-      backgroundColor: theme.palette.common.white,
-      border: '1px solid #ced4da',
-      fontSize: 16,
-      width: 'auto',
-      padding: '10px 12px',
-      transition: theme.transitions.create(['border-color', 'box-shadow']),
-      // Use the system font instead of the default Roboto font.
-      fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(','),
-      '&:focus': {
-        boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-        borderColor: theme.palette.primary.main,
-      },
-    },
-  }))(InputBase);
-
 export const useStyles = makeStyles(theme => ({
+    '@global': {
+      body: {
+        backgroundColor: theme.palette.common.white,
+      },
+    },
+    paper: {
+      marginTop: theme.spacing(2),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    avatar: {
+      margin: theme.spacing(1),
+      backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+      width: '100%', // Fix IE 11 issue.
+      marginTop: theme.spacing(1),
+    },
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+    },
     root: {
       display: 'flex',
       flexWrap: 'wrap',
@@ -44,4 +31,17 @@ export const useStyles = makeStyles(theme => ({
     margin: {
       margin: theme.spacing(1),
     },
+    bigAvatar: {
+      margin: 10,
+      width: 120,
+      height: 120,
+    },
+    title:{
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }
   }));
+
+  

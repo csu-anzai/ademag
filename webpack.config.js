@@ -38,7 +38,7 @@ module.exports = {
    performance: {
     hints: process.env.NODE_ENV === 'production' ? "warning" : false
   },
-  devtool: 'source-map',
+  //devtool: 'source-map',
   module: {
     rules: [
       {
@@ -63,13 +63,14 @@ module.exports = {
   },
   devServer: {
     //inline:false,
+    //liveReload: true,
     port: 4000,
     open: true,
     proxy: {
       '/api': 'http://localhost:5002' // url serveur final deployé
     },
     noInfo: true, // only errors & warns on hot reload
-    disableHostCheck: true,
+    disableHostCheck: false,
   },
   plugins: [
     new CleanWebpackPlugin({

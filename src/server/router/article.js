@@ -7,7 +7,7 @@ ce code contiens les requetes http apartir du routage user
 
 let express = require('express');
 let router = express.Router();
-const article = require('../assets/utilmy/articles')
+const article = require('./global-fonctions/articles')
 
 /*---------------------------------------------
  |                  ROUTER                    |

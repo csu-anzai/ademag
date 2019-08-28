@@ -54,3 +54,10 @@ export const del = async(data) =>{
   })
 }
 
+export const getLoginStatus = async(setLoginStatus)=>{
+  let result = await get({
+    url:'/redacteur/'
+  })
+  console.log(await result)
+  setLoginStatus(result.login)
+}

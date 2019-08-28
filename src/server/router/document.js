@@ -9,6 +9,12 @@ const mongo = require('../assets/mongoDB/mongoFonction')
 
 router
 
+.use((req, res, next)=>{
+    if(req.body.session == 'EM49NzIsasEpD061unupEiihQUr9XCSa') return next()// cette ligne est uniquement pour la phase de developement
+    if(req.session.id_user) next()
+    else res.status(400).send({err:'it is necessary to be logged', ok:false})
+})
+
 .get('/', async(req, res)=>{
 
     // s'il existe (title, description) dans l'UR il renvoie le resultat de la recherche, dans le cas contraire il renvoie tous les element (status:true) dans la collection

@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
-const Article = require('../mongoDB/models/article')
-const mysql = require('../mysql/mysqlFonction')
-const mongo = require('../mongoDB/mongoFonction')
+const Article = require('../../assets/mongoDB/models/article')
+const mysql = require('../../assets/mysql/mysqlFonction')
+const mongo = require('../../assets/mongoDB/mongoFonction')
 
 module.exports = Object.freeze({
     //recherche des articles
@@ -228,7 +228,7 @@ module.exports = Object.freeze({
             value:req.params.id,
             type:'String',
             limit:1,
-            where:`status = "1" AND id_redacteur = ${user_id}`
+            where:`status = "0" AND id_redacteur = ${user_id}`
         })
 
         let resSqlSelect = resSqlTTSelect[0]
@@ -268,8 +268,8 @@ module.exports = Object.freeze({
     
         let resSql = resSqlTT[0]
         if (resSqlTT.length < 1) return res.send({info:`id: ${req.params.id} not found or it doesn't belong to you `, ok:false, results:resSqlTT, in:{}})
-        if (resSql.err) return res.status(400).json({err:resSql.err, ok:false})
-        if (resSql.code) return res.status(400).json({err:resSql.code, ok:false})
+        if (resSql.err) return res.status(400).json({info:'mysql query ERROR', err:resSql.err, ok:false})
+        if (resSql.code) return res.status(400).json({info:'mysql results ERROR', err:resSql.code, ok:false})
 
        // console.log('\n----\n', resSql)
 
@@ -281,18 +281,18 @@ module.exports = Object.freeze({
             }
         })
 
-        if (inUP.err) return res.status(400).json({err:inUP.err, ok:false})
+        if (inUP.err) return res.status(400).json({info:'mongo results ERROR', err:inUP.err, ok:false})
 
         let status = await mysql.update({
             id:req.params.id,
             table:'articles',
             params:'status',
-            value:'0fv bc',
+            value:'0',
             key:'_id'
         })
 
-        if (status.err) return res.status(400).json({info:'title ERROR', err:status.err, ok:false})
-        if (status.code) return res.status(400).json({err:status.code, ok:false})
+        if (status.err) return res.status(400).json({info:'mysql update query ERROR', err:status.err, ok:false})
+        if (status.code) return res.status(400).json({info:'mysql update results ERROR', err:status.code, ok:false})
         printC('the article was sent to the trash', `id:${req.params.id}`)
         res.send({info:'', ok:true, affectedRows:status, in:inUP})
     },
@@ -310,8 +310,8 @@ module.exports = Object.freeze({
     
         let resSql = resSqlTT[0]
         if (resSqlTT.length < 1) return res.send({info:`id: ${req.params.id} not found in trash or it doesn't belong to you`, ok:false, results:resSqlTT, in:{}})
-        if (resSql.err) return res.status(400).json({err:resSql.err, ok:false})
-        if (resSql.code) return res.status(400).json({err:resSql.code, ok:false})
+        if (resSql.err) return res.status(400).json({info:'mysql query ERROR', err:resSql.err, ok:false})
+        if (resSql.code) return res.status(400).json({info:'mysql results ERROR', err:resSql.code, ok:false})
 
        // console.log('\n----\n', resSql)
 
@@ -323,7 +323,7 @@ module.exports = Object.freeze({
             }
         })
 
-        if (inUP.err) return res.status(400).json({err:inUP.err, ok:false})
+        if (inUP.err) return res.status(400).json({info:'mongo results ERROR',err:inUP.err, ok:false})
 
         let status = await mysql.update({
             id:req.params.id,
@@ -333,8 +333,8 @@ module.exports = Object.freeze({
             key:'_id'
         })
 
-        if (status.err) return res.status(400).json({info:'title ERROR', err:status.err, ok:false})
-        if (status.code) return res.status(400).json({err:status.code, ok:false})
+        if (status.err) return res.status(400).json({info:'mysql query ERROR', err:status.err, ok:false})
+        if (status.code) return res.status(400).json({info:'mysql results ERROR',err:status.code, ok:false})
         printC('the article has been restored', `id:${req.params.id}`)
         res.send({info:'', ok:true, affectedRows:status, in:inUP})
     }

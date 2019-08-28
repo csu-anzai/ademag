@@ -11,19 +11,22 @@ const mysql = require('../assets/mysql/mysqlFonction')
 /* User routes */
 
 router
+
+
 /*- GET */
 .get('/',(req, res)=>{
     req.session.id_user ? 
-        res.send({info:'your are logged', ok:true, results:req.session.id}):
-        res.send({info:'your are not logged', ok:true, results:[]})
+        res.send({info:'your are logged', ok:true, login:true}):
+        res.send({info:'your are not logged', ok:true, login:false})
 })
 
 /*- POST */
 .post('/', async (req, res)=> {
+    
     if(req.session.id_user) return res.send({info:'YOUR ARE LOGIN imposible create new user', ok:true})
     // verifier s'il existe l'objet value dans le corp, sino renvoie une reponse d'error au client
-    if (!req.body.value) return res.status(400).json({err:`the 'value' parameter has not been specified`, ok:false})
-    if (req.body.value.length < 7) return res.status(400).json({err:`missing elements within the parameter 'value'`, ok:false})
+    if (!req.body.value) return res.send({message:`the 'value' parameter has not been specified`, ok:false})
+    if (req.body.value.length < 7) return res.send({err:`missing elements within the parameter 'value'`, ok:false})
     
     let find_username = await mysql.select({
         table:'users_redacteur',
@@ -33,6 +36,8 @@ router
         limit:1,
         select:'id_user, id_contact'
     })
+
+    
 
     if (find_username.length > 0) return res.send({info:'this username already exists', err:'NOT CREATED', ok:true})
 
@@ -47,8 +52,8 @@ router
         ]
     })
 
-    if (results_contact.err) return res.status(400).json({err:results_contact.err, ok:false})
-    if (results_contact.code) return res.status(400).json({err:results_contact.code, ok:false})
+    if (results_contact.err) return res.json({err:results_contact.err, ok:false})
+    if (results_contact.code) return res.json({err:results_contact.code, ok:false})
     printC('a new contact objet has been created id:', results_contact.insertId)
 
     let results_redacteur = await mysql.insert({
@@ -62,8 +67,8 @@ router
         ]
     })
     
-    if (results_redacteur.err) return res.status(400).json({err:results_redacteur.err, ok:false})
-    if (results_redacteur.code) return res.status(400).json({err:results_redacteur.code, ok:false})
+    if (results_redacteur.err) return res.json({err:results_redacteur.err, ok:false})
+    if (results_redacteur.code) return res.json({err:results_redacteur.code, ok:false})
     printC('a new user objet has been created id:', results_redacteur.insertId)
 
     res.send({info:'USER CREATED', ok:true})
@@ -81,18 +86,18 @@ router
         select:'id_user, id_contact'
     })
 
-    if (resultsT.length < 1) return res.send({info:'this user has not been found or password is incorrect', err:'NOT LOGIN'})
+    if (resultsT.length < 1) return res.send({info:'this user has not been found or password is incorrect', err:'NOT LOGIN', login:false})
 
     let results = resultsT[0]
-    if (results.err) return res.status(400).json({err:results.err, ok:false})
-    if (results.code) return res.status(400).json({err:results.code, ok:false})
+    if (results.err) return res.status(400).json({err:results.err, ok:false, login:false})
+    if (results.code) return res.status(400).json({err:results.code, ok:false, login:false})
 
-    req.session.id_user ? res.send({info:'déjà login'}):
+    req.session.id_user ? res.send({info:'déjà login',ok:true, login:true}):
     req.session.regenerate(function(err) {
-        if(err) return res.send({info:'LOGIN FAIL', ok:true, err})
+        if(err) return res.send({info:'LOGIN FAIL', ok:true, err, login:false})
         req.session.id_user = results.id_user
         req.session.id_contact = results.id_contact
-        res.send({info:'LOGIN OK', ok:true, results})
+        res.send({info:'LOGIN OK', ok:true, ok:true})
     })
 })
 
@@ -101,9 +106,9 @@ router
     req.session.id_user ?
         req.session.destroy(function(err) {
             if(err) return res.send({info:'LOGOUT FAIL', ok:true, err})
-            res.send({info:'LOGOUT OK', ok:true})
+            res.send({info:'LOGOUT OK', ok:true, login:false})
         }):
-        res.send({info:'it is necessary to be logged in to log out', ok:false})
+        res.send({info:'it is necessary to be logged in to log out', ok:false, login:false})
 })
 
 /*- DELETE */

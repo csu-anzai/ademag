@@ -101,6 +101,27 @@ const CRUDTest =(urlAD, data)=>{
         }).timeout(0); 
     })
 
+    describe(`# test PUT /${urlAD}/toTrash`, () => {
+        it(`# test PUT /${urlAD}/toTrash`, async () => {
+            if(data.toTrash){
+                const res = await chai.request(server)
+                .put(`/${urlAD}/totrash/${id}`)
+                .send({
+                    session:'EM49NzIsasEpD061unupEiihQUr9XCSa'
+                })
+            if(res.status < 400){
+                chai.expect(res.body.ok).to.true
+                console.log(`#/${urlAD}/totrash-3 ${colorC.blue('PUT')} ${urlAD}/totrash/${id} is ok ::: status code: ${colorC.green(res.status)}`)
+            }else{
+                console.log(`# ${colorC.red(`/${urlAD}-3 PUT ${urlAD}/totrash/${id} not found `)}::: status code: ${colorC.green(res.status)}`)
+                chai.expect(res.body.err, `error ${colorC.red(res.body.err)} ::: status code ${colorC.green(res.status)}`).to.not.exist
+            }
+            }else{
+                chai.expect(data.toTrash).to.not.exist
+            }
+        }).timeout(0); 
+    })
+
     describe(`# test DELETE /${urlAD}`, () => {
         it(`# test DELETE /${urlAD}`, async () => {
             const res = await chai.request(server)
