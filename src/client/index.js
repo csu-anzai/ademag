@@ -1,20 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './component/logic-component/app/App';
-import theme from './theme';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter, Route, Switch, Redirect, Link } from "react-router-dom";
 
-let themeResposive = createMuiTheme(theme);
-themeResposive = responsiveFontSizes(themeResposive);
+import Index from "./views/Index";
+import Login from "./views/Login";
+
 
 ReactDOM.render(
-
-    <ThemeProvider theme={themeResposive}>
-      {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-      <CssBaseline />
-      <App />
-  </ThemeProvider>,
-  document.querySelector('#root')
+  <BrowserRouter>
+    <div>
+      <header>
+        <Link to="/home">About</Link>
+        {' '}
+        <Link to="/">Login</Link>
+        {' '}
+        <strong>react-router-dom-example</strong>
+      </header>
+      <main>
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <Route path="/home" component={Index} />
+          <Route component={Index} />
+        </Switch>
+      </main>
+    </div>
+  </BrowserRouter>,
+  document.getElementById("root")
 );
