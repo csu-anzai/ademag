@@ -26,12 +26,6 @@ sessionConf = (app)=> {
         }
     }))
 
-    app.use(function (req, res, next) {
-        req.session.touch()
-        printB(`${req.method} ${req.originalUrl}`, req.session.id)
-        next();
-    });
-
     app.post('/sessions', (req, res) => {
         sessionStore.all((err, session)=>{
             err ? console.log(err) : res.json({session:session})

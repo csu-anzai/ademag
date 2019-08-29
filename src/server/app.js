@@ -23,14 +23,19 @@ app.use(express.static(__dirname + '/public'))
     .use(helmet())
     //.use(logger('dev'))
     .set('trust proxy', 1) 
-
-app.use((error, req, res, next)=> {	
-    error instanceof SyntaxError ?	
-    res.send({info:'ERROR DETECTED:'+error, error}) : next()
-})
+    .use((error, req, res, next)=> {	
+        error instanceof SyntaxError ?	
+        res.send({info:'ERROR DETECTED:'+error, error}) : next()
+    })
+    .get('/', function(req, res) {
+        res.sendFile(__dirname + '/public/site/index.html');
+    })
 
 sessionConf(app)
-
 routerController.routing(app)
+
+app.get('/*', function(req, res) {
+    res.sendFile(__dirname + '/public/site/index.html');
+})
 
 module.exports = app;

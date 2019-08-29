@@ -5,8 +5,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const outputDirectory = './src/server/public/site';
-
-var apiHost = "'http://localhost:5002'"
+const apiUrl = 'http://localhost:5002'
+const apiHost = `'${apiUrl}'`
 
 module.exports = {
   entry: ['babel-polyfill', './src/client/index.js'],
@@ -58,6 +58,9 @@ module.exports = {
       }
     ]
   },
+  node: {
+    __dirname: false,
+  },
   resolve: {
     extensions: ['.html', '.js', '.jsx', '.css']
   },
@@ -67,12 +70,19 @@ module.exports = {
     port: 4000,
     open: true,
     proxy: {
-      '/api': 'http://localhost:5002' // url serveur final deployé
+      '/api': apiUrl // url serveur final deployé
     },
     noInfo: true, // only errors & warns on hot reload
     disableHostCheck: false,
+    historyApiFallback: true, 
+    contentBase: './', 
+    hot: true,
+    open: false
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"production"'
+    }),
     new CleanWebpackPlugin({
       cleanAfterEveryBuildPatterns: [outputDirectory]
     }),
