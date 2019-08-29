@@ -17,6 +17,7 @@ const {} = require('./assets/assets')
 app.use(express.static(__dirname + '/public'))
     .use(express.static(__dirname + '/public/site'))
     .use('/images', express.static('public/images'))
+    .use(express.static('public'))
     .use(cors({credentials: true,  origin: 'http://localhost:4000'}))
     .use(bodyParser.urlencoded({extended: true}))
     .use(bodyParser.json())
@@ -28,6 +29,12 @@ app.use((error, req, res, next)=> {
     error instanceof SyntaxError ?	
     res.send({info:'ERROR DETECTED:'+error, error}) : next()
 })
+
+
+app.get('/', function(req, res) {
+    res.sendFile(__dirname + '../../public/index.html');
+})
+
 
 sessionConf(app)
 

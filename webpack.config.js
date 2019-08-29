@@ -58,6 +58,9 @@ module.exports = {
       }
     ]
   },
+  node: {
+    __dirname: false,
+  },
   resolve: {
     extensions: ['.html', '.js', '.jsx', '.css']
   },
@@ -71,6 +74,9 @@ module.exports = {
     },
     noInfo: true, // only errors & warns on hot reload
     disableHostCheck: false,
+    historyApiFallback: true, 
+    contentBase: './', 
+    hot: true
   },
   plugins: [
     new CleanWebpackPlugin({

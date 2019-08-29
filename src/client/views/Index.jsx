@@ -15,31 +15,19 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Index from "./views/Index.jsx";
-import Tables from "./views/examples/Tables.jsx";
-import Icons from "./views/examples/Icons.jsx";
+import React from "react";
 
-var routes = [
-  {
-    path: "/index",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: Index,
-    layout: "/admin"
-  },
-  {
-    path: "/icons",
-    name: "Icons",
-    icon: "ni ni-planet text-blue",
-    component: Icons,
-    layout: "/admin"
-  },
-  {
-    path: "/tables",
-    name: "Tables",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: Tables,
-    layout: "/admin"
+class Index extends React.Component {
+
+  render() {
+    return (
+      <>
+       <div>
+         <h1>index</h1>
+       </div>
+      </>
+    );
   }
-];
-export default routes;
+}
+
+export default Index;
