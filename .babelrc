@@ -1,11 +1,40 @@
+
 {
   "presets": [
     "@babel/preset-env",
-    "@babel/preset-react"
+    "@babel/preset-react",
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    [
+        "babel-plugin-transform-imports",
+      {
+        "@material-ui/core": {
+          // Use "transform: "@material-ui/core/${member}"," if your bundler does not support ES modules
+          "transform": "@material-ui/core/${member}",
+          "preventFullImport": true
+        },
+        "@material-ui/icons": {
+          // Use "transform: "@material-ui/icons/${member}"," if your bundler does not support ES modules
+          "transform": "@material-ui/core/${member}",
+          "preventFullImport": true
+        }
+      }
+    ]
+  ]
+}
+
+/*
+
+
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react",
   ],
   "plugins": [
     [
-        "transform-imports",
+        "babel-plugin-transform-imports",
       {
         "@material-ui/core": {
           // Use "transform: "@material-ui/core/${member}"," if your bundler does not support ES modules
@@ -22,3 +51,9 @@
     "@babel/plugin-proposal-class-properties",
   ]
 }
+
+    "transform-class-properties",
+    "transform-object-rest-spread"
+
+
+*/

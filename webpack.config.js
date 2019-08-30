@@ -3,42 +3,23 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const outputDirectory = './src/server/public/site';
 const apiUrl = 'http://localhost:5002'
 const apiHost = `'${apiUrl}'`
 
 module.exports = {
-  entry: ['babel-polyfill', './src/client/index.js'],
+  entry: './src/client/index.js',
   output: {
     path: path.join(__dirname, outputDirectory),
     filename: 'bundle.js'
   },
-   optimization: {
-    splitChunks: {
-      cacheGroups: {
-        chunks: 'all'
-      },
-      // include all types of chunks
-      chunks: 'all'
-    },
-    minimizer: [
-      new TerserPlugin({
-        cache: true,
-        parallel: true,
-        sourceMap: true, // Must be set to true if using source-maps in production
-        terserOptions: {
-          // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
-        }
-      }),
-    ],
-    removeAvailableModules: true,
-    mangleWasmImports: true
-   },
-   performance: {
-    hints: process.env.NODE_ENV === 'production' ? "warning" : false
+  performance: {
+  hints: process.env.NODE_ENV === 'production' ? "warning" : false
   },
-  //devtool: 'source-map',
+  //devtool: 'cheap-module-source-map',
   module: {
     rules: [
       {
@@ -62,7 +43,11 @@ module.exports = {
     __dirname: false,
   },
   resolve: {
-    extensions: ['.html', '.js', '.jsx', '.css']
+    extensions: ['.html', '.js', '.jsx', '.css'],
+    alias: {
+      '@material-ui/core': '@material-ui/core/es',
+      '@material-ui/icons':'@material-ui/icons/esm'
+    }
   },
   devServer: {
     //inline:false,
@@ -80,8 +65,16 @@ module.exports = {
     open: false
   },
   plugins: [
+    //new BundleAnalyzerPlugin(),
+    new CompressionPlugin({
+      filename: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: /\.js$|\.css$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
+      threshold: 10240,
+      minRatio: 0.8
+    }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
+      __API__: apiHost
     }),
     new CleanWebpackPlugin({
       cleanAfterEveryBuildPatterns: [outputDirectory]
@@ -91,9 +84,6 @@ module.exports = {
       inject: 'body',
       template: './public/index.html',
       favicon: './public/favicon.ico'
-    }),
-    new webpack.DefinePlugin({
-      __API__: apiHost
-    }),
+    })
   ]
-};
+}; 

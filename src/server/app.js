@@ -13,8 +13,20 @@ const logger = require('morgan');
 
 
 const {} = require('./assets/assets')
+const gzipCompress = (req, res, next)=> {
+    req.url = req.url + '.gz';
+    res.set('Content-Encoding', 'gzip');
+    next();
+}
 
-app.use(express.static(__dirname + '/public'))
+const errorDetection = (error, req, res, next)=> {	
+    error instanceof SyntaxError ?	
+    res.send({info:'ERROR DETECTED:'+error, error}) : next()
+}
+
+app 
+    .get('*.js', gzipCompress)
+    .use(express.static(__dirname + '/public'))
     .use(express.static(__dirname + '/public/site'))
     .use('/images', express.static('public/images'))
     .use(cors({credentials: true,  origin: 'http://localhost:4000'}))
@@ -23,19 +35,21 @@ app.use(express.static(__dirname + '/public'))
     .use(helmet())
     //.use(logger('dev'))
     .set('trust proxy', 1) 
-    .use((error, req, res, next)=> {	
-        error instanceof SyntaxError ?	
-        res.send({info:'ERROR DETECTED:'+error, error}) : next()
+    .use(errorDetection)
+
+
+app
+    .get('/', (req, res)=>{
+        res.sendFile(__dirname + '/public/site/index.html');
     })
-    .get('/', function(req, res) {
+
+    .get('/*', function(req, res) {
         res.sendFile(__dirname + '/public/site/index.html');
     })
 
 sessionConf(app)
 routerController.routing(app)
 
-app.get('/*', function(req, res) {
-    res.sendFile(__dirname + '/public/site/index.html');
-})
+
 
 module.exports = app;

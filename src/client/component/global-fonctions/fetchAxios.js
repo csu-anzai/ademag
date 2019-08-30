@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-
-
 /* GET */
 export const get = async(data) =>{
   return new Promise(async (resolve)=>{
