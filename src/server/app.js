@@ -37,18 +37,19 @@ app
     .set('trust proxy', 1) 
     .use(errorDetection)
 
+    sessionConf(app)
+    routerController.routing(app)
 
 app
     .get('/', (req, res)=>{
+        console.log('envoie index')
         res.sendFile(__dirname + '/public/site/index.html');
     })
-
     .get('/*', function(req, res) {
         res.sendFile(__dirname + '/public/site/index.html');
     })
 
-sessionConf(app)
-routerController.routing(app)
+
 
 
 
