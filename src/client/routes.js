@@ -1,6 +1,6 @@
-import Index from "./views/Index.jsx";
-import Tables from "./views/examples/Tables.jsx";
-import Icons from "./views/examples/Icons.jsx";
+import Index from "./views/Index";
+import Tables from "./views/pagesAdmin/Tables.jsx";
+import Icons from "./views/pagesAdmin/Icons.jsx";
 import NotMatch from "./views/NotMatch.jsx";
 
 var routes = [
