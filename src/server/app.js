@@ -13,6 +13,7 @@ const logger = require('morgan');
 
 
 const {} = require('./assets/assets')
+
 const gzipCompress = (req, res, next)=> {
     req.url = req.url + '.gz';
     res.set('Content-Encoding', 'gzip');

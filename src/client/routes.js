@@ -1,7 +1,6 @@
-import Index from "./views/Index";
-import Tables from "./views/pagesAdmin/Tables.jsx";
-import Icons from "./views/pagesAdmin/Icons.jsx";
+import Home from "./views/Home/HomeView";
 import NotMatch from "./views/NotMatch.jsx";
+import DashBoard from './views/DashBoard/DashBoard.jsx'
 
 var routes = [
   {
@@ -12,21 +11,16 @@ var routes = [
   },
   {
     path: "/index",
-    name: "Home",
+    name: "index",
     description:"",
-    component: Index,
+    component: Home,
   },
   {
-    path: "/icons",
-    name: "Icons",
+    path: "/dashboard",
+    name: "dashboard",
     description:"",
-    component: Icons,
-  },
-  {
-    path: "/tables",
-    name: "Tables",
-    description:"",
-    component: Tables,
+    component: DashBoard,
   }
 ];
+
 export default routes;

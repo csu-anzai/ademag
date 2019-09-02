@@ -44,7 +44,8 @@ module.exports = {
   resolve: {
     extensions: ['.html', '.js', '.jsx', '.css'],
     alias: {
-
+      '@material-ui/core': '@material-ui/core/esm',
+      '@material-ui/icons':'@material-ui/icons/esm'
     }
   },
   devServer: {
