@@ -18,18 +18,18 @@ $ npm install
 
 #Usage de production 
 
-**pour demarrer:** 🚀
+**pour demarrer:** 
 ```bash
-$ npm start
+🚀 $ npm start
 ```
 Deployment, http://localhost:5002
 
 
 #Usage de develepement 
 
-**-pour demarrer server uniquement:** 🔧
+**-pour demarrer server uniquement:**
 ```bash
-$ npm run server
+📌 $ npm run server
 ```
 Deployment, http://localhost:5002
 
@@ -55,5 +55,5 @@ lDeployment, client: http://localhost:4000, server: http://localhost:5002
 #Test unitaires ⚙
 **-pour demarrer:**
 ```bash
-$ npm run test
+🔧 $ npm run test
 ```
