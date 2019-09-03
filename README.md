@@ -1,6 +1,6 @@
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
 [![CircleCI](https://circleci.com/gh/andresvcc/ademag/tree/master.svg?style=svg&circle-token=63aa6d370278eee4e107cfda2983813282ad9352)](https://circleci.com/gh/andresvcc/ademag/tree/master)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 #  projet
 
