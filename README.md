@@ -2,8 +2,10 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![CircleCI](https://circleci.com/gh/andresvcc/ademag/tree/master.svg?style=svg&circle-token=63aa6d370278eee4e107cfda2983813282ad9352)](https://circleci.com/gh/andresvcc/ademag/tree/master)
 ![codecov](https://img.shields.io/badge/status-developement-orange)
+
 [![Known Vulnerabilities](https://snyk.io//test/github/andresvcc/ademag/badge.svg?targetFile=package.json)](https://snyk.io//test/github/andresvcc/ademag?targetFile=package.json)
 
+[![Build Status](https://travis-ci.org/andresvcc/ademag.svg?branch=master)](https://travis-ci.org/andresvcc/ademag)
 
 
 #  projet
