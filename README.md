@@ -55,5 +55,5 @@ lDeployment, client: http://localhost:4000, server: http://localhost:5002
 #Test unitaires ⚙
 **-pour demarrer:**
 ```bash
-🔧 $ npm run test
+📌 $ npm run test
 ```
