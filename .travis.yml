@@ -1,9 +1,9 @@
-
 language: node_js
+node_js: 
+  - 10
 
-node_js:
-  - "node"
-  - "iojs"
+services:
+  - mongodb
 
 install:
   - npm install -g mocha
