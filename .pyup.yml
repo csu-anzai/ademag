@@ -36,7 +36,7 @@ search: True
 # default: empty
 # allowed: list
 requirements:
-  - requirements/prod.txt:
+  - prod.txt:
       # update insecure only, pin all
       update: insecure
       pin: True
