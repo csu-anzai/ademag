@@ -1,5 +1,0 @@
-Nodejs==10.16.3
-gunicorn==19.9.0
-pre-commit==1.18.3
-pytz==2019.2
-selenium==3.141.0
