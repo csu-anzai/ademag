@@ -9,13 +9,6 @@ jobs:
       # specify the version you desire here
       - image: circleci/node:10.16
       - image: mongo:3.4.4
-      - image: circleci/php:7.1-apache-node-browsers
-      - image: circleci/mysql:5.7
-        environment:
-          MYSQL_ROOT_PASSWORD: rootpw
-          MYSQL_DATABASE: ademag
-          MYSQL_USER: user
-          MYSQL_PASSWORD: passw0rd
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -35,25 +28,6 @@ jobs:
             - v1-dependencies-
 
       - run: npm install
-
-      - run:
-          name: Waiting for MySQL to be ready
-          command: |
-            for i in `seq 1 30`;
-            do
-              nc -z 127.0.0.1 3306 && echo Success && exit 0
-              echo -n .
-              sleep 1
-            done
-            echo Failed waiting for MySQL && exit 1
-       # Import DB Dump
-      - run:
-          name: Install MySQL CLI
-          command: |
-            sudo apt-get install mysql-client
-            mysql -h 127.0.0.1 -u user -ppassw0rd ademag < src/server/assets/mysql/tables.sql
-            mysql -h 127.0.0.1 -u user -ppassw0rd --execute="SELECT * FROM ademag.test"
-
 
       - save_cache:
           paths:
