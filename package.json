@@ -10,7 +10,7 @@
     "server": "nodemon src/server/bin/www",
     "dev": "concurrently  \"npm run client\" \"npm run server\"",
     "testDev": "nodemon --exec \"mocha -R min\"",
-    "test": "mocha",
+    "test": "mocha --exit",
     "dt": "concurrently \"npm run client\" \"npm run testDev\" \"npm run server\"",
     "clean": "rd /S /Q node_modules && del /F package-lock.json && npm install",
     "reset": "rm -rf node_modules/ && rm -rf package-lock.json && npm install"
